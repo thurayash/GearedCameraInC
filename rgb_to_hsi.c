@@ -43,7 +43,7 @@ void rgb_to_hsi(float R, float G, float B, float* H, float* S, float* I)
     }
 }
 
-/*
+
 int main(void)
 {
     float S, H, I;
@@ -54,4 +54,3 @@ int main(void)
 
     return 0;
 }
-*/
