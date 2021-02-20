@@ -201,14 +201,14 @@ void sdlUpdate() // Update the SDL_Surface with a new frame
     frame = IMG_Load_RW(buffer_stream, 0);
 
     //========= Print pixel value ==========
-    Uint32 pixel;
-    Uint8 r, g, b;
+    //Uint32 pixel;
+    //Uint8 r, g, b;
 
-    pixel = get_pixel(screen, 100, 100);
+    //pixel = get_pixel(screen, 100, 100);
 
-    SDL_GetRGB(pixel, screen->format, &r, &g, &b);
+    //SDL_GetRGB(pixel, screen->format, &r, &g, &b);
 
-    printf("PIXEL : (R: %u , G: %u,  B: %u)\n", r,g,b);
+    //printf("PIXEL : (R: %u , G: %u,  B: %u)\n", r,g,b);
     //======================================
 
     // Updating the surface

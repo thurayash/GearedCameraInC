@@ -27,4 +27,5 @@ SDL_Surface* new_rgb_surface(int width, int height);
 
 void update_surface(SDL_Surface* screen, SDL_Surface* image);
 
+
 #endif
