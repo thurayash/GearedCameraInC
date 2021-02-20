@@ -14,7 +14,7 @@
 #include <SDL/SDL.h>
 #include <SDL/SDL_image.h>
 
-
+#include "tools.h"
 uint8_t *buffer;
 struct v4l2_format fmt = {0};
 struct v4l2_buffer buf = {0};

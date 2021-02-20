@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <err.h>
 
-#define M_PI  3.14159265359
+//#define M_PI  3.14159265359
 
 void rgb_to_hsi(float R, float G, float B, float* H, float* S, float* I)
 {
