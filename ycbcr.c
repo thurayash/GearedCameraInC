@@ -1,4 +1,3 @@
-#include <SDL/SDL.h>
 #include "ycbcr.h"
 
 void *to_ycbcr(Uint8 r, Uint8 g, Uint8 b, int *y, int *cb, int *cr)
