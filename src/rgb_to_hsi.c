@@ -43,15 +43,3 @@ void rgb_to_hsi(float R, float G, float B, float* H, float* S, float* I)
     }
 }
 
-/*
-int main(void)
-{
-    float S, H, I;
-
-    rgb_to_hsi(80,160,200, &H, &S, &I);
-
-    printf("H: %f\nS: %f\nI: %f\n", H, S, I);
-
-    return 0;
-}
-*/
