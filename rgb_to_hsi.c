@@ -2,9 +2,9 @@
 #include <stdio.h>
 #include <err.h>
 
-#define M_PI  3.14159265359
+// #define M_PI  3.14159265359
 
-void rgb_to_hsi(float R, float G, float B, float* H, float* S, float* I)
+void rgb_to_hsi(double R, double G, double B, double* H, double* S, double* I)
 {
 
     float r, g, b, w, i;
@@ -21,12 +21,12 @@ void rgb_to_hsi(float R, float G, float B, float* H, float* S, float* I)
     }
     else
     {
-        float num = 0.5*((R-G)+(R-B));
-        float denom = sqrt((R-G)*(R-G)+(R-B)*(G-B));
+        double num = 0.5*((R-G)+(R-B));
+        double denom = sqrt((R-G)*(R-G)+(R-B)*(G-B));
         w = num/denom;
-        if (w>1)
+        if (w > 1)
             w = 1;
-        if (w<-1)
+        if (w < -1)
             w = -1;
         *H = acos(w);   //  H: Hue
         if (*H < 0)
@@ -40,15 +40,23 @@ void rgb_to_hsi(float R, float G, float B, float* H, float* S, float* I)
             *S= 1 - 3*g;
         if (b <= r && b<= g)
             *S= 1 - 3*b;
+
+        *S *= 100;
+        *H = ((*H)*180)/M_PI;
     }
 }
 
-
 int main(void)
 {
-    float S, H, I;
+    double S;
+    double H;
+    double I;
 
-    rgb_to_hsi(80,160,200, &H, &S, &I);
+    double R = 244;
+    double G = 89;
+    double B = 167;
+
+    rgb_to_hsi(R,G,B, &H, &S, &I);
 
     printf("H: %f\nS: %f\nI: %f\n", H, S, I);
 
