@@ -8,7 +8,7 @@
 */
 
 #include "vidtest.h"
-
+#include "rgb_to_hsi.h"
 
 static int xioctl(int fd, int request, void *arg)
 {
@@ -177,6 +177,35 @@ int capture_image(int fd)
 }
 
 
+void image_conversion(SDL_Surface* image)
+{
+    printf("test\n");
+    size_t width = image->w;
+    size_t height = image->h;
+    for(size_t i = 0; i < width; i++)
+    {
+        for(size_t j = 0; j < height; j++)
+        {
+            Uint8 r,g,b;
+            Uint32 pixel = get_pixel(image, i, j);
+            SDL_GetRGB(pixel, image->format, &r, &g, &b);
+            float H,S,I;
+            rgb_to_hsi(r, g, b, &H , &S ,&I);
+
+            /*printf("H : %f, S : %f, I : %f | R : %u, G : %u, B : %u\n"\
+                    ,H,S,I, r,g,b);*/
+            if (( 0 <= H && H <= 179) && (0 <= S && S <= 197) && \
+                    (0 <= I && 92 <= I))
+                pixel = SDL_MapRGB(image->format, 0, 0, 0);
+            else
+                continue;
+            put_pixel(image, i, j, pixel);
+        }
+    }
+
+}
+
+
 void sdlInit() // Init SDL with frame height and width
 {
     if(SDL_Init(SDL_INIT_VIDEO))
@@ -200,16 +229,16 @@ void sdlUpdate() // Update the SDL_Surface with a new frame
     frame = IMG_Load_RW(buffer_stream, 0);
 
     //========= Print pixel value ==========
-    Uint32 pixel;
-    Uint8 r, g, b;
+    //Uint32 pixel;
+    //Uint8 r, g, b;
 
-    pixel = get_pixel(screen, 100, 100);
+    //pixel = get_pixel(screen, 100, 100);
 
-    SDL_GetRGB(pixel, screen->format, &r, &g, &b);
+    //SDL_GetRGB(pixel, screen->format, &r, &g, &b);
 
-    printf("PIXEL : (R: %u , G: %u,  B: %u)\n", r,g,b);
+    //printf("PIXEL : (R: %u , G: %u,  B: %u)\n", r,g,b);
     //======================================
-
+    image_conversion(frame);
     // Updating the surface
     SDL_BlitSurface(frame, NULL, screen, &position);
     SDL_Flip(screen);

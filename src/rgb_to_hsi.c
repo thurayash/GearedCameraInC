@@ -40,6 +40,8 @@ void rgb_to_hsi(float R, float G, float B, float* H, float* S, float* I)
             *S= 1 - 3*g;
         if (b <= r && b<= g)
             *S= 1 - 3*b;
+        *S *= 100;
+        *H = ((*H)*180)/M_PI;
     }
 }
 
