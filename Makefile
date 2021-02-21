@@ -1,25 +1,25 @@
 # Makefile
 
-CC= gcc -fsanitize=address
+CC= gcc
 
-CFLAGS= -Wall -Wextra -lSDL -std=gnu99 -g -O3
-LDFLAGS=
-LDLIBS=
+CFLAGS=-fsanitize=address -Wall -Wextra -g -std=gnu99 -O3 -O0
+LDFLAGS=-lm
+LDLIBS=-lSDL -lSDL_image
 
-SRC= vidtest.c #Source files here
+SRC= rgb_to_hsi.c#Source files here
 OBJ= ${SRC:.c=.o}
 DEP= ${SRC:.c=.d}
-BIN= ${OBJ:.o=}
 
-all: ${BIN} #Replace by 'main' if only one .exe
-
--include ${DEP}
+all: main #Replace by 'main' if only one .exe
 
 main: ${OBJ}
+	$(CC) $(CFLAGS) $(OBJ) -o main $(LDFLAGS) $(LDLIBS)
 
 .PHONY: clean
 
 clean:
-	rm -f ${OBJ} ${DEP} ${BIN}
+	rm -f ${OBJ} ${DEP} ${BIN} main
+
+-include ${DEP}
 
 # END
