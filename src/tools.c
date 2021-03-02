@@ -49,7 +49,8 @@ Uint8* get_rgb(SDL_Surface *surface, unsigned x, unsigned y)
     return a;
 }
 
-void getRGB(SDL_Surface *surface, unsigned x, unsigned y, Uint8* r, Uint8* g, Uint8* b)
+void getRGB(SDL_Surface *surface, unsigned x, unsigned y, Uint8* r,
+        Uint8* g, Uint8* b)
 {
     SDL_GetRGB(get_pixel(surface, x, y), surface->format, r, g ,b);
     return ;

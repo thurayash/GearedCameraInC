@@ -7,7 +7,8 @@
 #include <SDL/SDL.h>
 #include <SDL/SDL_image.h>
 
-void getRGB(SDL_Surface *surface, unsigned x, unsigned y, Uint8* r, Uint8* g, Uint8* b);
+void getRGB(SDL_Surface *surface, unsigned x, unsigned y, Uint8* r, Uint8* g, \
+        Uint8* b);
 
 void put_pixel(SDL_Surface *surface, unsigned x, unsigned y, Uint32 pixel);
 
@@ -18,7 +19,8 @@ Uint8 get_v(SDL_Surface *surface, unsigned x, unsigned y);
 
 Uint8* get_rgb(SDL_Surface *surface, unsigned x, unsigned y);
 
-void getRGB(SDL_Surface *surface, unsigned x, unsigned y, Uint8* r, Uint8* g, Uint8* b);
+void getRGB(SDL_Surface *surface, unsigned x, unsigned y, Uint8* r, Uint8* g, \
+        Uint8* b);
 
 void put_pixel(SDL_Surface *surface, unsigned x, unsigned y, Uint32 pixel);
 

@@ -33,7 +33,8 @@ int main(int argc, char** argv){
     for(int i = 1; i < argc; i++)
     {
         char buffer[BUFSIZ];
-        strcpy(buffer, "awk 'length > max_length { max_length = length; longest_line = $0 } END { print longest_line }' ");
+        strcpy(buffer, "awk 'length > max_length { max_length = length; \
+                longest_line = $0 } END { print longest_line }' ");
         strcat(buffer, argv[i]);
         FILE *fp = popen(buffer, "r");
         int c;
@@ -60,4 +61,5 @@ int main(int argc, char** argv){
     }
     if (!alright)
         err(127, RESET"Files lines containing to much characters");
+    printf(GREEN "Success ! All files are well written !" RESET);
 }

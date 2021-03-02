@@ -55,8 +55,10 @@ int print_caps(int fd)
             "  Bounds: %dx%d+%d+%d\n"
             "  Default: %dx%d+%d+%d\n"
             "  Aspect: %d/%d\n",
-            cropcap.bounds.width, cropcap.bounds.height, cropcap.bounds.left, cropcap.bounds.top,
-            cropcap.defrect.width, cropcap.defrect.height, cropcap.defrect.left, cropcap.defrect.top,
+            cropcap.bounds.width, cropcap.bounds.height, cropcap.bounds.left, \
+                cropcap.bounds.top,
+            cropcap.defrect.width, cropcap.defrect.height, \
+                cropcap.defrect.left, cropcap.defrect.top,
             cropcap.pixelaspect.numerator, cropcap.pixelaspect.denominator);
 
     int support_grbg10 = 0;
@@ -130,7 +132,8 @@ int init_mmap(int fd)
         return 1;
     }
 
-    buffer = mmap (NULL, buf.length, PROT_READ | PROT_WRITE, MAP_SHARED, fd, buf.m.offset);
+    buffer = mmap (NULL, buf.length, PROT_READ | PROT_WRITE, MAP_SHARED, fd, \
+            buf.m.offset);
     printf("Length: %d\nAddress: %p\n", buf.length, buffer);
     printf("Image Length: %d\n", buf.bytesused);
 
