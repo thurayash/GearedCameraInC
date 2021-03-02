@@ -20,6 +20,8 @@ main: ${OBJ}
 clean:
 	rm -f ${OBJ} ${DEP} ${BIN} main
 
+verif_line:
+	./verif *.c *.h
 -include ${DEP}
 
 # END
