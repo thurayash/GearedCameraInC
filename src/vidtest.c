@@ -189,13 +189,13 @@ void image_conversion(SDL_Surface* image)
             Uint8 r,g,b;
             Uint32 pixel = get_pixel(image, i, j);
             SDL_GetRGB(pixel, image->format, &r, &g, &b);
-            float H,S,I;
-            rgb_to_hsi(r, g, b, &H , &S ,&I);
-
-            /*printf("H : %f, S : %f, I : %f | R : %u, G : %u, B : %u\n"\
-                    ,H,S,I, r,g,b);*/
-            if (( 0 <= H && H <= 179) && (0 <= S && S <= 197) && \
-                    (0 <= I && 92 <= I))
+            float H,S,I,V;
+            //rgb_to_hsi(r, g, b, &H , &S ,&I, &V);
+            (void)I;
+            rgb_to_hsv(r, g, b, &H,  &S ,&V);
+            //printf("H : %f, S : %f, I : %f | R : %u, G : %u, B : %u\n"
+            //        ,H,S,V, r,g,b);
+                if (( 0 <= H && H <= 17) && (15 <= S && S <= 170) && (0 <= V && V <= 255))
                 pixel = SDL_MapRGB(image->format, 0, 0, 0);
             else
                 continue;

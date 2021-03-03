@@ -3,8 +3,14 @@
 #include <err.h>
 
 //#define M_PI  3.14159265359
+#define MAX3(m,n,p) ( (m) > (n) ? ((m) > (p) ? (m) : (p)) : ((n) > (p) ? \
+            (n) : (p)))
 
-void rgb_to_hsi(float R, float G, float B, float* H, float* S, float* I)
+#define MIN(a,b) ((a) < (b)  ? (a) : (b) )
+#define MIN3(a,b,c) MIN(MIN(a,b),c)
+
+void rgb_to_hsi(float R, float G, float B, float* H, float* S, float* I, \
+        float* V)
 {
 
     float r, g, b, w, i;
@@ -13,6 +19,7 @@ void rgb_to_hsi(float R, float G, float B, float* H, float* S, float* I)
     r=R/i;
     g=G/i;
     b=B/i;
+    *V = MAX3(r,g,b);
 
     if (R==G && G==B)
     {
@@ -43,5 +50,30 @@ void rgb_to_hsi(float R, float G, float B, float* H, float* S, float* I)
         *S *= 100;
         *H = ((*H)*180)/M_PI;
     }
+}
+
+
+void rgb_to_hsv(float R, float G, float B, float* H, float* S, float* V)
+{
+    float diff, cmax, cmin;
+    cmax = MAX3(R,G,B);
+    cmin = MIN3(R,G,B);
+    diff = cmax-cmin;
+
+    if (cmax == cmin)
+        *H = 0;
+    else if (cmax == R)
+        *H = (int)(60 * ((G - B) / diff) + 360) % 360;
+    else if (cmax == G)
+        *H = (int)(60 * ((B - R) / diff) + 120) % 360;
+    else if (cmax == B)
+        *H = (int)(60 * ((R - G) / diff) + 240) % 360;
+
+    if (!cmax)
+        *S = 0;
+    else
+        *S = (diff/cmax)*100;
+
+    *V = cmax;
 }
 
