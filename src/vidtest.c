@@ -9,7 +9,14 @@
 
 #include "vidtest.h"
 #include "rgb_to_hsi.h"
+#include "ycbcr.h"
+#include <math.h>
 
+#define MAX3(m,n,p) ( (m) > (n) ? ((m) > (p) ? (m) : (p)) : ((n) > (p) ? \
+            (n) : (p)))
+
+#define MIN(a,b) ((a) < (b)  ? (a) : (b) )
+#define MIN3(a,b,c) MIN(MIN(a,b),c)
 static int xioctl(int fd, int request, void *arg)
 {
     int r;
@@ -176,10 +183,19 @@ int capture_image(int fd)
     return 0;
 }
 
+float Max3(float a, float b, float c)
+{
+    if (a >= b && a >= c)
+        return a;
+    else if (b >= a && b >= c)
+        return b;
+    return c;
+}
+
+
 
 void image_conversion(SDL_Surface* image)
 {
-    printf("test\n");
     size_t width = image->w;
     size_t height = image->h;
     for(size_t i = 0; i < width; i++)
@@ -189,17 +205,68 @@ void image_conversion(SDL_Surface* image)
             Uint8 r,g,b;
             Uint32 pixel = get_pixel(image, i, j);
             SDL_GetRGB(pixel, image->format, &r, &g, &b);
+
+            //  =====   HSIV   =======
+            /*
             float H,S,I,V;
-            //rgb_to_hsi(r, g, b, &H , &S ,&I, &V);
             (void)I;
             rgb_to_hsv(r, g, b, &H,  &S ,&V);
-            //printf("H : %f, S : %f, I : %f | R : %u, G : %u, B : %u\n"
-            //        ,H,S,V, r,g,b);
-                if (( 0 <= H && H <= 17) && (15 <= S && S <= 170) && (0 <= V && V <= 255))
-                pixel = SDL_MapRGB(image->format, 0, 0, 0);
+            if (( 0 <= H && H <= 17) && (15 <= S && S <= 170) && (0 <= V && V <= 255))
+                pixel = SDL_MapRGB(image->format, 255, 255, 255);
             else
-                continue;
+                pixel = SDL_MapRGB(image->format, 0, 0, 0);
+            */
+
+            //  =====   YCbCr  ======
+            /*float Y,Cb,Cr;
+            Y = 0.f;
+            Cb = 0.f;
+            Cr = 0.f;
+            to_ycbcr(r,g,b,&Y,&Cb,&Cr);
+
+            if (80 <= Cb && Cb <= 120 && 133 <= Cr && Cr <= 173 )
+                pixel = SDL_MapRGB(image->format, 255 ,255,255);
+            else
+                pixel = SDL_MapRGB(image->format, 0 , 0 ,0);
+            */
+
+
+            float R_p, G_p, B_p;
+            R_p = (float)r/(float)(r+g+b);
+            G_p = (float)g/(float)(r+g+b);
+            B_p = (float)b/(float)(r+g+b);
+
+            float H,S,V;
+            V = MAX3(R_p, G_p, B_p);
+
+            if (V != 0)
+                S = (V- MIN3(R_p, G_p, B_p))/V;
+            else
+                S = 0;
+
+            if (V == R_p)
+                H = 60*(G_p-B_p)/(V-MIN3(R_p, G_p, B_p));
+            else if (V == G_p)
+                H = 2 + 60*(B_p - R_p)/(V - MIN3(R_p, G_p, B_p));
+            else if (V == B_p)
+                H = 4 + 60*(R_p - G_p)/(V - MIN3(R_p, G_p, B_p));
+
+            if (H < 0)
+                H = H + 360;
+
+            float Y,Cb,Cr;
+            to_ycbcr(r,g,b,&Y,&Cb,&Cr);
+
+
+            if (R_p/G_p > 1.185 && (0.2 <= S && S <= 0.6) && ((0 <= H && H <= 25) || (335 <= H && H <= 360)) && (77 < Cb && Cb < 127) && (133 < Cr && Cr < 173))
+                pixel = SDL_MapRGB(image->format, 255 ,255,255);
+            else
+                pixel = SDL_MapRGB(image->format, 0, 0, 0);
+
             put_pixel(image, i, j, pixel);
+
+
+            //printf("Y : %f, Cb : %f, Cr : %f | H : %f, S : %f, V : %f | R' : %f, G' : %f , B': %f |R : %u, G : %u, B : %u\n", Y,Cb,Cr,H,S,V, R_p, G_p, B_p,r,g,b);
         }
     }
 
