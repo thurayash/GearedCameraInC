@@ -34,12 +34,12 @@ void superpostion1(SDL_Surface* image1, SDL_Surface*  image2, SDL_Surface* image
             {
                 if (pixel2 == white || pixel3 == white)
                 {
-                    set_pixel(*image1, i,j,white);
+                    set_pixel(image1, i,j,white);
                 }
             }
             else if (pixel2 == white && pixel3 == white) //or 255 if we go whiteblack)
             {
-                set_pixel(*image1, i,j,white)
+                set_pixel(image1, i,j,white);
             }
         }
     }
@@ -61,10 +61,10 @@ void superpostion2(SDL_Surface* image1, SDL_Surface*  image2, SDL_Surface* image
             Uint32 pixel2 = get_pixel(image2, i, j);
             Uint32 pixel3 = get_pixel(image3, i, j);
             if (pixel1 == white
-                && image2[i][j] == white
-                && image3[i][j] ==white)
+                && image2[i][j] == white // It would'nt work the structure don't let you do this kind of things
+                && image3[i][j] ==white) // You need to first get_pixel, get RGB and the compare the R, G and B
             {
-                set_pixel(*image1,i,j,white)
+                set_pixel(image1,i,j,white);
             }
         }
     }
