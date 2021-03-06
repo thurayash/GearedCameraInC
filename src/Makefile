@@ -24,4 +24,10 @@ verif_line:
 	./verif *.c *.h
 -include ${DEP}
 
+verif_space :
+	python3 .space_verif.py *.c *.h
+
+remove_space:
+	sed -i "s/\s*$$//" *.c *.h
+
 # END
