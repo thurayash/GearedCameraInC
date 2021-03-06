@@ -15,3 +15,5 @@ jobs:
     - uses: actions/checkout@v2
     - name: make verif_line
       run: cd src && make verif_line
+    - name : space verification
+      run : cd src && make verif_space
