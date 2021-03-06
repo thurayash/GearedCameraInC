@@ -5,14 +5,12 @@
 #include <pixel.h> //this may be tools in the master branch
 
 
-
 void set_pixel(SDL_Surface *surface, int x, int y, Uint32 pixel)
 {
   Uint32 *target_pixel = (Uint8 *) surface->pixels + y * surface->pitch +
                                                      x * sizeof *target_pixel;
   *target_pixel = pixel;
 }
-
 
 //majority sort : if two pictures indicate pixel[i][j] == 1, it is a face pixel
 void superpostion1(SDL_Surface* image1, SDL_Surface*  image2, SDL_Surface* image3)
@@ -43,6 +41,9 @@ void superpostion1(SDL_Surface* image1, SDL_Surface*  image2, SDL_Surface* image
             }
         }
     }
+    SDL_UnlockSurface(image1);
+    SDL_UnlockSurface(image2);
+    SDL_UnlockSurface(image3);
 }
 
 //selective sort : if all 3 pictures indicate pixel[i][j] == 1, it is a face pixel
@@ -61,11 +62,14 @@ void superpostion2(SDL_Surface* image1, SDL_Surface*  image2, SDL_Surface* image
             Uint32 pixel2 = get_pixel(image2, i, j);
             Uint32 pixel3 = get_pixel(image3, i, j);
             if (pixel1 == white
-                && image2[i][j] == white
-                && image3[i][j] ==white)
+                && pixel2 == white
+                && pixel3 ==white)
             {
                 set_pixel(*image1,i,j,white)
             }
         }
     }
+    SDL_UnlockSurface(image1);
+    SDL_UnlockSurface(image2);
+    SDL_UnlockSurface(image3);
 }

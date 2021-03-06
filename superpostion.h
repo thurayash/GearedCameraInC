@@ -1,8 +1,9 @@
 #ifndef SUPERPOSITION_H_
 #define SUPERPOSITION_H_
 
-int[][] superpostion1(int[][] image1, int[][] image2, int[][] image3);
-int[][] superpostion2(int[][] image1, int[][] image2, int[][] image3);
-
+#include <SDL/SDL.h>
+#include <pixel.h>
+void superpostion1(SDL_Surface* image1, SDL_Surface*  image2, SDL_Surface* image3);
+void superpostion2(SDL_Surface* image1, SDL_Surface*  image2, SDL_Surface* image3)
 
 #endif
