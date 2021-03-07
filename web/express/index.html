@@ -2,28 +2,29 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
 	<!-- BULMA -->
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
 
 	<!-- FONT AWESOME -->
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css" integrity="sha384-vSIIfh2YWi9wW0r9iZe7RJPrKwp6bG+s9QZMoITbCckVJqGCCRhc+ccxNcdpHuYu" crossorigin="anonymous">
 
-	<!-- SCRIPT -->
-	<script type="text/javascript" src="js/script.js"></script>
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/style.css">
 
 	<title>GCC Website</title>
 </head>
 
 
 <body>
-	<section class="hero is-info is-large">
+	<section class="hero is-info is-large is-halfheight">
   <div class="hero-head">
     <nav class="navbar">
       <div class="container">
         <div class="navbar-brand">
           <a class="navbar-item">
-            <img src="test.png" alt="Logo">
+            <img src="GCC.png" alt="Logo">
           </a>
           <span class="navbar-burger" data-target="navbarMenuHeroB">
             <span></span>
@@ -34,7 +35,7 @@
         <div id="navbarMenuHeroB" class="navbar-menu">
           <div class="navbar-end">
             <a class="navbar-item is-active">
-              Home
+              Home &nbsp;<i class="fas fa-home"></i>
             </a>
             <a class="navbar-item">
               Examples
@@ -43,8 +44,8 @@
               Documentation
             </a>
             <span class="navbar-item">
-              <a class="button is-info is-inverted">
-                <span class="icon">
+              <a class="button is-info is-inverted" href="https://github.com/thuraya-shanbari/GearedCameraInC" target="_blank">
+                  <span class="icon">
                   <i class="fab fa-github-alt"></i>
                 </span>
                 <span>Download</span>
@@ -58,7 +59,7 @@
 
   <div class="hero-body">
     <div class="container has-text-centered">
-      <p class="title">
+      <p class="title is-1">
         G.C.C - EPITA
       </p>
       <p class="subtitle">
@@ -67,34 +68,31 @@
     </div>
   </div>
 
-  
-<div class="hero-foot">
-	<nav class="tabs is-boxed is-fullwidth is-large">
-        <div class="container">
-        <ul>
-            <li class="tab is-active" onclick="openTab(event,'WebDev')"><a id="WebDev-label"style="">Web Development</a></li>
 
-            <li class="tab" onclick="openTab(event,'WebAud')"><a id="WebAud-label">Website Audit</a></li>
-            <li class="tab" onclick="openTab(event,'Support')"><a id="Support-label">Support</a></li>
+<div class="hero-foot">
+	<nav class="tabs is-boxed is-fullwidth">
+        <ul>
+            <li class="is-active" data-target="first" style="color :#3298dc"><a>Web Development</a></li>
+            <li data-target="second"><a>Website Audit</a></li>
+            <li data-target="third"><a>Support</a></li>
           </ul>
-      </div>
     </nav>
   </div>
  </section>
 
-  <div class="container section">
-    <div id="WebDev" class="content-tab">
-    	First
+  <div class="container section" id="tab-container">
+    <div id="first" class="content-tab">
+        <a class="title is-3">First</a>
+        <p>hey !</p>
     	<button class="button is-success">Test</button>
     </div>
-    <div id="WebAud" class="content-tab" style="display:none">
+    <div id="second" class="content-tab" style="display:none">
     	Second
     </div>
-    <div id="Support" class="content-tab" style="display:none">
+    <div id="third" class="content-tab" style="display:none">
     	Third
     </div>
- 
+
+    <script src="js/script.js"></script>
 </body>
-
-
 </html>
