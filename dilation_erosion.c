@@ -6,9 +6,9 @@
 #include <dilation_erosion.h>
 
 // Dilate : Cross form 3x3
-SDL_Surface* dilate_cross(SDL_Surface* image)
+SDL_Surface dilate_cross(SDL_Surface image)
 {
-    SDL_Surface* result = SDL_CreateRGBSurface(0, image->w, image->h, 32, 0, 0, 0, 0);
+    SDL_Surface result = SDL_CreateRGBSurface(0, image->w, image->h, 32, 0, 0, 0, 0);
     SDL_LockSurface(image);
     SDL_LockSurface(result);
     Uint8 r,g,b;
@@ -40,9 +40,9 @@ SDL_Surface* dilate_cross(SDL_Surface* image)
 }
 
 //erosion 3sqaures cross
-SDL_Surface* erode_cross(SDL_Surface *image)
+SDL_Surface erode_cross(SDL_Surface image)
 {
-    SDL_Surface* result = SDL_CreateRGBSurface(0, image->w, image->h, 32, 0, 0, 0, 0);
+    SDL_Surface result = SDL_CreateRGBSurface(0, image->w, image->h, 32, 0, 0, 0, 0);
     SDL_LockSurface(image);
     SDL_LockSurface(result);
     Uint8 r,g,b;
@@ -73,9 +73,9 @@ SDL_Surface* erode_cross(SDL_Surface *image)
 }
 
 //3x3 square dilate
-SDL_Surface* dilate_square(SDL_Surface* image)
+SDL_Surface dilate_square(SDL_Surface image)
 {
-    SDL_Surface* result = SDL_CreateRGBSurface(0, image->w, image->h, 32, 0, 0, 0, 0);
+    SDL_Surface result = SDL_CreateRGBSurface(0, image->w, image->h, 32, 0, 0, 0, 0);
     SDL_LockSurface(image);
     SDL_LockSurface(result);
     Uint8 r,g,b;
@@ -111,9 +111,9 @@ SDL_Surface* dilate_square(SDL_Surface* image)
 }
 
 //erosion 3x3 square
-SDL_Surface* erode_square(SDL_Surface *image)
+SDL_Surface erode_square(SDL_Surface image)
 {
-    SDL_Surface* result = SDL_CreateRGBSurface(0, image->w, image->h, 32, 0, 0, 0, 0);
+    SDL_Surface result = SDL_CreateRGBSurface(0, image->w, image->h, 32, 0, 0, 0, 0);
     SDL_LockSurface(image);
     SDL_LockSurface(result);
     Uint8 r,g,b;

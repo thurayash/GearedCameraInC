@@ -13,7 +13,7 @@ void set_pixel(SDL_Surface *surface, int x, int y, Uint32 pixel)
 }
 
 //majority sort : if two pictures indicate pixel[i][j] == 1, it is a face pixel
-void superpostion1(SDL_Surface* image1, SDL_Surface*  image2, SDL_Surface* image3)
+void superpostion1(SDL_Surface image1, SDL_Surface  image2, SDL_Surface image3)
 {
     SDL_LockSurface(image1);
     SDL_LockSurface(image2);
@@ -47,7 +47,7 @@ void superpostion1(SDL_Surface* image1, SDL_Surface*  image2, SDL_Surface* image
 }
 
 //selective sort : if all 3 pictures indicate pixel[i][j] == 1, it is a face pixel
-void superpostion2(SDL_Surface* image1, SDL_Surface*  image2, SDL_Surface* image3)
+void superpostion2(SDL_Surface image1, SDL_Surface  image2, SDL_Surface image3)
 {
     SDL_LockSurface(image1);
     SDL_LockSurface(image2);
