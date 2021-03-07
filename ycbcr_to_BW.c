@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <err.h>
 #include <SDL/SDL.h>
+#include <hsi_to_BW.h>
 
 //in case we have cb cr so that we modify rgb values directly
 void ycbcr_to_bw(Uint8 *r, Uint8 *g, Uint8 *b, int *cb, int *cr)
