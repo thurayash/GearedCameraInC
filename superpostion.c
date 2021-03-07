@@ -1,24 +1,22 @@
-#include <math.h>
-#include <stdio.h>
-#include <err.h>
-#include <SDL/SDL.h>
-#include <pixel.h> //this may be tools in the master branch
-
+#include "superpostion.h"
 
 void set_pixel(SDL_Surface *surface, int x, int y, Uint32 pixel)
 {
-  Uint32 *target_pixel = (Uint8 *) surface->pixels + y * surface->pitch +
+    //might need to make surface->pixel into Uint8 *
+  Uint32 *target_pixel =  surface->pixels + y * surface->pitch +
                                                      x * sizeof *target_pixel;
+                    // What do u mean by surface->pixels ?
   *target_pixel = pixel;
 }
 
 //majority sort : if two pictures indicate pixel[i][j] == 1, it is a face pixel
-void superpostion1(SDL_Surface* image1, SDL_Surface*  image2, SDL_Surface* image3)
+void superpostion1(SDL_Surface* image1, SDL_Surface* image2, SDL_Surface* image3)
 {
     SDL_LockSurface(image1);
     SDL_LockSurface(image2);
     SDL_LockSurface(image3);
     Uint32 black = 0xff;
+    (void)black;// Just to avoid unused variable
     Uint32 white = 0x00;
     for (int i = 0; i<image1->w; i++)
     {
@@ -32,12 +30,12 @@ void superpostion1(SDL_Surface* image1, SDL_Surface*  image2, SDL_Surface* image
             {
                 if (pixel2 == white || pixel3 == white)
                 {
-                    set_pixel(*image1, i,j,white);
+                    set_pixel(image1, i,j,white);
                 }
             }
             else if (pixel2 == white && pixel3 == white) //or 255 if we go whiteblack)
             {
-                set_pixel(*image1, i,j,white)
+                set_pixel(image1, i,j,white);
             }
         }
     }
@@ -47,12 +45,11 @@ void superpostion1(SDL_Surface* image1, SDL_Surface*  image2, SDL_Surface* image
 }
 
 //selective sort : if all 3 pictures indicate pixel[i][j] == 1, it is a face pixel
-void superpostion2(SDL_Surface* image1, SDL_Surface*  image2, SDL_Surface* image3)
+void superpostion2(SDL_Surface* image1, SDL_Surface* image2, SDL_Surface* image3)
 {
     SDL_LockSurface(image1);
     SDL_LockSurface(image2);
     SDL_LockSurface(image3);
-    Uint32 black = 0xff;
     Uint32 white = 0x00;
     for (int i = 0; i < image1->w; i++)
     {
@@ -65,7 +62,7 @@ void superpostion2(SDL_Surface* image1, SDL_Surface*  image2, SDL_Surface* image
                 && pixel2 == white
                 && pixel3 ==white)
             {
-                set_pixel(*image1,i,j,white)
+                set_pixel(image1,i,j,white);
             }
         }
     }

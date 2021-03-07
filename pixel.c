@@ -1,5 +1,5 @@
 #include <err.h>
-#include <pixel.h>
+#include "pixel.h"
 
 static inline
 Uint8* pixel_ref(SDL_Surface *surf, unsigned x, unsigned y)

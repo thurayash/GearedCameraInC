@@ -1,8 +1,4 @@
-#include <math.h>
-#include <stdio.h>
-#include <err.h>
-#include <SDL/SDL.h>
-#include <hsi_to_BW.h>
+#include "ycbcr_to_BW.h"
 
 //in case we have cb cr so that we modify rgb values directly
 void ycbcr_to_bw(Uint8 *r, Uint8 *g, Uint8 *b, int *cb, int *cr)
@@ -12,33 +8,33 @@ void ycbcr_to_bw(Uint8 *r, Uint8 *g, Uint8 *b, int *cb, int *cr)
     {
         *r = 255;
         *g = 255;
-        *b = 255; 
+        *b = 255;
     }
     else
     {
         *r = 0;
         *g = 0;
         *b = 0;
-    } 
+    }
 }
 
 //in case we do not have CB CR, but we have rgb
 void ycbcr_to_bw_vrgb(Uint8 *r, Uint8 *g, Uint8 *b)
 {
-    if ((*r<215 && *g<120 && *b <163) && 
+    if ((*r<215 && *g<120 && *b <163) &&
     (*r>160 && *g>112 && *b>140))
     {
         *r = 255;
         *g = 255;
-        *b = 255; 
+        *b = 255;
     }
     else
     {
         *r = 0;
         *g = 0;
         *b = 0;
-    } 
-       
+    }
+
 }
 
 
