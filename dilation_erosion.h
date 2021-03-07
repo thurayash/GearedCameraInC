@@ -7,7 +7,10 @@
 #include <SDL/SDL.h>
 #include <pixel.h>
 
-void dilate(SDL_Surface* image);
-void erode(SDL_Surface *image);
+
+SDL_Surface* dilate_cross(SDL_Surface* image);
+SDL_Surface* erode_cross(SDL_Surface* image);
+SDL_Surface* dilate_square(SDL_Surface* image);
+SDL_Surface* erode_square(SDL_Surface* image);
 
 #endif

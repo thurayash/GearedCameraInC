@@ -1,62 +1,145 @@
-#include <dilation_erosion.h> // Avoid including things outside the header
+#include <dilation_erosion.h>
 
-// Best dilate by one solution// without Manhattan Oracle solution
-void dilate(SDL_Surface* image)
+// Dilate : Cross form 3x3
+SDL_Surface* dilate_cross(SDL_Surface* image)
 {
+    SDL_Surface* result = SDL_CreateRGBSurface(0, image->w, image->h, 32, 0, 0, 0, 0); // Humm, if we give it as param it would take less time to compute
     SDL_LockSurface(image);
+    SDL_LockSurface(result);
     Uint8 r,g,b;
 
-    for (size_t i=0; i < image->w; i++)
+    for (size_t i=2; i < (image->w - 2); i++)
     {
-        for (size_t j=0; j< image->h; j++)
+        for (size_t j=2; j< (image->h - 2); j++)
         {
-            Uint32 pixel = get_pixel(image, i, j); //from pixel.c //to be able to easily manipulate pixels
-            SDL_GetRGB(pixel,image->format, &r ,&g, &b);
-            if (r != 0) //==1 in binary
+            Uint32 uull = get_pixel(image, i, j); //from pixel.c //to be able to easily manipulate pixels
+            SDL_GetRGB(uull,image->format, &r ,&g, &b);
+            if (r == 255)// It's not auto. white it can be gray unless u work
             {
-                if (i>0 && get_pixel(image, (i-1), j)==0)
-                    put_pixel(image, (i-1), j,pixel);
-
-                if (j>0 && get_pixel(image, i, (j-1))==0)
-                    put_pixel(image, i, (j-1),pixel);
-
-                if (i+1<image->w && get_pixel(image, (i+1), j)==0)
-                    put_pixel(image, (i+1), j,pixel);
-
-                if (j+1<image[i]->length && get_pixel(image, i, (j+1))==0) // I don't get it ?! What do u mean by image[i]->length ?
-                    put_pixel(image, i, (j+1),pixel);
+               put_pixel(result, i, j,0x00);
+               put_pixel(result, (i-2), j,0x00);
+               put_pixel(result, (i-1), j,0x00);
+               put_pixel(result, i, (j-2),0x00);
+               put_pixel(result, i, (j-1),0x00);
+               put_pixel(result, (i+2), (j),0x00);
+               put_pixel(result, (i+1), j,0x00);
+               put_pixel(result, i, (j+2),0x00);
+               put_pixel(result, i, (j+1),0x00);
             }
         }
     }
     SDL_UnlockSurface(image);
+    SDL_UnlockSurface(result);
+    SDL_FreeSurface(image);
+    return result;
 }
 
-//erode is the "dilation" of the background. it should override dilation
-//so you always dilate, then erode
-void erode(SDL_Surface *image)
+//erosion 3sqaures cross
+SDL_Surface* erode_cross(SDL_Surface* image)
 {
+    SDL_Surface* result = SDL_CreateRGBSurface(0, image->w, image->h, 32, 0, 0, 0, 0);
     SDL_LockSurface(image);
+    SDL_LockSurface(result);
     Uint8 r,g,b;
     for (size_t i=0; i < image->w; i++)
     {
-        for (size_t j=0; j< image->h; j++) // U can avoid writing this numbers of if by else if, it's more opti
-        { // It may be better to create a const for the image w and h
-            Uint32 pixel = get_pixel(image, i, j); //from pixel.c //to be able to easily manipulate pixels
-            SDL_GetRGB(pixel,image->format, &r ,&g, &b);
-            if (r == 0)
+        for (size_t j=0; j< image->h; j++)
+        {
+            Uint32 uull = get_pixel(image, i, j); //from pixel.c //to be able to easily manipulate pixels
+            SDL_GetRGB(uull,image->format, &r ,&g, &b);
+            if (r == 0)// Same thing
             {
-                if (i>0 && get_pixel(image, (i-1), j)==0)
-                    put_pixel_black(image, (i-1), j,pixel);
-
-                if (j>0 && get_pixel(image, i, (j-1))==0)
-                    put_pixel_black(image, i, (j-1),pixel);
-
-                if (i+1<image->w && get_pixel(image, (i+1), j)==0)
-                    put_pixel_black(image, (i+1), j,pixel);
-
-                if (j+1<image[i]->length && get_pixel(image, i, (j+1))==0)// I don't get it ?! What do u mean by image[i]->length ?
-                    put_pixel_black(image, i, (j+1),pixel);
+                put_pixel(result, i, j,0xff);
+                put_pixel(result, (i-2), j,0xff);
+                put_pixel(result, (i-1), j,0xff);
+                put_pixel(result, i, (j-2),0xff);
+                put_pixel(result, i, (j-1),0xff);
+                put_pixel(result, (i+2), (j),0xff);
+                put_pixel(result, (i+1), j,0xff);
+                put_pixel(result, i, (j+2),0xff);
+                put_pixel(result, i, (j+1),0xff);
             }
         }
     }
+    SDL_UnlockSurface(image);
+    SDL_UnlockSurface(result);
+    SDL_FreeSurface(image);
+    return result;
 }
+
+//3x3 square dilate
+SDL_Surface* dilate_square(SDL_Surface* image)
+{
+    SDL_Surface* result = SDL_CreateRGBSurface(0, image->w, image->h, 32, 0, 0, 0, 0);
+    SDL_LockSurface(image);
+    SDL_LockSurface(result);
+    Uint8 r,g,b;
+
+    for (size_t i=2; i < (image->w - 2); i++)
+    {
+        for (size_t j=2; j< (image->h - 2); j++)
+        {
+            Uint32 uull = get_pixel(image, i, j); //from pixel.c //to be able to easily manipulate pixels
+            SDL_GetRGB(uull,image->format, &r ,&g, &b);
+            if (r == 255)// It's not auto. white it can be gray unless u work
+                        // On a binary image
+            {
+                put_pixel(result, i, j,0x00);
+                put_pixel(result, (i-2), j,0x00);
+                put_pixel(result, (i-1), j,0x00);
+                put_pixel(result, i, (j-2),0x00);
+                put_pixel(result, i, (j-1),0x00);
+                put_pixel(result, (i+2), (j),0x00);
+                put_pixel(result, (i+1), j,0x00);
+                put_pixel(result, i, (j+2),0x00);
+                put_pixel(result, i, (j+1),0x00);
+                put_pixel(result, (i+1), (j+1),0x00);
+                put_pixel(result, (i-1), (j+1),0x00);
+                put_pixel(result, (i+1), (j-1),0x00);
+                put_pixel(result, (i-1), (j-1),0x00);
+            }
+        }
+    }
+    SDL_UnlockSurface(image);
+    SDL_UnlockSurface(result);
+    SDL_FreeSurface(image);
+    return result;
+}
+
+//erosion 3x3 square
+SDL_Surface* erode_square(SDL_Surface* image)
+{
+    SDL_Surface* result = SDL_CreateRGBSurface(0, image->w, image->h, 32, 0, 0, 0, 0);
+    SDL_LockSurface(image);
+    SDL_LockSurface(result);
+    Uint8 r,g,b;
+    for (size_t i=0; i < image->w; i++)
+    {
+        for (size_t j=0; j< image->h; j++)
+        {
+            Uint32 uull = get_pixel(image, i, j); //from pixel.c //to be able to easily manipulate pixels
+            SDL_GetRGB(uull,image->format, &r ,&g, &b);
+            if (r == 0) // Same thing, it can be gray
+            {
+                put_pixel(result, i, j,0xff);
+                put_pixel(result, (i-2), j,0xff);
+                put_pixel(result, (i-1), j,0xff);
+                put_pixel(result, i, (j-2),0xff);
+                put_pixel(result, i, (j-1),0xff);
+                put_pixel(result, (i+2), (j),0xff);
+                put_pixel(result, (i+1), j,0xff);
+                put_pixel(result, i, (j+2),0xff);
+                put_pixel(result, i, (j+1),0xff);
+                put_pixel(result, (i+1), (j+1),0xff);
+                put_pixel(result, (i-1), (j+1),0xff);
+                put_pixel(result, (i+1), (j-1),0xff);
+                put_pixel(result, (i-1), (j-1),0xff);
+            }
+        }
+    }
+    SDL_UnlockSurface(image);
+    SDL_UnlockSurface(result);
+    SDL_FreeSurface(image);
+    return result;
+}
+
