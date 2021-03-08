@@ -214,7 +214,8 @@ void image_conversion(SDL_Surface* image)
             float H,S,I,V;
             (void)I;
             rgb_to_hsv(r, g, b, &H,  &S ,&V);
-            if (( 0 <= H && H <= 17) && (15 <= S && S <= 170) && (0 <= V && V <= 255))
+            if (( 0 <= H && H <= 17) && (15 <= S && S <= 170) && \
+            (0 <= V && V <= 255))
                 pixel = SDL_MapRGB(image->format, 255, 255, 255);
             else
                 pixel = SDL_MapRGB(image->format, 0, 0, 0);
@@ -261,15 +262,15 @@ void image_conversion(SDL_Surface* image)
             to_ycbcr(r,g,b,&Y,&Cb,&Cr);
 
 
-            if (R_p/G_p > 1.185 && (0.2 <= S && S <= 0.6) && ((0 <= H && H <= 25) || (335 <= H && H <= 360)) && (77 < Cb && Cb < 127) && (133 < Cr && Cr < 173))
+            if (R_p/G_p > 1.185 && (0.2 <= S && S <= 0.6) && \
+                    ((0 <= H && H <= 25) || (335 <= H && H <= 360)) && \
+                    (77 < Cb && Cb < 127) && (133 < Cr && Cr < 173))
                 pixel = SDL_MapRGB(image->format, 255 ,255,255);
             else
                 pixel = SDL_MapRGB(image->format, 0, 0, 0);
 
             put_pixel(image, i, j, pixel);
 
-
-            //printf("Y : %f, Cb : %f, Cr : %f | H : %f, S : %f, V : %f | R' : %f, G' : %f , B': %f |R : %u, G : %u, B : %u\n", Y,Cb,Cr,H,S,V, R_p, G_p, B_p,r,g,b);
         }
     }
 
