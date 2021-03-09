@@ -1,5 +1,14 @@
 #include "dilation_erosion.h"
 
+void sett_pixel(SDL_Surface *surface, int x, int y, Uint32 pixel)
+{
+    //might need to make surface->pixel into Uint8 *
+  Uint32 *target_pixel =  surface->pixels + y * surface->pitch +
+                                                     x * sizeof *target_pixel;
+                    // What do u mean by surface->pixels ?
+  *target_pixel = pixel;
+}
+
 // Dilate : Cross form 3x3
 SDL_Surface* dilate_cross(SDL_Surface* image)
 {
@@ -16,21 +25,20 @@ SDL_Surface* dilate_cross(SDL_Surface* image)
             SDL_GetRGB(uull,image->format, &r ,&g, &b);
             if (r == 255)// It's not auto. white it can be gray unless u work
             {
-               put_pixel(result, i, j,0x00);
-               put_pixel(result, (i-2), j,0x00);
-               put_pixel(result, (i-1), j,0x00);
-               put_pixel(result, i, (j-2),0x00);
-               put_pixel(result, i, (j-1),0x00);
-               put_pixel(result, (i+2), (j),0x00);
-               put_pixel(result, (i+1), j,0x00);
-               put_pixel(result, i, (j+2),0x00);
-               put_pixel(result, i, (j+1),0x00);
+               sett_pixel(result, i, j,0x00);
+               sett_pixel(result, (i-2), j,0x00);
+               sett_pixel(result, (i-1), j,0x00);
+               sett_pixel(result, i, (j-2),0x00);
+               sett_pixel(result, i, (j-1),0x00);
+               sett_pixel(result, (i+2), (j),0x00);
+               sett_pixel(result, (i+1), j,0x00);
+               sett_pixel(result, i, (j+2),0x00);
+               sett_pixel(result, i, (j+1),0x00);
             }
         }
     }
     SDL_UnlockSurface(image);
     SDL_UnlockSurface(result);
-    SDL_FreeSurface(image);
     return result;
 }
 
@@ -49,21 +57,20 @@ SDL_Surface* erode_cross(SDL_Surface* image)
             SDL_GetRGB(uull,image->format, &r ,&g, &b);
             if (r == 0)// Same thing
             {
-                put_pixel(result, i, j,0xff);
-                put_pixel(result, (i-2), j,0xff);
-                put_pixel(result, (i-1), j,0xff);
-                put_pixel(result, i, (j-2),0xff);
-                put_pixel(result, i, (j-1),0xff);
-                put_pixel(result, (i+2), (j),0xff);
-                put_pixel(result, (i+1), j,0xff);
-                put_pixel(result, i, (j+2),0xff);
-                put_pixel(result, i, (j+1),0xff);
+                sett_pixel(result, i, j,0xff);
+                sett_pixel(result, (i-2), j,0xff);
+                sett_pixel(result, (i-1), j,0xff);
+                sett_pixel(result, i, (j-2),0xff);
+                sett_pixel(result, i, (j-1),0xff);
+                sett_pixel(result, (i+2), (j),0xff);
+                sett_pixel(result, (i+1), j,0xff);
+                sett_pixel(result, i, (j+2),0xff);
+                sett_pixel(result, i, (j+1),0xff);
             }
         }
     }
     SDL_UnlockSurface(image);
     SDL_UnlockSurface(result);
-    SDL_FreeSurface(image);
     return result;
 }
 
@@ -84,25 +91,24 @@ SDL_Surface* dilate_square(SDL_Surface* image)
             if (r == 255)// It's not auto. white it can be gray unless u work
                         // On a binary image
             {
-                put_pixel(result, i, j,0x00);
-                put_pixel(result, (i-2), j,0x00);
-                put_pixel(result, (i-1), j,0x00);
-                put_pixel(result, i, (j-2),0x00);
-                put_pixel(result, i, (j-1),0x00);
-                put_pixel(result, (i+2), (j),0x00);
-                put_pixel(result, (i+1), j,0x00);
-                put_pixel(result, i, (j+2),0x00);
-                put_pixel(result, i, (j+1),0x00);
-                put_pixel(result, (i+1), (j+1),0x00);
-                put_pixel(result, (i-1), (j+1),0x00);
-                put_pixel(result, (i+1), (j-1),0x00);
-                put_pixel(result, (i-1), (j-1),0x00);
+                sett_pixel(result, i, j,0x00);
+                sett_pixel(result, (i-2), j,0x00);
+                sett_pixel(result, (i-1), j,0x00);
+                sett_pixel(result, i, (j-2),0x00);
+                sett_pixel(result, i, (j-1),0x00);
+                sett_pixel(result, (i+2), (j),0x00);
+                sett_pixel(result, (i+1), j,0x00);
+                sett_pixel(result, i, (j+2),0x00);
+                sett_pixel(result, i, (j+1),0x00);
+                sett_pixel(result, (i+1), (j+1),0x00);
+                sett_pixel(result, (i-1), (j+1),0x00);
+                sett_pixel(result, (i+1), (j-1),0x00);
+                sett_pixel(result, (i-1), (j-1),0x00);
             }
         }
     }
     SDL_UnlockSurface(image);
     SDL_UnlockSurface(result);
-    SDL_FreeSurface(image);
     return result;
 }
 
@@ -121,25 +127,24 @@ SDL_Surface* erode_square(SDL_Surface* image)
             SDL_GetRGB(uull,image->format, &r ,&g, &b);
             if (r == 0) // Same thing, it can be gray
             {
-                put_pixel(result, i, j,0xff);
-                put_pixel(result, (i-2), j,0xff);
-                put_pixel(result, (i-1), j,0xff);
-                put_pixel(result, i, (j-2),0xff);
-                put_pixel(result, i, (j-1),0xff);
-                put_pixel(result, (i+2), (j),0xff);
-                put_pixel(result, (i+1), j,0xff);
-                put_pixel(result, i, (j+2),0xff);
-                put_pixel(result, i, (j+1),0xff);
-                put_pixel(result, (i+1), (j+1),0xff);
-                put_pixel(result, (i-1), (j+1),0xff);
-                put_pixel(result, (i+1), (j-1),0xff);
-                put_pixel(result, (i-1), (j-1),0xff);
+                sett_pixel(result, i, j,0xff);
+                sett_pixel(result, (i-2), j,0xff);
+                sett_pixel(result, (i-1), j,0xff);
+                sett_pixel(result, i, (j-2),0xff);
+                sett_pixel(result, i, (j-1),0xff);
+                sett_pixel(result, (i+2), (j),0xff);
+                sett_pixel(result, (i+1), j,0xff);
+                sett_pixel(result, i, (j+2),0xff);
+                sett_pixel(result, i, (j+1),0xff);
+                sett_pixel(result, (i+1), (j+1),0xff);
+                sett_pixel(result, (i-1), (j+1),0xff);
+                sett_pixel(result, (i+1), (j-1),0xff);
+                sett_pixel(result, (i-1), (j-1),0xff);
             }
         }
     }
     SDL_UnlockSurface(image);
     SDL_UnlockSurface(result);
-    SDL_FreeSurface(image);
     return result;
 }
 
