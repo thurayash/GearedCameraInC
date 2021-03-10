@@ -11,6 +11,7 @@
 #include "rgb_to_hsi.h"
 #include "ycbcr.h"
 #include <math.h>
+#include "roberts_edge.h"
 
 #define MAX3(m,n,p) ( (m) > (n) ? ((m) > (p) ? (m) : (p)) : ((n) > (p) ? \
             (n) : (p)))
@@ -377,17 +378,15 @@ void sdlUpdate() // Update the SDL_Surface with a new frame
 
     //printf("PIXEL : (R: %u , G: %u,  B: %u)\n", r,g,b);
     //======================================
-    image_conversion(frame);
+    //image_conversion(frame);
+    SDL_Surface* result = SDL_CreateRGBSurface(0, fmt.fmt.pix.width, fmt.fmt.pix.height, 32, 0, 0, 0, 0);
+
+    result = to_rob(frame);
+
     // Updating the surface
 
 
-    SDL_Surface* result = SDL_CreateRGBSurface(0, fmt.fmt.pix.width, fmt.fmt.pix.height, 32, 0, 0, 0, 0);
-    dilate_square(frame,result);
-
-
-    SDL_SaveBMP(result, "test.bmp");
-
-    SDL_BlitSurface(frame, NULL, screen, &position);
+    SDL_BlitSurface(result , NULL, screen, &position);
     SDL_Flip(screen);
 }
 
