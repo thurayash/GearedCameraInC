@@ -27,6 +27,66 @@ static int xioctl(int fd, int request, void *arg)
     return r;
 }
 
+
+//3x3 square dilate
+void dilate_square(SDL_Surface* image, SDL_Surface* result)
+{
+    Uint8 r,g,b;
+
+    for (int i=2; i < (result->w - 2); i++)
+    {
+        for (int j=2; j< (result->h - 2); j++)
+        {
+            Uint32 uull = get_pixel(image, i, j); //from pixel.c //to be able to easily manipulate pixels
+            SDL_GetRGB(uull,result->format, &r ,&g, &b);
+            if (r == 255)// It's not auto. white it can be gray unless u work
+                // On a binary image
+            {
+                uull = SDL_MapRGB(result->format, 255, 255, 255);
+
+                //sett_pixel(result, i, j,0x00);
+                put_pixel(result, i, j, uull);
+
+                //sett_pixel(result, (i-2), j,0x00);
+                put_pixel(result, i-2, j, uull);
+
+                //sett_pixel(result, (i-1), j,0x00);
+                put_pixel(result, i-1, j, uull);
+
+                //sett_pixel(result, i, (j-2),0x00);
+                put_pixel(result, i, j-2, uull);
+
+                //sett_pixel(result, i, (j-1),0x00);
+                put_pixel(result, i, j-1, uull);
+
+                //sett_pixel(result, (i+2), (j),0x00);
+                put_pixel(result, i+2, j, uull);
+
+                //sett_pixel(result, (i+1), j,0x00);
+                put_pixel(result, i+1, j, uull);
+
+                //sett_pixel(result, i, (j+2),0x00);
+                put_pixel(result, i, j+2, uull);
+
+                //sett_pixel(result, i, (j+1),0x00);
+                put_pixel(result, i, j+1, uull);
+
+                //sett_pixel(result, (i+1), (j+1),0x00);
+                put_pixel(result, i+1, j+1, uull);
+
+                //sett_pixel(result, (i-1), (j+1),0x00);
+                put_pixel(result, i-1, j+1, uull);
+
+                //sett_pixel(result, (i+1), (j-1),0x00);
+                put_pixel(result, i+1, j-1, uull);
+
+                //sett_pixel(result, (i-1), (j-1),0x00);
+                put_pixel(result, i-1, j-1, uull);
+            }
+        }
+    }
+}
+
 int print_caps(int fd)
 {
     struct v4l2_capability caps = {};
@@ -285,7 +345,15 @@ void sdlInit() // Init SDL with frame height and width
     IMG_Init(IMG_INIT_JPG);
 
 
+
     screen = SDL_SetVideoMode(
+            fmt.fmt.pix.width,
+            fmt.fmt.pix.height,
+            32, SDL_HWSURFACE );
+
+
+
+    screen_dilation = SDL_SetVideoMode(
             fmt.fmt.pix.width,
             fmt.fmt.pix.height,
             32, SDL_HWSURFACE );
@@ -311,7 +379,22 @@ void sdlUpdate() // Update the SDL_Surface with a new frame
     //======================================
     image_conversion(frame);
     // Updating the surface
+
+
+    SDL_Surface* result = SDL_CreateRGBSurface(0, fmt.fmt.pix.width, fmt.fmt.pix.height, 32, 0, 0, 0, 0);
+    dilate_square(frame,result);
+
+
+    SDL_SaveBMP(result, "test.bmp");
+
     SDL_BlitSurface(frame, NULL, screen, &position);
+    SDL_Flip(screen);
+}
+
+
+void test(SDL_Surface* frames)
+{
+    SDL_BlitSurface(frames, NULL, screen, &position);
     SDL_Flip(screen);
 }
 

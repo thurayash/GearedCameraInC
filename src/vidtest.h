@@ -20,8 +20,11 @@ struct v4l2_format fmt = {0};
 struct v4l2_buffer buf = {0};
 
 SDL_Surface* screen ;
+SDL_Surface* screen_dilation;
+
 SDL_RWops* buffer_stream;
 SDL_Surface* frame;
+
 SDL_Rect position = {.x = 0, .y = 0};
 
 

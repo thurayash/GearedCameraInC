@@ -12,6 +12,7 @@ void getRGB(SDL_Surface *surface, unsigned x, unsigned y, Uint8* r, Uint8* g, \
 
 void put_pixel(SDL_Surface *surface, unsigned x, unsigned y, Uint32 pixel);
 
+int save_image(SDL_Surface* img, char *path);
 
 Uint32 get_pixel(SDL_Surface *surface, unsigned x, unsigned y);
 

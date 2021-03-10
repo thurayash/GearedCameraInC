@@ -9,6 +9,14 @@ Uint8* pixel_ref(SDL_Surface *surf, unsigned x, unsigned y)
     return (Uint8*)surf->pixels + y * surf->pitch + x * bpp;
 }
 
+
+
+int save_image(SDL_Surface* img, char *path)
+{
+       return SDL_SaveBMP(img, path);
+}
+
+
 Uint32 get_pixel(SDL_Surface *surface, unsigned x, unsigned y)
 {
     Uint8 *p = pixel_ref(surface, x, y);

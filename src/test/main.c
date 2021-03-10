@@ -11,7 +11,6 @@ void Test(SDL_Surface* image, SDL_Surface* screen)
 {
     /* Call here test */
 
-
     printf("Image before post-processing ...\n");
 
     screen = display_image(image);
@@ -22,10 +21,20 @@ void Test(SDL_Surface* image, SDL_Surface* screen)
 
     image_conversion(image);
 
+    save_image(image, "test.bmp");
     screen = display_image(image);
 
     wait_for_keypressed();
 
+    printf("Image Dilation...\n");
+
+    SDL_Surface* output = NULL;
+
+    output = erode_cross(image);
+
+    screen = display_image(output);
+
+    wait_for_keypressed();
     (void)screen;
 }
 
