@@ -382,7 +382,7 @@ void sdlUpdate() // Update the SDL_Surface with a new frame
     SDL_Surface* result = SDL_CreateRGBSurface(0, fmt.fmt.pix.width, fmt.fmt.pix.height, 32, 0, 0, 0, 0);
 
     result = to_rob(frame);
-
+    
     // Updating the surface
 
 
