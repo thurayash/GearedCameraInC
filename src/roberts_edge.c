@@ -1,6 +1,37 @@
 #include "roberts_edge.h"
 #include "tools.h"
 
+
+Uint32** threshold(SDL_Surface *image)
+{
+    size_t width = image->w;
+    size_t height = image->h;
+
+    size_t high = 255 * 0.09;
+    size_t low = high * 0.05;
+
+    Uint32 res[width][height];
+    for (size_t i = 0; i < width; i++)
+    {
+        for (size_t j = 0; j < height; j++)
+        {
+            if (get_pixel(image, i, j) >= high)
+            {
+                res[i][j] = 2;
+            }
+            if (get_pixel(image, i, j) < low)
+            {
+                res[i][j] = 0;
+            }
+            if (get_pixel(image, i, j) <= high && get_pixel(image, i, j) >= low)
+            {
+                res[i][j] = 1;
+            }
+        }
+    }
+    return res;
+}
+
 SDL_Surface *to_rob(SDL_Surface *image)
 {
     size_t width = image->w;
@@ -48,7 +79,7 @@ SDL_Surface *to_rob(SDL_Surface *image)
 
     /*SDL_Surface *result = new_rgb_surface(width, height);
 
-
+    
     for (size_t i = 1; i < width - 1; i++)
     {
         for (size_t j = 1; j < height - 1; j++)
@@ -76,7 +107,40 @@ SDL_Surface *to_rob(SDL_Surface *image)
             }
             
         }
-    }*/
-    //SDL_SaveBMP(result, "test.bmp");
+    }
+    //SDL_SaveBMP(result, "test.bmp");*/
+
+    Uint32 res[width][height];
+    res = threshold(image);
+    SDL_Surface *result = new_rgb_surface(width, height);
+
+    for (size_t i = 1; i < width - 1; i++)
+    {
+        for (size_t j = 1; j < height - 1; j++)
+        {
+            Uint32 p1 = res[i - 1][j - 1];
+            Uint32 p2 = res[i][j - 1];
+            Uint32 p3 = res[i + 1][j - 1];
+            Uint32 p4 = res[i - 1][j];
+            //Uint32 p5 = res[i][j];
+            Uint32 p6 = res[i + 1][j];
+            Uint32 p7 = res[i - 1][j + 1];
+            Uint32 p8 = res[i][j + 1];
+            Uint32 p9 = res[i + 1][j + 1];
+
+            if (p1 == 2 || p2 == 2 || p3 == 2|| \
+                p4 == 2 || p6 == 2 ||  \
+                p7 == 2 || p8 == 2 || p9 == 2)
+            {
+                Uint32 pixel = SDL_MapRGB(result->format, 255 ,0,0);
+                put_pixel(result, i, j, pixel);
+            }
+            else
+            {
+                Uint32 pixel = SDL_MapRGB(result->format, 0, 0, 0);
+                put_pixel(result, i, j, pixel);
+            }
+        }
+    }
     return image;
 }
