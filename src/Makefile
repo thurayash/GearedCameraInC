@@ -6,7 +6,7 @@ CFLAGS=-Wall -Wextra -g -std=gnu99 -O3 -O0
 LDFLAGS= -lm
 LDLIBS=-lSDL -lSDL_image
 
-SRC= tools.c vidtest.c rgb_to_hsi.c ycbcr.c roberts_edge.c #Source files here
+SRC= tools.c vidtest.c rgb_to_hsi.c ycbcr.c roberts_edge.c structs.c#Source files here
 OBJ= ${SRC:.c=.o}
 DEP= ${SRC:.c=.d}
 
