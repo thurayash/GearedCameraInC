@@ -4,82 +4,87 @@
 	<meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-	<!-- BULMA -->
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+  <!-- BULMA -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
 
-	<!-- FONT AWESOME -->
-	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css" integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
+  <!-- FONT AWESOME -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css" integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
 
   <!-- CSS -->
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/card.css">
 
-
-	<title>GCC Website</title>
+  <title>GCC Website</title>
 </head>
 
-
+<style type="text/css">
+  @media screen and (min-width: 1024px)
+  .section.is-medium {
+    padding: 5rem 1.5rem;
+  }
+</style>
 <body>
 
 
-<section class="hero is-info is-large is-fullheight">
-  <div class="hero-head">
-    <nav class="navbar">
-      <div class="container">
-        <div class="navbar-brand">
-          <a class="navbar-item">
-            <img src="GCC.png" alt="Logo">
-          </a>
-          <span class="navbar-burger" data-target="navbarMenuHeroB">
-            <span></span>
-            <span></span>
-            <span></span>
-          </span>
-        </div>
-        <div id="navbarMenuHeroB" class="navbar-menu">
-          <div class="navbar-end">
-            <a class="navbar-item is-active">
-              <i class="fas fa-home"></i> &nbsp;Home 
-            </a>
+  <section class="hero is-fullheight header-main-image" style="background-color: white;">
+    <div class="hero-head">
+      <nav class="navbar">
+        <div class="container">
+          <div class="navbar-brand">
             <a class="navbar-item">
-              Examples
+              <img src="GCC.png" alt="Logo">
             </a>
-            <a class="navbar-item">
-              <i class="fas fa-book"></i> &nbsp;Documentation   
-            </a>
-            <span class="navbar-item">
-              <a class="button is-info is-inverted" href="https://github.com/thuraya-shanbari/GearedCameraInC" target="_blank">
-                  <span class="icon">
-                  <i class="fab fa-github-alt"></i>
-                </span>
-                <span>Download</span>
-              </a>
+            <span class="navbar-burger" data-target="navbarMenuHeroB">
+              <span></span>
+              <span></span>
+              <span></span>
             </span>
           </div>
+          <div id="navbarMenuHeroB" class="navbar-menu">
+            <div class="navbar-end">
+              <a class="navbar-item" href="#">
+                <i class="fas fa-home"></i> &nbsp;Home 
+              </a>
+              <a class="navbar-item">
+                Examples
+              </a>
+              <a class="navbar-item">
+                <i class="fas fa-book"></i> &nbsp;Documentation   
+              </a>
+              <span class="navbar-item">
+                <a class="button is-info is-inverted" href="https://github.com/thuraya-shanbari/GearedCameraInC" target="_blank" style="color: black;">
+                  <span class="icon">
+                    <i class="fab fa-github-alt"></i>
+                  </span>
+                  <span>Download</span>
+                </a>
+              </span>
+            </div>
+          </div>
         </div>
+      </nav>
+    </div>
+    <div class="hero-body login">
+      <div class="container has-text-centered">
+        <p class="title is-1" style="color: white;">
+          G.C.C - EPITA
+        </p>
+        <p class="subtitle" style="color: white;">
+          Geared Camera in C
+        </p>
       </div>
-    </nav>
-  </div>
-  <div class="hero-body login">
-    <div class="container has-text-centered">
-      <p class="title is-1">
-        G.C.C - EPITA
-      </p>
-      <p class="subtitle">
-        Geared Camera in C
-      </p>
     </div>
-  </div>
-  <div class="hero-footer has-text-centered">
-    <div class="contentDiv"><a class="arrow far fa-hand-point-down fa-2x" href="#"></a>
+    <div class="hero-footer has-text-centered">
+      <div class="contentDiv"><a class="arrow far fa-hand-point-down fa-2x" style="color: white;" href="#WiG"></a>
+      </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<section class = "section is-medium">
+  <section class = "section is-large pt-6 pb-6" id="WiG">
     <div class = "container has-text-centered">
-        <span class = "title is-2">
-            What is GCC ?<br>
-        </span><br><br>
+      <span class = "title is-2">
+        What is GCC ?<br>
+      </span><br><br>
     </div> <br>
     <div class="container is-fluid">
       <div class="columns is-desktop">
@@ -89,19 +94,19 @@
             <i class="fas fa-cogs fa-5x"></i>
             <br><br>
             <p class="subtitle">Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,
-            molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum
-            numquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium
+              molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum
+              numquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium
             optio, eaque rerum!</p>
           </div>
         </div>
-          <div class="column has-text-centered">
+        <div class="column has-text-centered">
           <div class="box">
             <p class="title is-3">Second column</p>
             <i class="fas fa-code fa-5x "></i>
             <br><br>
             <p class="subtitle">Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,
-            molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum
-            numquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium
+              molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum
+              numquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium
             optio, eaque rerum!</p>
 
           </div>
@@ -112,104 +117,122 @@
             <i class="fas fa-coffee fa-5x"></i>
             <br><br>
             <p class="subtitle">Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,
-            molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum
-            numquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium
+              molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum
+              numquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium
             optio, eaque rerum!</p>
 
           </div>
         </div>
+      </div>
+    </div>
+  </section>
+
+
+
+  <section class="section is-medium pt-6" style="background-color: #54F04D;"> 
+
+    <div class = "container has-text-centered">
+      <span class = "title is-2">
+        The team<br>
+      </span><br><br>
+    </div> 
+
+    <br>
+
+    <div class="columns is-desktop">
+
+      <!-- Column 1-->
+      <div class="column has-text-centered">
+        <div class="flip-box">
+          <div class="flip-box-inner">
+            <div class="flip-box-front">
+              <br>
+              <h1 class="title is-h3">Yassine</h2>
+                    <figure class="image is-256x256 is-inline-block">
+                      <img class="is-rounded" src="https://bulma.io/images/placeholders/256x256.png">
+                    </figure>  
+              </div>
+
+              <div class="flip-box-back">
+                <!-- BACK SIDE -->
+              </div>
+            </div>
+          </div>
         </div>
-    </div>
-</section>
+
+        <!-- Column 2 -->
+        <div class="column has-text-centered">
+          <div class="flip-box">
+            <div class="flip-box-inner">
+              <div class="flip-box-front">
+                <br>
+                <h1 class="title is-h3">Tutu</h2>
+                    <figure class="image is-256x256 is-inline-block">
+                      <img class="is-rounded" src="https://bulma.io/images/placeholders/256x256.png">
+                    </figure>  
+                </div>
+
+                <div class="flip-box-back">
+                <!-- BACK SIDE -->
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Column 3 -->
+          <div class="column has-text-centered">
+            <div class="flip-box">
+              <div class="flip-box-inner">
+                <div class="flip-box-front">
+                  <br>
+                  <h1 class="title is-h3">Maxence</h1>
+                      <figure class="image is-256x256 is-inline-block">
+                      <img class="is-rounded" src="https://bulma.io/images/placeholders/256x256.png">
+                    </figure>  
+                </div>
+                <div class="flip-box-back">
+                <!-- BACK SIDE -->
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Column 4 -->
+          <div class="column has-text-centered">
+            <div class="flip-box">
+              <div class="flip-box-inner">
+                <div class="flip-box-front">
+                  <br>
+
+                  <h1 class="title is-h3">Karim</h2>
+                    <figure class="image is-256x256 is-inline-block">
+                      <img class="is-rounded" src="https://bulma.io/images/placeholders/256x256.png">
+                    </figure>  
+                </div>
+
+                <div class="flip-box-back">
+                <!-- BACK SIDE -->
+                </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </section>
 
 
 
-<section class="section is-medium " style="background-color: #54F04D;"> 
-  
-  <div class = "container has-text-centered">
-        <span class = "title is-2">
-            The team<br>
-        </span><br><br>
-    </div> <br>
-  <div class="columns is-desktop">
-    <div class="column has-text-centered">
-      <div class="box">
-        <p class="title is-3">Yassine</p>
-        <figure class="image is-256x256 is-inline-block">
-          <img class="is-rounded" src="https://bulma.io/images/placeholders/128x128.png">
-        </figure>
-        <p class="subtitle">Quo neque error repudiandae fuga? Ipsa laudantium molestias eos 
-        sapiente officiis modi at sunt excepturi expedita sint? Sed quibusdam
-        recusandae alias error harum maxime adipisci amet laborum. Perspiciatis 
-        minima nesciunt dolorem! Officiis iure rerum voluptates a cumque velit 
-        quibusdam sed amet tempora. Sit laborum ab, eius fugit doloribus tenetur 
-        fugiat, temporibus enim commodi iusto libero magni deleniti quod quam 
-        consequuntur!</p>
+
+        <script src="js/script.js" ></script>
+        <script src="js/card.js"   ></script>
+      </body>
+
+      <div class="content has-text-centered">
+        <p>
+          <strong>GCC</strong> by <a href="#">The team</a>. The source code <isindex></isindex> licensed
+          <a href="http://opensource.org/licenses/mit-license.php">MIT</a>. The website content
+          is licensed <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY NC SA 4.0</a>.
+        </p>
       </div>
-    </div>
-    <div class="column has-text-centered">
-      
-      <div class="box">
-        <p class="title is-3">Maxence</p>
-        <figure class="image is-128x128 is-inline-block">
-          <img class="is-rounded" src="https://bulma.io/images/placeholders/128x128.png">
-        </figure>
-        <p class="subtitle">Quo neque error repudiandae fuga? Ipsa laudantium molestias eos 
-        sapiente officiis modi at sunt excepturi expedita sint? Sed quibusdam
-        recusandae alias error harum maxime adipisci amet laborum. Perspiciatis 
-        minima nesciunt dolorem! Officiis iure rerum voluptates a cumque velit 
-        quibusdam sed amet tempora. Sit laborum ab, eius fugit doloribus tenetur 
-        fugiat, temporibus enim commodi iusto libero magni deleniti quod quam 
-        consequuntur!</p>        
-      </div>
-    </div>
-    <div class="column has-text-centered">
 
-      <div class="box">
-        <p class="title is-3">Tutu</p>
-        <figure class="image is-128x128 is-inline-block">
-          <img class="is-rounded" src="https://bulma.io/images/placeholders/128x128.png">
-        </figure>
-        <p class="subtitle">Quo neque error repudiandae fuga? Ipsa laudantium molestias eos 
-        sapiente officiis modi at sunt excepturi expedita sint? Sed quibusdam
-        recusandae alias error harum maxime adipisci amet laborum. Perspiciatis 
-        minima nesciunt dolorem! Officiis iure rerum voluptates a cumque velit 
-        quibusdam sed amet tempora. Sit laborum ab, eius fugit doloribus tenetur 
-        fugiat, temporibus enim commodi iusto libero magni deleniti quod quam 
-        consequuntur!</p>        
-      </div>
-    </div>
-    <div class="column has-text-centered">
-      
-      <div class="box">
-      <p class="title is-3">Karim</p>    
-        <figure class="image is-128x128 is-inline-block ">
-          <img class="is-rounded" src="https://bulma.io/images/placeholders/128x128.png">
-        </figure>
-        <p class="subtitle">Quo neque error repudiandae fuga? Ipsa laudantium molestias eos 
-        sapiente officiis modi at sunt excepturi expedita sint? Sed quibusdam
-        recusandae alias error harum maxime adipisci amet laborum. Perspiciatis 
-        minima nesciunt dolorem! Officiis iure rerum voluptates a cumque velit 
-        quibusdam sed amet tempora. Sit laborum ab, eius fugit doloribus tenetur 
-        fugiat, temporibus enim commodi iusto libero magni deleniti quod quam 
-        consequuntur!</p>        
-      </div>
-    </div>
-  </div>
-</section>
-
-
-    
-
-  <script src="js/script.js"></script>
-</body>
-
-  <div class="content has-text-centered">
-    <p>
-      <strong>GCC</strong> by <a href="#">The team</a>. The source code <isindex></isindex> licensed
-      <a href="http://opensource.org/licenses/mit-license.php">MIT</a>. The website content
-      is licensed <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY NC SA 4.0</a>.
-    </p>
-  </div>
-
-</html>
+      </html>
