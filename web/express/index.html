@@ -4,20 +4,25 @@
 	<meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-	<!-- BULMA -->
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+  <!-- BULMA -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
 
-	<!-- FONT AWESOME -->
-	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css" integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
+  <!-- FONT AWESOME -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css" integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
 
   <!-- CSS -->
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/card.css">
 
-
-	<title>GCC Website</title>
+  <title>GCC Website</title>
 </head>
 
-
+<style type="text/css">
+  @media screen and (min-width: 1024px)
+  .section.is-medium {
+    padding: 5rem 1.5rem;
+  }
+</style>
 <body>
 
 
@@ -46,40 +51,57 @@
             <a class="navbar-item" href="documentation.html">
               <i class="fas fa-book"></i> &nbsp;Documentation
             </a>
-            <span class="navbar-item">
-              <a class="button is-info is-inverted" href="https://github.com/thuraya-shanbari/GearedCameraInC" target="_blank">
-                  <span class="icon">
-                  <i class="fab fa-github-alt"></i>
-                </span>
-                <span>Download</span>
-              </a>
+            <span class="navbar-burger" data-target="navbarMenuHeroB">
+              <span></span>
+              <span></span>
+              <span></span>
             </span>
           </div>
+          <div id="navbarMenuHeroB" class="navbar-menu">
+            <div class="navbar-end">
+              <a class="navbar-item" href="#">
+                <i class="fas fa-home"></i> &nbsp;Home 
+              </a>
+              <a class="navbar-item">
+                Examples
+              </a>
+              <a class="navbar-item">
+                <i class="fas fa-book"></i> &nbsp;Documentation   
+              </a>
+              <span class="navbar-item">
+                <a class="button is-info is-inverted" href="https://github.com/thuraya-shanbari/GearedCameraInC" target="_blank" style="color: black;">
+                  <span class="icon">
+                    <i class="fab fa-github-alt"></i>
+                  </span>
+                  <span>Download</span>
+                </a>
+              </span>
+            </div>
+          </div>
         </div>
+      </nav>
+    </div>
+    <div class="hero-body login">
+      <div class="container has-text-centered">
+        <p class="title is-1" style="color: white;">
+          G.C.C - EPITA
+        </p>
+        <p class="subtitle" style="color: white;">
+          Geared Camera in C
+        </p>
       </div>
-    </nav>
-  </div>
-  <div class="hero-body login">
-    <div class="container has-text-centered">
-      <p class="title is-1">
-        G.C.C - EPITA
-      </p>
-      <p class="subtitle">
-        Geared Camera in C
-      </p>
     </div>
   </div>
   <div class="hero-footer has-text-centered">
     <div class="contentDiv"><a class="arrow far fa-hand-point-down fa-2x" href="#whatIsGCC"></a>
     </div>
-  </div>
-</section>
+  </section>
 
 <section class = "section is-medium" id="whatIsGCC">
     <div class = "container has-text-centered">
-        <span class = "title is-2">
-            What is GCC ?<br>
-        </span><br><br>
+      <span class = "title is-2">
+        What is GCC ?<br>
+      </span><br><br>
     </div> <br>
     <div class="container is-fluid">
       <div class="columns is-desktop">
@@ -91,7 +113,7 @@
             <p class="subtitle">GCC is a 3D printed device that is compatible with every time of camera/webcam. This techonological device's goal is to make the attached camera follow you in every of your movements.</p>
           </div>
         </div>
-          <div class="column has-text-centered">
+        <div class="column has-text-centered">
           <div class="box">
             <p class="title is-3">How does it work?</p>
             <i class="fas fa-code fa-5x "></i>
@@ -109,9 +131,9 @@
 
           </div>
         </div>
-        </div>
+      </div>
     </div>
-</section>
+  </section>
 
 
 
@@ -166,18 +188,60 @@
   </div>
 </section>
 
+          <!-- Column 3 -->
+          <div class="column has-text-centered">
+            <div class="flip-box">
+              <div class="flip-box-inner">
+                <div class="flip-box-front">
+                  <br>
+                  <h1 class="title is-h3">Maxence</h1>
+                      <figure class="image is-256x256 is-inline-block">
+                      <img class="is-rounded" src="https://bulma.io/images/placeholders/256x256.png">
+                    </figure>  
+                </div>
+                <div class="flip-box-back">
+                <!-- BACK SIDE -->
+                </div>
+              </div>
+            </div>
+          </div>
 
-    
+          <!-- Column 4 -->
+          <div class="column has-text-centered">
+            <div class="flip-box">
+              <div class="flip-box-inner">
+                <div class="flip-box-front">
+                  <br>
 
-  <script src="js/script.js"></script>
-</body>
+                  <h1 class="title is-h3">Karim</h2>
+                    <figure class="image is-256x256 is-inline-block">
+                      <img class="is-rounded" src="https://bulma.io/images/placeholders/256x256.png">
+                    </figure>  
+                </div>
 
-  <div class="content has-text-centered">
-    <p>
-      <strong>GCC</strong> by <a href="#">The team</a>. The source code <isindex></isindex> licensed
-      <a href="http://opensource.org/licenses/mit-license.php">MIT</a>. The website content
-      is licensed <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY NC SA 4.0</a>.
-    </p>
-  </div>
+                <div class="flip-box-back">
+                <!-- BACK SIDE -->
+                </div>
+                </div>
+              </div>
+            </div>
+          </div>
 
-</html>
+        </section>
+
+
+
+
+        <script src="js/script.js" ></script>
+        <script src="js/card.js"   ></script>
+      </body>
+
+      <div class="content has-text-centered">
+        <p>
+          <strong>GCC</strong> by <a href="#">The team</a>. The source code <isindex></isindex> licensed
+          <a href="http://opensource.org/licenses/mit-license.php">MIT</a>. The website content
+          is licensed <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY NC SA 4.0</a>.
+        </p>
+      </div>
+
+      </html>
