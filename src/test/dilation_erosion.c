@@ -175,19 +175,33 @@ SDL_Surface* erode_square(SDL_Surface* image)
             SDL_GetRGB(uull,image->format, &r ,&g, &b);
             if (r == 0) // Same thing, it can be gray
             {
-                sett_pixel(result, i, j,0xff);
-                sett_pixel(result, (i-2), j,0xff);
-                sett_pixel(result, (i-1), j,0xff);
-                sett_pixel(result, i, (j-2),0xff);
-                sett_pixel(result, i, (j-1),0xff);
-                sett_pixel(result, (i+2), (j),0xff);
-                sett_pixel(result, (i+1), j,0xff);
-                sett_pixel(result, i, (j+2),0xff);
-                sett_pixel(result, i, (j+1),0xff);
-                sett_pixel(result, (i+1), (j+1),0xff);
-                sett_pixel(result, (i-1), (j+1),0xff);
-                sett_pixel(result, (i+1), (j-1),0xff);
-                sett_pixel(result, (i-1), (j-1),0xff);
+                uull = SDL_MapRGB(result->format, 255, 255, 255);
+                //sett_pixel(result, i, j,0xff);
+                put_pixel(result, i, j, uull);
+                //sett_pixel(result, (i-2), j,0xff);
+                put_pixel(result, i-2, j, uull);
+                //sett_pixel(result, (i-1), j,0xff);
+                put_pixel(result, i-1, j, uull);
+                //sett_pixel(result, i, (j-2),0xff);
+                put_pixel(result, i, j-2, uull);
+                //sett_pixel(result, i, (j-1),0xff);
+                put_pixel(result, i, j-1, uull);
+                //sett_pixel(result, (i+2), (j),0xff);
+                put_pixel(result, i+2, j, uull);
+                //sett_pixel(result, (i+1), j,0xff);
+                put_pixel(result, i+1, j, uull);
+                //sett_pixel(result, i, (j+2),0xff);
+                put_pixel(result, i, j+2, uull);
+                //sett_pixel(result, i, (j+1),0xff);
+                put_pixel(result, i, j+1, uull);
+                //sett_pixel(result, (i+1), (j+1),0xff);
+                put_pixel(result, i+1, j+1, uull);
+                //sett_pixel(result, (i-1), (j+1),0xff);
+                put_pixel(result, i-1, j+1, uull);
+                //sett_pixel(result, (i+1), (j-1),0xff);
+                put_pixel(result, i+1, j-1, uull);
+                //sett_pixel(result, (i-1), (j-1),0xff);
+                put_pixel(result, i-1, j-1, uull);
             }
         }
     }
