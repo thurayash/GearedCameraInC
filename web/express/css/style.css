@@ -2,6 +2,10 @@
     position: relative;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 @keyframes bouncing {
     0% {bottom: 0;}
     50% {bottom: 20px;}
