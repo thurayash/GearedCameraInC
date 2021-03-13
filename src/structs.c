@@ -13,6 +13,14 @@ Matrix* new_matrix(int n_cols, int n_rows) {
     return matrix;
 }
 
+void free_matrix(Matrix* m)
+{
+    for(int i = 0; i < m->rows; i++)
+        free(m->data[i]);
+    free(m->data);
+    free(m);
+}
+
 
 void print_matrix(Matrix* m)
 {

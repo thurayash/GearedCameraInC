@@ -16,6 +16,8 @@ typedef struct{
 
 Matrix* new_matrix(int n_rows, int n_cols);
 
+void free_matrix(Matrix* m);
+
 void print_matrix(Matrix* m);
 
 #endif

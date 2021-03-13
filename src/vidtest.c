@@ -239,11 +239,6 @@ int capture_image(int fd)
         return 1;
     }
 
-    // Save the frame (useless, just for the test)
-    //int outfd = open("out.img", O_WRONLY | O_CREAT, 0660);
-    //write(outfd, buffer, buf.bytesused);
-    //close(outfd);
-
     return 0;
 }
 
@@ -368,21 +363,11 @@ void sdlUpdate() // Update the SDL_Surface with a new frame
 
     frame = IMG_Load_RW(buffer_stream, 0);
 
-    //========= Print pixel value ==========
-    //Uint32 pixel;
-    //Uint8 r, g, b;
-
-    //pixel = get_pixel(screen, 100, 100);
-
-    //SDL_GetRGB(pixel, screen->format, &r, &g, &b);
-
-    //printf("PIXEL : (R: %u , G: %u,  B: %u)\n", r,g,b);
-    //======================================
     //image_conversion(frame);
     SDL_Surface* result = SDL_CreateRGBSurface(0, fmt.fmt.pix.width, fmt.fmt.pix.height, 32, 0, 0, 0, 0);
 
     result = to_rob(frame);
-    
+
     // Updating the surface
 
 
@@ -391,7 +376,7 @@ void sdlUpdate() // Update the SDL_Surface with a new frame
 }
 
 
-void test(SDL_Surface* frames)
+void display_sdl(SDL_Surface* frames)
 {
     SDL_BlitSurface(frames, NULL, screen, &position);
     SDL_Flip(screen);
@@ -425,7 +410,7 @@ int main()
     if(init_mmap(fd))
         return 1;
 
-    for(int i = 0; i != 10000; i++){
+    for(int i = 0; i != 1000; i++){
         if(capture_image(fd))
             return 1;
         sdlUpdate();

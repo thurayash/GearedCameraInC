@@ -55,9 +55,9 @@ SDL_Surface *to_rob(SDL_Surface *image)
             put_pixel(image, i, j, pixel);
         }
     }
-    for (size_t i = 0; i < width; i++)
+    for (size_t i = 0; i < width - 1; i++)
     {
-        for (size_t j = 0; j < height; j++)
+        for (size_t j = 0; j < height - 1; j++)
         {
             Uint8 r1,g1,b1, r2, g2, b2, r3, g3, b3, r4, g4, b4;
             Uint32 p1 = get_pixel(image, i, j);
@@ -147,5 +147,6 @@ SDL_Surface *to_rob(SDL_Surface *image)
             }
         }
     }
+    free_matrix(res);
     return image;
 }
