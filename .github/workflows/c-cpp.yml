@@ -14,9 +14,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name : libs1
-      run : sudo apt-get install libsdl2-2.0-0 libsdl2-gfx-1.0-0 \
-            libsdl2-image-2.0-0 libsdl2-mixer-2.0-0 libsdl2-net-2.0-0 \
-            libsdl2-ttf-2.0-0
+      run : sudo apt-get install libsdl2-2.0-0 libsdl2-gfx-1.0-0 libsdl2-mixer-2.0-0 libsdl2-net-2.0-0 
     - name : libs2
       run : sudo apt-get install v4l-utils
     - name : make
