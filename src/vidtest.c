@@ -301,7 +301,6 @@ int capture_image(int fd)
         return 1;
     }
 
-    // Save the frame (useless, just for the test)
     //int outfd = open("out.img", O_WRONLY | O_CREAT, 0660);
     //write(outfd, buffer, buf.bytesused);
     //close(outfd);
@@ -450,7 +449,6 @@ void sdlUpdate() // Update the SDL_Surface with a new frame
     dilate_square(frame,result);
     erode_square(result, result1);
 
-    SDL_SaveBMP(result, "test.bmp");
 
     SDL_BlitSurface(result1, NULL, screen, &position);
     SDL_Flip(screen);
