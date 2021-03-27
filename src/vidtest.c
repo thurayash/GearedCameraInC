@@ -37,50 +37,25 @@ void dilate_square(SDL_Surface* image, SDL_Surface* result)
     {
         for (int j=2; j< (result->h - 2); j++)
         {
-            Uint32 uull = get_pixel(image, i, j); //from pixel.c //to be able to easily manipulate pixels
+            Uint32 uull = get_pixel(image, i, j); //from pixel.c
+            //to be able to easily manipulate pixels
             SDL_GetRGB(uull,result->format, &r ,&g, &b);
             if (r == 255)// It's not auto. white it can be gray unless u work
                 // On a binary image
             {
                 uull = SDL_MapRGB(result->format, 255, 255, 255);
-
-                //sett_pixel(result, i, j,0x00);
                 put_pixel(result, i, j, uull);
-
-                //sett_pixel(result, (i-2), j,0x00);
                 put_pixel(result, i-2, j, uull);
-
-                //sett_pixel(result, (i-1), j,0x00);
                 put_pixel(result, i-1, j, uull);
-
-                //sett_pixel(result, i, (j-2),0x00);
                 put_pixel(result, i, j-2, uull);
-
-                //sett_pixel(result, i, (j-1),0x00);
                 put_pixel(result, i, j-1, uull);
-
-                //sett_pixel(result, (i+2), (j),0x00);
                 put_pixel(result, i+2, j, uull);
-
-                //sett_pixel(result, (i+1), j,0x00);
                 put_pixel(result, i+1, j, uull);
-
-                //sett_pixel(result, i, (j+2),0x00);
                 put_pixel(result, i, j+2, uull);
-
-                //sett_pixel(result, i, (j+1),0x00);
                 put_pixel(result, i, j+1, uull);
-
-                //sett_pixel(result, (i+1), (j+1),0x00);
                 put_pixel(result, i+1, j+1, uull);
-
-                //sett_pixel(result, (i-1), (j+1),0x00);
                 put_pixel(result, i-1, j+1, uull);
-
-                //sett_pixel(result, (i+1), (j-1),0x00);
                 put_pixel(result, i+1, j-1, uull);
-
-                //sett_pixel(result, (i-1), (j-1),0x00);
                 put_pixel(result, i-1, j-1, uull);
             }
         }
@@ -95,36 +70,24 @@ void erode_square(SDL_Surface* image, SDL_Surface* result)
     {
         for (int j= 2; j< image->h - 2; j++)
         {
-            Uint32 uull = get_pixel(image, i, j); //from pixel.c //to be able to easily manipulate pixels
+            Uint32 uull = get_pixel(image, i, j); //from pixel.c
+            //to be able to easily manipulate pixels
             SDL_GetRGB(uull,image->format, &r ,&g, &b);
             if (r == 0) // Same thing, it can be gray
             {
                 uull = SDL_MapRGB(result->format, 255, 255, 255);
-                //sett_pixel(result, i, j,0xff);
                 put_pixel(result, i, j, uull);
-                //sett_pixel(result, (i-2), j,0xff);
                 put_pixel(result, i-2, j, uull);
-                //sett_pixel(result, (i-1), j,0xff);
                 put_pixel(result, i-1, j, uull);
-                //sett_pixel(result, i, (j-2),0xff);
                 put_pixel(result, i, j-2, uull);
-                //sett_pixel(result, i, (j-1),0xff);
                 put_pixel(result, i, j-1, uull);
-                //sett_pixel(result, (i+2), (j),0xff);
                 put_pixel(result, i+2, j, uull);
-                //sett_pixel(result, (i+1), j,0xff);
                 put_pixel(result, i+1, j, uull);
-                //sett_pixel(result, i, (j+2),0xff);
                 put_pixel(result, i, j+2, uull);
-                //sett_pixel(result, i, (j+1),0xff);
                 put_pixel(result, i, j+1, uull);
-                //sett_pixel(result, (i+1), (j+1),0xff);
                 put_pixel(result, i+1, j+1, uull);
-                //sett_pixel(result, (i-1), (j+1),0xff);
                 put_pixel(result, i-1, j+1, uull);
-                //sett_pixel(result, (i+1), (j-1),0xff);
                 put_pixel(result, i+1, j-1, uull);
-                //sett_pixel(result, (i-1), (j-1),0xff);
                 put_pixel(result, i-1, j-1, uull);
             }
         }
@@ -300,11 +263,6 @@ int capture_image(int fd)
         perror("Retrieving Frame");
         return 1;
     }
-
-    //int outfd = open("out.img", O_WRONLY | O_CREAT, 0660);
-    //write(outfd, buffer, buf.bytesused);
-    //close(outfd);
-
     return 0;
 }
 
@@ -330,32 +288,6 @@ void image_conversion(SDL_Surface* image)
             Uint8 r,g,b;
             Uint32 pixel = get_pixel(image, i, j);
             SDL_GetRGB(pixel, image->format, &r, &g, &b);
-
-            //  =====   HSIV   =======
-            /*
-            float H,S,I,V;
-            (void)I;
-            rgb_to_hsv(r, g, b, &H,  &S ,&V);
-            if (( 0 <= H && H <= 17) && (15 <= S && S <= 170) && \
-            (0 <= V && V <= 255))
-                pixel = SDL_MapRGB(image->format, 255, 255, 255);
-            else
-                pixel = SDL_MapRGB(image->format, 0, 0, 0);
-            */
-
-            //  =====   YCbCr  ======
-            /*float Y,Cb,Cr;
-            Y = 0.f;
-            Cb = 0.f;
-            Cr = 0.f;
-            to_ycbcr(r,g,b,&Y,&Cb,&Cr);
-
-            if (80 <= Cb && Cb <= 120 && 133 <= Cr && Cr <= 173 )
-                pixel = SDL_MapRGB(image->format, 255 ,255,255);
-            else
-                pixel = SDL_MapRGB(image->format, 0 , 0 ,0);
-            */
-
 
             float R_p, G_p, B_p;
             R_p = (float)r/(float)(r+g+b);
@@ -429,22 +361,17 @@ void sdlUpdate() // Update the SDL_Surface with a new frame
 
     frame = IMG_Load_RW(buffer_stream, 0);
 
-    //========= Print pixel value ==========
-    //Uint32 pixel;
-    //Uint8 r, g, b;
-
-    //pixel = get_pixel(screen, 100, 100);
-
-    //SDL_GetRGB(pixel, screen->format, &r, &g, &b);
-
-    //printf("PIXEL : (R: %u , G: %u,  B: %u)\n", r,g,b);
-    //======================================
-    image_conversion(frame);
+    // ################### APPLY ##########################
     // Updating the surface
 
 
-    SDL_Surface* result = SDL_CreateRGBSurface(0, fmt.fmt.pix.width, fmt.fmt.pix.height, 32, 0, 0, 0, 0);
-    SDL_Surface* result1 = SDL_CreateRGBSurface(0, fmt.fmt.pix.width, fmt.fmt.pix.height, 32, 0, 0, 0, 0);
+    image_conversion(frame);
+
+
+    SDL_Surface* result = \
+                new_rgb_surface(fmt.fmt.pix.width, fmt.fmt.pix.height);
+    SDL_Surface* result1 = \
+                new_rgb_surface(fmt.fmt.pix.width, fmt.fmt.pix.height);
 
     dilate_square(frame,result);
     erode_square(result, result1);
