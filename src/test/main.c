@@ -5,11 +5,42 @@
 #include "ycbcr_to_BW.h"
 #include "tools.h"
 #include "hybridation.h"
+#include "circle_detection.h"
+
+void binary(SDL_Surface* image)
+{
+    int height = image->h;
+    int width  = image->w;
+
+    Uint32 pixel;
+    Uint8 r, g, b;
+
+    printf("IMAGE_BINARY   HEIGHT : %i , WIDTH : %i\n", height, width);
+    for(int i = 0; i < width; i++)
+    {
+        for(int j = 0; j < height; j++)
+        {
+            printf("I : %i , J : %i\n", i,j);
+            pixel = get_pixel(image, i, j);
+
+            SDL_GetRGB(pixel, image->format, &r , &g, &b);
+
+            if(r > 126)
+                pixel = SDL_MapRGB(image->format, 255, 255, 255);
+            else
+                pixel = SDL_MapRGB(image->format, 0, 0, 0);
+            put_pixel(image, i,j, pixel);
+        }
+    }
+
+}
 
 
 void Test(SDL_Surface* image, SDL_Surface* screen)
 {
     /* Call here test */
+
+    printf("IMAGE   HEIGHT : %i , WIDTH : %i\n", image->h, image->w);
 
     printf("Image before post-processing ...\n");
 
@@ -17,24 +48,33 @@ void Test(SDL_Surface* image, SDL_Surface* screen)
 
     wait_for_keypressed();
 
-    printf("Image after post-processing ...\n");
+    printf("Image binary ...\n");
 
-    image_conversion(image);
+    binary(image);
 
-    save_image(image, "test.bmp");
     screen = display_image(image);
 
     wait_for_keypressed();
 
-    printf("Image Dilation...\n");
+    printf("Image after post-processing ...\n");
 
-    SDL_Surface* output = NULL;
+    int resx, resy;
 
-    output = erode_cross(image);
+    circleDectection_staticadapt(image, &resx, &resy);
 
-    screen = display_image(output);
+    printf("RESX : %i , RESY : %i \n", resy, resy);
 
+    Uint32 pixel = get_pixel(image, resy, resx);
+
+    pixel = SDL_MapRGB(image->format, 0, 255, 0);
+
+    put_pixel(image, resx, resy, pixel);
+
+    screen = display_image(image);
+
+    save_image(image, "HEY.bmp");
     wait_for_keypressed();
+
     (void)screen;
 }
 

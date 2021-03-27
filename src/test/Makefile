@@ -6,7 +6,7 @@ CFLAGS=-Wall -Wextra -g -std=gnu99 -O3 -O0
 LDFLAGS= -lm
 LDLIBS=-lSDL -lSDL_image
 
-SRC= dilation_erosion.c hsi_to_BW.c main.c superpostion.c tools.c ycbcr_to_BW.c hybridation.c
+SRC= dilation_erosion.c hsi_to_BW.c main.c superpostion.c tools.c ycbcr_to_BW.c hybridation.c circle_detection.c structs.c
 OBJ= ${SRC:.c=.o}
 DEP= ${SRC:.c=.d}
 
