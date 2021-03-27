@@ -11,6 +11,7 @@
 #include "rgb_to_hsi.h"
 #include "ycbcr.h"
 #include <math.h>
+#include "roberts_edge.h"
 
 #define MAX3(m,n,p) ( (m) > (n) ? ((m) > (p) ? (m) : (p)) : ((n) > (p) ? \
             (n) : (p)))
@@ -354,6 +355,9 @@ void sdlInit() // Init SDL with frame height and width
 }
 
 
+
+
+
 void sdlUpdate() // Update the SDL_Surface with a new frame
 {
     // Load from the v4l2 webcam buffer
@@ -362,24 +366,34 @@ void sdlUpdate() // Update the SDL_Surface with a new frame
     frame = IMG_Load_RW(buffer_stream, 0);
 
     // ################### APPLY ##########################
-    // Updating the surface
+    // Tout ROB, rouge HOUGH
+
+    SDL_Surface* rob_surface = to_rob(frame); // Robert Edge detection call
+
+    //image_conversion(frame); // Black and white in Frame (in place)
 
 
-    image_conversion(frame);
+
+    /* IMAGE DILATAION AND EROSION
+    SDL_Surface* dilatation_surface = \
+            new_rgb_surface(fmt.fmt.pix.width, fmt.fmt.pix.height);
+    SDL_Surface* erode_surface = \
+            new_rgb_surface(fmt.fmt.pix.width, fmt.fmt.pix.height);
+
+    dilate_square(frame,dilatation_surface); // Dilate frame in result (in place)
+    erode_square(dilatation_surface, erode_surface);// Dilate result in result1 (in place)
+    */
 
 
-    SDL_Surface* result = \
-                new_rgb_surface(fmt.fmt.pix.width, fmt.fmt.pix.height);
-    SDL_Surface* result1 = \
-                new_rgb_surface(fmt.fmt.pix.width, fmt.fmt.pix.height);
-
-    dilate_square(frame,result);
-    erode_square(result, result1);
-
-
-    SDL_BlitSurface(result1, NULL, screen, &position);
+    SDL_BlitSurface(rob_surface, NULL, screen, &position); // Show result1
     SDL_Flip(screen);
 }
+
+
+
+
+
+
 
 
 void test(SDL_Surface* frames)

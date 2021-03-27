@@ -1,5 +1,3 @@
-#include <err.h>
-
 #include "tools.h"
 
     static inline

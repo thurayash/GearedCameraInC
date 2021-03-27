@@ -5,7 +5,8 @@
 #include <stdio.h>
 #include <err.h>
 #include <SDL/SDL.h>
-#include "pixel.h"
+#include "tools.h"
+
 
 void sett_pixel(SDL_Surface *surface, int x, int y, Uint32 pixel);
 SDL_Surface* dilate_cross(SDL_Surface* image);
