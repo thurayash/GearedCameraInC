@@ -3,6 +3,7 @@
 
 #include <avr/io.h>
 #include <util/delay.h>
+#include <stdlib.h>
 
 #define F_CPU 16000000UL // Defining the CPU Frequency
 
@@ -27,6 +28,8 @@
 #define EIGHT_BIT (3<<UCSZ00)
 #define DATA_BIT   EIGHT_BIT  // USART Data Bit Selection
 
+#define BUF_SIZE 256
+
 void USART_Init();
 
 void USART_TransmitPolling(uint8_t DataByte);
@@ -34,5 +37,7 @@ void USART_TransmitPolling(uint8_t DataByte);
 uint8_t USART_ReceivePolling();
 
 void send_string(char* msg);
+
+void read_string(char*);
 
 #endif

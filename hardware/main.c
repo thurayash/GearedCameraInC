@@ -1,8 +1,9 @@
 #include "main.h"
 #include <string.h>
-#include <time.h>
+#include "json_parser.h"
 
 
+/*
 void motor_turn_b(int pin_step, int pin_dir, float angle, \
         enum Direction dir ,enum Microstepping steps, int speed)
 {
@@ -10,6 +11,7 @@ void motor_turn_b(int pin_step, int pin_dir, float angle, \
     int nbr_steps = (int)(angle/((float)steps/10000.f));
     char number_str[10];
 
+    // Setting the direction
     if (dir)
     {
         turn_onD(pin_dir);
@@ -19,19 +21,17 @@ void motor_turn_b(int pin_step, int pin_dir, float angle, \
         turn_offD(pin_dir);
     }
 
-    sprintf(number_str, "%i", nbr_steps);
-    send_string(number_str);
 
     // Launching Rotation
     for(; nbr_steps > 0; nbr_steps--)
     {
         turn_onD(PD4);
-        _delay_ms(5);
+        my_delay(speed);
         turn_offD(PD4);
-        _delay_ms(5);
+        my_delay(speed);
     }
     return (void)NULL;
-}
+}*/
 
 
 int main()
@@ -39,34 +39,37 @@ int main()
     USART_Init();
 
     set_outputB(PB5);
-    set_outputD(PD4);
-    set_outputD(PD3);
 
-    char LocalData;
-    char number_str[10];
+
+    struct JSON* parser = new_json();
+
+    struct Motor* m1 = new_motor(PD4, PD3, 1.8f , 1, "X");
 
     while (1)
     {
-        LocalData = USART_ReceivePolling();
+        char text[128];
+        read_string(text);
 
-        if (LocalData == 'a')
+        json_fromstr(parser, text);
+
+        if (parser->name == 'X')
         {
-            motor_turn_b(PD4, PD3, 90, CLOCKWISE, FULL_step, 5);
-            send_string("A received !");
+            m1->direction = parser->direction;
+            m1->speed = parser->speed;
+            motor_turn(m1, (float)parser->radius);
             turn_onB(PB5);
         }
-        else if (LocalData == '\n')
+
+        if (parser->name == 'Y')
         {
-            send_string("NewLine received !");
-        }
-        else
-        {
-            motor_turn_b(PD4, PD3, 360, ANTI_CLOCWISE, FULL_step, 10);
-            send_string("Turning off !");
+            /*motor_turn_b(PD4, PD3, 360, ANTI_CLOCWISE, FULL_step, 10);
+            send_string("Turning off !");*/
             turn_offB(PB5);
         }
-        _delay_ms(1000);
-
+        if(parser->name == 'P')
+            break;
     }
+    free_json(parser);
+    free_motor(m1);
     return 0;
 }

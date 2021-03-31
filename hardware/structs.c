@@ -1,49 +1,62 @@
 #include "structs.h"
 
-void new_motor(Motor* m1, int pin_step, int pin_dir, enum Mode mode,\
-        enum Direction dir, char* name)
+
+
+void my_delay(int n) {
+ while(n--) {
+  _delay_ms(1);
+ }
+}
+
+struct Motor* new_motor(int pin_step, int pin_dir, float steps,\
+        int dir, char* name)
 {
-    enum Microstepping steps;
+    struct Motor* m1 = malloc(sizeof(struct Motor));
 
     set_outputD(pin_dir);
     set_outputD(pin_step);
 
+    m1->direction = dir;
     m1->axis = name;
     m1->pin_dir = pin_dir;
     m1->pin_step = pin_step;
-    m1->mode = mode;
 
-    // Testing
+    m1->speed = 10;
+    m1->steps = steps;
+    return m1;
+}
+
+void motor_turn(struct Motor* m1, float angle)
+{
+
+    // Step determination
+    int nbr_steps = (int)(angle/m1->steps);
     char number_str[10];
 
-    // End Testing
-
-    switch(mode)
+    // Setting the direction
+    if (m1->direction)
     {
-        case FULL:
-            steps = FULL_step;
-            break;
-        case HALF:
-            steps = HALF_step;
-            break;
-        case ONE_QUARTER:
-            steps = ONE_QUARTER_step;
-            break;
-        case ONE_EIGHTH:
-            steps = ONE_EIGHTH_step;
-            break;
-        case ONE_SIXTEENTH:
-            steps = ONE_SIXTEENTH_step;
-            break;
-        default:
-            break;
+        turn_onD(m1->pin_dir);
+    }
+    else
+    {
+        turn_offD(m1->pin_dir);
     }
 
-    m1->speed = 200;
-    m1->steps = steps;
 
-    sprintf(number_str, "%d", m1->pin_step);
-    send_string("INIT : ");
-    send_string(number_str);
-    send_string("\n");
+    // Launching Rotation
+    for(; nbr_steps > 0; nbr_steps--)
+    {
+        turn_onD(m1->pin_step);
+        my_delay(m1->speed);
+        turn_offD(m1->pin_step);
+        my_delay(m1->speed);
+    }
+    return (void)NULL;
+}
+
+
+void free_motor(struct Motor* m1)
+{
+    free(m1);
 }

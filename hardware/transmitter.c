@@ -1,5 +1,6 @@
 #include "transmitter.h"
 
+void send_string(char* msg);
 
 void USART_Init()
 {
@@ -20,19 +21,38 @@ void USART_TransmitPolling(uint8_t DataByte)
     UDR0 = DataByte;
 }
 
-uint8_t USART_ReceivePolling()
+uint8_t USART_ReceivePolling() // Write 1 if received 0 else
 {
     uint8_t DataByte;
     while (( UCSR0A & (1<<RXC0)) == 0) {}; // Do nothing until data have been received
     DataByte = UDR0 ;
     if (DataByte == 10)
         return USART_ReceivePolling();
+    send_string("1\n"); // IMPORTANT !! Don't remove it !!
     return DataByte;
 }
-
 
 void send_string(char* msg)
 {
     for(; *msg != '\0'; msg++) USART_TransmitPolling(*msg);
+}
+
+void read_string(char* buffer)
+{
+    char *start = buffer;
+    char letter = USART_ReceivePolling();
+    while(letter != '+')
+    {
+        *start = letter;
+        start++;
+        letter = USART_ReceivePolling();
+    }
+    *start = '\0'; // Stop the array
+
+    send_string("DONE ATMEGA328p \n");
+    //send_string(buffer);
+    send_string("\n");
+
+    return buffer;
 }
 
