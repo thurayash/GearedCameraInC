@@ -1,5 +1,5 @@
 CC=gcc
-LDFLAGS=
+LDFLAGS= -g -std=gnu99 -Werror -Wall -pthread -O0
 LDLIBS=
 EXECV= comp
 SRC=$(wildcard *.c)

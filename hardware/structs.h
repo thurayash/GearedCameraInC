@@ -22,11 +22,11 @@
 #define set_inputC(n)        {DDRC &= ~(1 << n);}
 
 /* MICROSTEPPING : Multiply by 1000
-    full => 200 steps => 1.8
-    half => 400 steps => 0.9
-    1/4  => 800 steps => 0.45
-    1/8  => 1600 steps=> 0.225
-    1/16 => 3200 steps=> 0.1125
+    full => 200 steps => 1.8 deg/step
+    half => 400 steps => 0.9 deg/step
+    1/4  => 800 steps => 0.45  deg/step
+    1/8  => 1600 steps=> 0.225  deg/step
+    1/16 => 3200 steps=> 0.1125 deg/step
 */
 
 struct Motor{

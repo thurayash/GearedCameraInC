@@ -46,6 +46,7 @@ void read_string(char* buffer)
         *start = letter;
         start++;
         letter = USART_ReceivePolling();
+        USART_TransmitPolling(letter);
     }
     *start = '\0'; // Stop the array
 

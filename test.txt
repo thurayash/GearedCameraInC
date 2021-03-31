@@ -1,0 +1,297 @@
+commit 5fa1540ac2459dba81ddb50e83decb4fcead01b2
+Author: Yassine Damiri <yassine.damiri@epita.fr>
+Date:   Wed Mar 31 02:07:51 2021 +0200
+
+    JSON and motors :)
+
+commit 4eba0169beb75bcf6afff270861b5b42f4e472c4
+Author: Yassine Damiri <yassine.damiri@epita.fr>
+Date:   Tue Mar 30 02:04:51 2021 +0200
+
+    Basic Hardware Motor
+
+commit d7f8acd9de985028042fc0f2f88d41116b0d5253
+Author: Yassine Damiri <yassine.damiri@epita.fr>
+Date:   Sat Mar 27 21:22:57 2021 +0100
+
+    Hough works !! And edge detection !
+
+commit 9107e6f865a96a748caae8ac0bbcca4edfb6ebb9
+Author: Yassine Damiri <yassine.damiri@epita.fr>
+Date:   Sat Mar 27 19:31:37 2021 +0100
+
+    Edge detection works
+
+commit 3516b589c6e3dc7f710ec387c93944aa423ead38
+Author: Yassine Damiri <yassine.damiri@epita.fr>
+Date:   Sat Mar 27 01:26:04 2021 +0100
+
+    Corrected the typos and the big lines
+
+commit 679b3b6ceb7a0daec9e81bfa70f307e2515c30ec
+Merge: 9bfccd5 cc4fa6f
+Author: Yassine Damiri <yassine.damiri@epita.fr>
+Date:   Sat Mar 27 01:16:56 2021 +0100
+
+    Merge branch 'master' of https://github.com/thuraya-shanbari/GearedCameraInC
+    
+    Merge dilation and erosion
+
+commit 9bfccd56a9edf03f75471fdbf1b83475faa65b18
+Author: Yassine Damiri <yassine.damiri@epita.fr>
+Date:   Thu Mar 25 17:25:42 2021 +0100
+
+    Merge test_dilation
+
+commit cc4fa6f04267724a298f844e66d41171d6b1e4b0
+Author: YassineDamiri <54901715+YassineDamiri@users.noreply.github.com>
+Date:   Fri Mar 19 15:16:16 2021 +0100
+
+    Test 4
+
+commit bb2bfdfd51ccdb23257fff56355da89ef96347e5
+Author: YassineDamiri <54901715+YassineDamiri@users.noreply.github.com>
+Date:   Fri Mar 19 15:12:53 2021 +0100
+
+    Test3
+
+commit f5b9047bf4d1ff14c4b28f44c02d677fa6373ff8
+Author: YassineDamiri <54901715+YassineDamiri@users.noreply.github.com>
+Date:   Fri Mar 19 15:11:30 2021 +0100
+
+    TEst 2
+
+commit 46f681d8ea5aacdcf590d7a2f49526d600a30e48
+Author: YassineDamiri <54901715+YassineDamiri@users.noreply.github.com>
+Date:   Fri Mar 19 15:08:51 2021 +0100
+
+    Test new make
+
+commit 57e554500edc4841e6b46fd96cfb7b02845f381b
+Author: Yassine Damiri <yassine.damiri@epita.fr>
+Date:   Sat Mar 13 00:22:02 2021 +0100
+
+    It compiles and works :)
+
+commit f3a00ebe25ea5a4284e8c903962e1e3e7a0915b6
+Author: Yassine Damiri <yassine.damiri@epita.fr>
+Date:   Wed Mar 10 11:47:49 2021 +0100
+
+    Modification dilation and erosion
+
+commit 635a5209f4d44969103c8c20ad881dac3a58a633
+Merge: c55de03 a55fe54
+Author: Yassine Damiri <yassine.damiri@epita.fr>
+Date:   Tue Mar 9 01:56:14 2021 +0100
+
+    Test files added in src/test  !
+
+commit c55de035befadf8a841eb8d3d94642aa4931d6ed
+Merge: fc28c22 b27a693
+Author: Yassine Damiri <yassine.damiri@epita.fr>
+Date:   Tue Mar 9 00:15:38 2021 +0100
+
+    Merge branch 'master' of https://github.com/thuraya-shanbari/GearedCameraInC
+
+commit fc28c22ce265f9cd40b6aa6bc55308ea012220a4
+Author: Yassine Damiri <yassine.damiri@epita.fr>
+Date:   Tue Mar 9 00:15:15 2021 +0100
+
+    Hybridation HSV & YCbCr added !
+
+commit 7735b24035cb721b7faf063e3a395f6bcf1ddc1f
+Merge: a1103a1 aadf195
+Author: Yassine Damiri <yassine.damiri@epita.fr>
+Date:   Tue Mar 9 00:12:09 2021 +0100
+
+    Merge branch 'test_hsi'
+    
+    Adding the hybridation feature
+
+commit aadf195ca0c5cb997211b746961f53ae9a605ccd
+Author: Yassine Damiri <yassine.damiri@epita.fr>
+Date:   Tue Mar 9 00:11:46 2021 +0100
+
+    Prepare the branch to merge
+
+commit a55fe5433428919f28a91cd6e5cb81bf996f3027
+Merge: a3443d8 2fb9408
+Author: Yassine Damiri <yassine.damiri@epita.fr>
+Date:   Sun Mar 7 20:16:45 2021 +0100
+
+    Code reviewed, small modifications on struct pointers but not a big deal
+
+commit 2fb9408c4e80d9950debe4cd215cdc57a665e53d
+Author: karim abou dargham <karim.abou-dargham@epita.fr>
+Date:   Sun Mar 7 18:15:17 2021 +0100
+
+    removed star
+
+commit 7f3775a62e11b8d6d50e919f7c018e0b90604c19
+Author: karim abou dargham <karim.abou-dargham@epita.fr>
+Date:   Sat Mar 6 22:21:50 2021 +0100
+
+    forgot a small ;
+
+commit 58000581f69de2c85f4a519dc5643537ecda33d1
+Author: karim abou dargham <karim.abou-dargham@epita.fr>
+Date:   Sat Mar 6 22:17:09 2021 +0100
+
+    re-made these functions ; corrected as Yassine commanded (except the pointer stuff not sure about that chief)
+
+commit a3443d85828cd34f6c0940cfb637fe98d180e8bc
+Author: Yassine Damiri <yassine.damiri@epita.fr>
+Date:   Sat Mar 6 02:22:09 2021 +0100
+
+    A lot of modifications needs to be done ! Headers and .c files needs to be coherent
+
+commit f576f076030f43b42f6450e98eedc1d64f3e1556
+Merge: ff4b858 1e34ca6
+Author: Yassine Damiri <yassine.damiri@epita.fr>
+Date:   Sat Mar 6 02:02:09 2021 +0100
+
+    Merge branch 'karim' into test_hsi
+    
+    Premiere essaie de fusion, hybridation + algorithme morphologique
+
+commit b27a6935dfb50dfbbdadb469fcd31d2b462de2bf
+Author: YassineDamiri <54901715+YassineDamiri@users.noreply.github.com>
+Date:   Sat Mar 6 01:59:31 2021 +0100
+
+    Space verification
+
+commit a1103a17938aeb2da1574d94381b765e10b1dec1
+Author: Yassine Damiri <yassine.damiri@epita.fr>
+Date:   Sat Mar 6 01:59:01 2021 +0100
+
+    Space verification !
+
+commit ff4b8585dd40553605e6eb09a17d4626ada8be2b
+Author: Yassine Damiri <yassine.damiri@epita.fr>
+Date:   Fri Mar 5 00:15:41 2021 +0100
+
+    First hybridation with normalized rgb, HSV and YCbCr !
+
+commit 1e34ca6e75edc8e945931aa68d719d854aad8f2a
+Author: karim abou dargham <karim.abou-dargham@epita.fr>
+Date:   Thu Mar 4 21:14:40 2021 +0100
+
+    made superposition a bit more precise in coding
+
+commit 777dcc4adc1b0eec3b011c68642032252cbd156f
+Author: Yassine Damiri <yassine.damiri@epita.fr>
+Date:   Wed Mar 3 22:23:16 2021 +0100
+
+    Really good results with the HSV implementation!
+
+commit c98b4d319c1037fc56c2cace90b51530245c3357
+Merge: 5f7c325 6c312e5
+Author: Yassine Damiri <yassine.damiri@epita.fr>
+Date:   Tue Mar 2 21:35:00 2021 +0100
+
+    Merge branch 'master' of https://github.com/thuraya-shanbari/GearedCameraInC
+
+commit 5f7c325be0dbc158248b1efa43207dbb2dc9db3b
+Author: Yassine Damiri <yassine.damiri@epita.fr>
+Date:   Tue Mar 2 21:33:47 2021 +0100
+
+    Well written files !
+
+commit 6c312e520a64b6d51e1069ca1722327925f837a3
+Author: YassineDamiri <54901715+YassineDamiri@users.noreply.github.com>
+Date:   Tue Mar 2 21:25:14 2021 +0100
+
+    2 nd version of action
+
+commit 8bba6537c24685e4e33549ffb8a15f56d4f689d1
+Author: YassineDamiri <54901715+YassineDamiri@users.noreply.github.com>
+Date:   Tue Mar 2 21:23:23 2021 +0100
+
+    New action create
+
+commit efdc154db0459f818fcf487af98d393611d91613
+Author: Yassine Damiri <yassine.damiri@epita.fr>
+Date:   Tue Mar 2 21:22:03 2021 +0100
+
+    Lines length verification !
+
+commit 99d8a14708417140e3f37851deca90e1023872ec
+Author: karim abou dargham <karim.abou-dargham@epita.fr>
+Date:   Thu Feb 25 19:15:41 2021 +0100
+
+    superposition still not usuable ; dilation_erosion untested due to HANGRY ; pixel is just to make sdl image handleing less cancerous
+
+commit a391726d2e054943f75ac5542db3670f9da7ee3b
+Author: Yassine Damiri <yassine.damiri@epita.fr>
+Date:   Sun Feb 21 20:17:52 2021 +0100
+
+    Testing with HSI Live process
+
+commit 6516beddd92aa5b6e0ff7cf34f7fe0a92e6012d4
+Author: karim abou dargham <karim.abou-dargham@epita.fr>
+Date:   Sun Feb 21 17:25:41 2021 +0100
+
+    adding the HSI/YCBCR to BLACKWHITE
+
+commit 66550ea59dfcb9863bc7e9b7d2f70d099259d66a
+Author: karim abou dargham <karim.abou-dargham@epita.fr>
+Date:   Sun Feb 21 17:21:19 2021 +0100
+
+    first commit
+
+commit 0c4ca57f2c76d80fb519600ca86ca1842c080c69
+Author: Yassine Damiri <yassine.damiri@epita.fr>
+Date:   Sat Feb 20 23:22:31 2021 +0100
+
+    Added a config file + License
+
+commit 6df0a49ff5d349fcdf3415bfbee72e4584390193
+Author: YassineDamiri <54901715+YassineDamiri@users.noreply.github.com>
+Date:   Sat Feb 20 20:50:20 2021 +0100
+
+    Create README.md
+
+commit 2de488fd33297dce716548adae62994ef64b4730
+Merge: e4ec27f cdd640f
+Author: YassineDamiri <54901715+YassineDamiri@users.noreply.github.com>
+Date:   Sat Feb 20 20:48:27 2021 +0100
+
+    Merge pull request #1 from thuraya-shanbari/makefile_review
+    
+    Makefile reviewed !
+
+commit cdd640f91ad6c3885cf47e51c5ce4e5e7eba9297
+Author: Yassine Damiri <yassine.damiri@epita.fr>
+Date:   Sat Feb 20 20:45:06 2021 +0100
+
+    Makefile fixed !
+
+commit bdd9243360f6dcd098228c3c59e031af3e78ce25
+Author: Yassine Damiri <yassine.damiri@epita.fr>
+Date:   Sat Feb 20 19:57:49 2021 +0100
+
+    checking the makefile 1
+
+commit a3ba00d946ed458b2aef5ea49721629ee54cf42d
+Author: Yassine Damiri <yassine.damiri@epita.fr>
+Date:   Sat Feb 20 18:38:38 2021 +0100
+
+    checking the makefile
+
+commit e4ec27fd12871619cd6663229b802ff740ec623d
+Author: Maxence Crouzy <maxence.crouzy@epita.fr>
+Date:   Sat Feb 20 14:27:08 2021 +0100
+
+    rgb_to_hsi done
+
+commit 23abeb008fe3671c97fc1900a0bf3daaacb30831
+Author: Maxence Crouzy <maxence.crouzy@epita.fr>
+Date:   Fri Feb 19 22:53:42 2021 +0100
+
+    Makfile added
+
+commit 53c1824b9a8c3e6e73149177b74acd970ab5a5bd
+Author: Yassine Damiri <yassine.damiri@epita.fr>
+Date:   Fri Feb 19 22:03:47 2021 +0100
+
+    README added !
