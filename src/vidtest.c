@@ -250,10 +250,13 @@ void sdlUpdate(int mode) // Update the SDL_Surface with a new frame
             new_rgb_surface(fmt.fmt.pix.width, fmt.fmt.pix.height);
         SDL_Surface* erode_surface = \
             new_rgb_surface(fmt.fmt.pix.width, fmt.fmt.pix.height);
-        dilate_square(frame,dilatation_surface); // Dilate frame in result (in place)
-        erode_square(dilatation_surface, erode_surface);// Dilate result in result1 (in place)
+        dilate_square(frame,dilatation_surface);
+        // Dilate frame in result (in place)
+        erode_square(dilatation_surface, erode_surface);
+        // Dilate result in result1 (in place)
 
-        SDL_BlitSurface(erode_surface, NULL, screen, &position); // Show result1
+        SDL_BlitSurface(erode_surface, NULL, screen, &position);
+        // Show result1
         SDL_Flip(screen);
     }
     else if(mode == 3){ // Robert edge grayscale

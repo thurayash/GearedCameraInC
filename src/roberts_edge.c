@@ -24,7 +24,8 @@ Matrix* threshold(SDL_Surface *image, Matrix* res)
             {
                 res->data[i][j] = 0;
             }
-            if (get_pixel(image, i, j) <= high && get_pixel(image, i, j) >= low)
+            if (get_pixel(image, i, j) <= high && \
+                    get_pixel(image, i, j) >= low)
             {
                 res->data[i][j] = 1;
             }
