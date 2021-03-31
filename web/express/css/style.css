@@ -127,7 +127,7 @@ h2{
     background-image: linear-gradient(
       rgba(0, 0, 0, 0.5),
       rgba(0, 0, 0, 0.5)
-    ),url("http://orig14.deviantart.net/7584/f/2015/181/2/7/flat_mountains_landscape_by_ggiuliafilippini-d8zdbco.jpg");
+    ),url("http://orig14.deviantart.net/7584/f/2015/181/2/7/flat_mountains_landscape_by_ggiuliafilippini-d8zdbco.jpg"); /*https://youtu.be/qx2dgw8lpRY*/
     background-position: center center;
     background-repeat: no-repeat;
     background-attachment: fixed;
@@ -146,4 +146,8 @@ h2{
     background-attachment: fixed;
     background-size: cover;
     background-color: #999;
+}
+
+.link{
+    color: #0066CC;
 }
