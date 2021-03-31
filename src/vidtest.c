@@ -8,16 +8,19 @@
 */
 
 #include "vidtest.h"
-#include "rgb_to_hsi.h"
-#include "ycbcr.h"
-#include <math.h>
-#include "roberts_edge.h"
 
-#define MAX3(m,n,p) ( (m) > (n) ? ((m) > (p) ? (m) : (p)) : ((n) > (p) ? \
-            (n) : (p)))
+uint8_t *buffer;
+struct v4l2_format fmt = {0};
+struct v4l2_buffer buf = {0};
 
-#define MIN(a,b) ((a) < (b)  ? (a) : (b) )
-#define MIN3(a,b,c) MIN(MIN(a,b),c)
+SDL_Surface* screen ;
+SDL_Surface* screen_dilation;
+
+SDL_RWops* buffer_stream;
+SDL_Surface* frame;
+
+SDL_Rect position = {.x = 0, .y = 0};
+
 static int xioctl(int fd, int request, void *arg)
 {
     int r;
@@ -26,91 +29,6 @@ static int xioctl(int fd, int request, void *arg)
     while (-1 == r && EINTR == errno);
 
     return r;
-}
-
-
-//3x3 square dilate
-void dilate_square(SDL_Surface* image, SDL_Surface* result)
-{
-    Uint8 r,g,b;
-
-    for (int i=2; i < (result->w - 2); i++)
-    {
-        for (int j=2; j< (result->h - 2); j++)
-        {
-            Uint32 uull = get_pixel(image, i, j); //from pixel.c
-            //to be able to easily manipulate pixels
-            SDL_GetRGB(uull,result->format, &r ,&g, &b);
-            if (r == 255)// It's not auto. white it can be gray unless u work
-                // On a binary image
-            {
-                uull = SDL_MapRGB(result->format, 255, 255, 255);
-                put_pixel(result, i, j, uull);
-                put_pixel(result, i-2, j, uull);
-                put_pixel(result, i-1, j, uull);
-                put_pixel(result, i, j-2, uull);
-                put_pixel(result, i, j-1, uull);
-                put_pixel(result, i+2, j, uull);
-                put_pixel(result, i+1, j, uull);
-                put_pixel(result, i, j+2, uull);
-                put_pixel(result, i, j+1, uull);
-                put_pixel(result, i+1, j+1, uull);
-                put_pixel(result, i-1, j+1, uull);
-                put_pixel(result, i+1, j-1, uull);
-                put_pixel(result, i-1, j-1, uull);
-            }
-        }
-    }
-}
-
-//erosion 3x3 square
-void erode_square(SDL_Surface* image, SDL_Surface* result)
-{
-    Uint8 r,g,b;
-    for (int i= 2; i < image->w - 2; i++)
-    {
-        for (int j= 2; j< image->h - 2; j++)
-        {
-            Uint32 uull = get_pixel(image, i, j); //from pixel.c
-            //to be able to easily manipulate pixels
-            SDL_GetRGB(uull,image->format, &r ,&g, &b);
-            if (r == 0) // Same thing, it can be gray
-            {
-                uull = SDL_MapRGB(result->format, 255, 255, 255);
-                put_pixel(result, i, j, uull);
-                put_pixel(result, i-2, j, uull);
-                put_pixel(result, i-1, j, uull);
-                put_pixel(result, i, j-2, uull);
-                put_pixel(result, i, j-1, uull);
-                put_pixel(result, i+2, j, uull);
-                put_pixel(result, i+1, j, uull);
-                put_pixel(result, i, j+2, uull);
-                put_pixel(result, i, j+1, uull);
-                put_pixel(result, i+1, j+1, uull);
-                put_pixel(result, i-1, j+1, uull);
-                put_pixel(result, i+1, j-1, uull);
-                put_pixel(result, i-1, j-1, uull);
-            }
-        }
-    }
-    for(int i = 0; i < result->w; i++)
-    {
-        for(int j =0; j < result->h; j++)
-        {
-            Uint32 uull = get_pixel(result, i, j);
-            SDL_GetRGB(uull,image->format, &r ,&g, &b);
-            if(r == 255) // White pixel
-            {
-                uull = SDL_MapRGB(result->format, 0,0,0);
-                put_pixel(result, i,j,uull);
-            }
-            else
-            {
-                uull = SDL_MapRGB(result->format, 255,255,255);
-                put_pixel(result, i, j, uull);
-            }
-        }
-    }
 }
 
 
@@ -278,59 +196,6 @@ float Max3(float a, float b, float c)
 
 
 
-void image_conversion(SDL_Surface* image)
-{
-    size_t width = image->w;
-    size_t height = image->h;
-    for(size_t i = 0; i < width; i++)
-    {
-        for(size_t j = 0; j < height; j++)
-        {
-            Uint8 r,g,b;
-            Uint32 pixel = get_pixel(image, i, j);
-            SDL_GetRGB(pixel, image->format, &r, &g, &b);
-
-            float R_p, G_p, B_p;
-            R_p = (float)r/(float)(r+g+b);
-            G_p = (float)g/(float)(r+g+b);
-            B_p = (float)b/(float)(r+g+b);
-
-            float H,S,V;
-            V = MAX3(R_p, G_p, B_p);
-
-            if (V != 0)
-                S = (V- MIN3(R_p, G_p, B_p))/V;
-            else
-                S = 0;
-
-            if (V == R_p)
-                H = 60*(G_p-B_p)/(V-MIN3(R_p, G_p, B_p));
-            else if (V == G_p)
-                H = 2 + 60*(B_p - R_p)/(V - MIN3(R_p, G_p, B_p));
-            else if (V == B_p)
-                H = 4 + 60*(R_p - G_p)/(V - MIN3(R_p, G_p, B_p));
-
-            if (H < 0)
-                H = H + 360;
-
-            float Y,Cb,Cr;
-            to_ycbcr(r,g,b,&Y,&Cb,&Cr);
-
-
-            if (R_p/G_p > 1.185 && (0.2 <= S && S <= 0.6) && \
-                    ((0 <= H && H <= 25) || (335 <= H && H <= 360)) && \
-                    (77 < Cb && Cb < 127) && (133 < Cr && Cr < 173))
-                pixel = SDL_MapRGB(image->format, 255 ,255,255);
-            else
-                pixel = SDL_MapRGB(image->format, 0, 0, 0);
-
-            put_pixel(image, i, j, pixel);
-
-        }
-    }
-
-}
-
 
 void sdlInit() // Init SDL with frame height and width
 {
@@ -358,7 +223,7 @@ void sdlInit() // Init SDL with frame height and width
 
 
 
-void sdlUpdate() // Update the SDL_Surface with a new frame
+void sdlUpdate(int mode) // Update the SDL_Surface with a new frame
 {
     // Load from the v4l2 webcam buffer
     buffer_stream = SDL_RWFromMem(buffer, buf.bytesused);
@@ -366,37 +231,40 @@ void sdlUpdate() // Update the SDL_Surface with a new frame
     frame = IMG_Load_RW(buffer_stream, 0);
 
     // ################### APPLY ##########################
-    // Tout ROB, rouge HOUGH
 
-    SDL_Surface* rob_surface = to_rob(frame); // Robert Edge detection call
-
-    //image_conversion(frame); // Black and white in Frame (in place)
-
-
-
-    /* IMAGE DILATAION AND EROSION
-    SDL_Surface* dilatation_surface = \
+    if (mode == 1){ // Black and white with noise
+        image_conversion(frame);
+        SDL_BlitSurface(frame, NULL, screen, &position); // Show result1
+        SDL_Flip(screen);
+        return;
+    }
+    else if(mode == 4){ // Robert edge red
+        SDL_Surface* rob_surface = to_rob(frame);
+        SDL_BlitSurface(rob_surface, NULL, screen, &position); // Show result1
+        SDL_Flip(screen);
+        return;
+    }
+    else if(mode == 2){ // Black and white dilated and eroded
+        image_conversion(frame); // Black and white in Frame (in place)
+        SDL_Surface* dilatation_surface = \
             new_rgb_surface(fmt.fmt.pix.width, fmt.fmt.pix.height);
-    SDL_Surface* erode_surface = \
+        SDL_Surface* erode_surface = \
             new_rgb_surface(fmt.fmt.pix.width, fmt.fmt.pix.height);
+        dilate_square(frame,dilatation_surface); // Dilate frame in result (in place)
+        erode_square(dilatation_surface, erode_surface);// Dilate result in result1 (in place)
 
-    dilate_square(frame,dilatation_surface); // Dilate frame in result (in place)
-    erode_square(dilatation_surface, erode_surface);// Dilate result in result1 (in place)
-    */
-
-
-    SDL_BlitSurface(rob_surface, NULL, screen, &position); // Show result1
-    SDL_Flip(screen);
+        SDL_BlitSurface(erode_surface, NULL, screen, &position); // Show result1
+        SDL_Flip(screen);
+    }
+    else if(mode == 3){ // Robert edge grayscale
+        SDL_Surface* rob_surface = first_rob(frame);
+        SDL_BlitSurface(rob_surface, NULL, screen, &position); // Show result1
+        SDL_Flip(screen);
+    }
 }
 
 
-
-
-
-
-
-
-void test(SDL_Surface* frames)
+void debugging(SDL_Surface* frames)
 {
     SDL_BlitSurface(frames, NULL, screen, &position);
     SDL_Flip(screen);
@@ -412,32 +280,4 @@ void sdlStop() // Stop SDL and free the surface !
 }
 
 
-int main()
-{
-    int fd;
 
-    fd = open("/dev/video0", O_RDWR);
-    if (fd == -1){
-        perror("Opening video device");
-        return 1;
-    }
-
-    if(print_caps(fd))
-        return 1;
-
-    sdlInit();
-
-    if(init_mmap(fd))
-        return 1;
-
-    for(int i = 0; i != 10000; i++){
-        if(capture_image(fd))
-            return 1;
-        sdlUpdate();
-        usleep(3000);
-    }
-
-    sdlStop();
-    close(fd);
-    return 0;
-}

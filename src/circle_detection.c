@@ -111,7 +111,6 @@ void circleDectection_staticadapt(SDL_Surface *img, int *resx, int *resy)
     {
         for (int b = 0; b < matrix->rows; b++)
         {
-            printf("V: %i, B: %i\n", v,b);
             //if (counterx == 266 && countery == 163 && i == 507 && j == 148 && R == 145)
             //{
             //    printf("Done\n");

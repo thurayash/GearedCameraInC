@@ -10,22 +10,23 @@
 #include <sys/ioctl.h>
 #include <sys/mman.h>
 #include <unistd.h>
-
+#include <math.h>
 #include <SDL/SDL.h>
 #include <SDL/SDL_image.h>
 
 #include "tools.h"
-uint8_t *buffer;
-struct v4l2_format fmt = {0};
-struct v4l2_buffer buf = {0};
+#include "rgb_to_hsi.h"
+#include "image_conversion.h"
 
-SDL_Surface* screen ;
-SDL_Surface* screen_dilation;
+#include "dilation_erosion.h"
 
-SDL_RWops* buffer_stream;
-SDL_Surface* frame;
+#include "roberts_edge.h"
 
-SDL_Rect position = {.x = 0, .y = 0};
+#define MAX3(m,n,p) ( (m) > (n) ? ((m) > (p) ? (m) : (p)) : ((n) > (p) ? \
+            (n) : (p)))
+
+#define MIN(a,b) ((a) < (b)  ? (a) : (b) )
+#define MIN3(a,b,c) MIN(MIN(a,b),c)
 
 
 int print_caps(int fd);
@@ -36,7 +37,7 @@ int capture_image(int fd);
 
 void sdlInit();
 
-void sdlUpdate();
+void sdlUpdate(int);
 
 void sdlStop();
 

@@ -11,7 +11,7 @@
 void sett_pixel(SDL_Surface *surface, int x, int y, Uint32 pixel);
 SDL_Surface* dilate_cross(SDL_Surface* image);
 SDL_Surface* erode_cross(SDL_Surface* image);
-SDL_Surface* dilate_square(SDL_Surface* image);
-SDL_Surface* erode_square(SDL_Surface* image);
 
+void dilate_square(SDL_Surface* image, SDL_Surface* result);
+void erode_square(SDL_Surface* image, SDL_Surface* result);
 #endif
