@@ -6,6 +6,7 @@ int main(int argc, char** argv)
 {
     if(argc < 2)
         errx(EXIT_FAILURE, "Needs a mode !\n\
+                \n0: Basic webcam V4L2\
                 \n1: Skin detection noisy\
                 \n2: Skin detection dilated and eroded\
                 \n3: Robert edges detection grayscale\

@@ -231,6 +231,12 @@ void sdlUpdate(int mode) // Update the SDL_Surface with a new frame
     frame = IMG_Load_RW(buffer_stream, 0);
 
     // ################### APPLY ##########################
+    if (mode == 0)
+    {
+        SDL_BlitSurface(frame, NULL, screen, &position); // Show result1
+        SDL_Flip(screen);
+        return;
+    }
 
     if (mode == 1){ // Black and white with noise
         image_conversion(frame);
