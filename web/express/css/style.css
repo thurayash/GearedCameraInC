@@ -151,3 +151,22 @@ h2{
 .link{
     color: #0066CC;
 }
+
+.float-container {
+    border: 3px solid #fff;
+    padding: 20px;
+}
+
+.float-child {
+    width: 50%;
+    float: left;
+    padding: 20px;
+}
+
+#myDiv {
+  overflow: scroll;
+  text-overflow: ellipsis;
+  word-wrap: break-word;
+  word-break: break-word;
+  
+}

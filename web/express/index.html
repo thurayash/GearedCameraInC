@@ -13,6 +13,7 @@
   <!-- CSS -->
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/card.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.6.18/dist/css/uikit.min.css" />
 
   <title>GCC Website</title>
 </head>
@@ -26,13 +27,13 @@
 <body>
 
 
-<section class="hero is-fullheight header-main-image" style="background-color: black;">
+<section class="hero is-fullheight" style="background-color: black;">
   <div class="hero-head">
     <nav class="navbar">
       <div class="container">
         <div class="navbar-brand">
           <a class="navbar-item" href="index.html">
-            <img src="GCC.png" alt="Logo">
+            <img src="images/GCC.png" alt="Logo">
           </a>
           <span class="navbar-burger" data-target="navbarMenuHeroB">
             <span></span>
@@ -75,6 +76,7 @@
         <p class="subtitle" style="color: white;">
           Geared Camera in C
         </p>
+        <video src="videos/main_vid.mp4" autoplay="" muted="" width="100%" height="100%">
       </div>
     </div>
   </div>
@@ -119,16 +121,119 @@
         </div>
       </div>
     </div>
-  </section>
+</section>
+
+<section class = "section is-fullheight" id="vidéo1">
+    <div class = "container has-text-centered">
+      <span class = "title is-2">
+        The pros<br>
+      </span><br><br>
+    </div> <br>
+    <div class="container">
+      <div class="columns is-desktop">
+        <div class="column has-text-centered">
+          <div class="box">
+            <div class="vidéo has-shadow">
+            <video src="videos/video1.mp4" autoplay="" muted="" loop="" playsinline="" width="100%" height="auto">
+            </video>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</section>
+
+
+<section class = "section is-fullheight" id="eclate">
+    <div class = "container has-text-centered">
+      <span class = "title is-2">
+        The pros<br>
+      </span><br><br>
+</section>
 
 
 
-<section class="section is-medium " style="background-color: #ffb15a;"> 
+<div class="float-container">
+
+  <div class="float-child">
+    <h3 class="title is-3">Adaptative</h3>
+      <ul class="uk-list uk-list-disc" title="Adaptative">
+        <li>
+            <p>The GCC support can handle various types of cameras as well as specific dimensions including the biggest ones.</p>
+        </li>
+        <li>
+          <p>The "U shaped" support allows to fix the camera correctly in order to prevent any sliding.</p>
+        </li>
+      </ul>
+      
+        
+    <h3 class="title is-3">Simple and easy to use</h3>
+      <ul class="uk-list uk-list-disc" title="Adaptative">
+        <li>
+            <p>As everything is programmed by our smart ingeneers, the GCC support is totally automatic and do not need any user interaction!</p>
+        </li>
+        <li>
+          <p>Just plug the usb port into you computer and you are ready to go!</p>
+        </li>
+      </ul>
+    <h3 class="title is-3">Light and portable</h3>
+      <ul class="uk-list uk-list-disc" title="Adaptative">
+        <li>
+            <p>The GCC support is made of ABS plastic and printed in 3D. This material allows to have a force resistive component while being fairly light.</p>
+        </li>
+        <li>
+          <p>The weight of the supoort being small, u can without difficulties bring it to your office or your home everyday if you feel like it!</p>
+        </li>
+      </ul>
+  </div>
+
+  <div class="float-child">
+      <div class="columns is-desktop">
+        <div class="column has-text-centered">
+          <div class="box">
+            <div class="vidéo has-shadow">
+            <video src="videos/eclate.mp4" autoplay="" muted="" loop="" playsinline="" width="100%" height="auto">
+            </video>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+</div>
+
+<!--
+<div class="container">
+  <div class="pane pad-viewport">
+    <div class="wrapper">
+      <div class="row center-h pane__content">
+        <div class="col span-4 pane__heading">
+          <div class="hero__heading__actions reveal" data-reveal-delay="800">
+          
+        </div>
+      </div>
+      <div class="col span-8 pane__visual">
+        <div class="screenshot screenshot--has-shadow">
+          <video autoplay muted loop playsinline width="100%" poster="" height="auto" class="screenshot__media" ><source src="videos/video1.mp4" type="video/mp4"></video>
+        </div>
+      </div>
+    </div>
+</div>
+-->
+
+
+<section class="section is-medium container"><!-- style="background-color: #ffb15a;"> <-->
   <div class = "container has-text-centered">
         <span class = "title is-2">
-            The team<br>
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+            The team
+          <br>
         </span><br><br>
-    </div> <br>
+  </div> <br>
   <div class="columns is-desktop">
           <!-- Column 1 -->
           <div class="column has-text-centered">
@@ -141,7 +246,7 @@
                       <img class="is-rounded" src="images/Yassine256.png">
                     </figure>  
                 </div>
-                <div class="flip-box-back">
+                <div class="flip-box-back" id="myDiv">
                 <!-- BACK SIDE -->
                 <h1 class="subtitle">I've always been fascinated by computers. Indeed, since I was very young, I was influenced by my entourage made up mainly of engineers, and I very quickly became crazed about engineering electronics and computer science. I have been able to realize several projects in which technique was the key, both in the field of mechanics and electronics as well as in the field of computer science, a machine without a brain... It's pretty lame :( .  I wish more than anything to make this passion my future profession. Doing this project will allow me to gain experience in the field of functional programming and thus get closer and closer to my dream ... Wingardium Leviosa !</h1>
                 </div>
@@ -160,9 +265,9 @@
                       <img class="is-rounded" src="images/circle-cropped256.png">
                     </figure>  
                 </div>
-                <div class="flip-box-back">
+                <div class="flip-box-back" id="myDiv">
                 <!-- BACK SIDE -->
-                <h1 class="subtitle is-centered">Since I was born, I always wanted to understand how everything works. I have always been interested in computer science, this is why I wanted to join EPITA. In EPITA, I learned how to code, and this project will help me to improve my skills. I hope to discover a new way of coding using C libraries and creating an hardware object for the first time. In this project, I will mainly implement the algorithms on the images we retrieved from the camera, create the website, help with the hardware and write in LaTeX. I am very excited because this project will improve my group working skills, something that is really helpful in companies. The final goal is very interesting because we will finally see the concrete results of our work, having a real support for our camera and a useful goal.</h1>
+                <h1 class="subtitle is-centered ">Since I was born, I always wanted to understand how everything works. I have always been interested in computer science, this is why I wanted to join EPITA. In EPITA, I learned how to code, and this project will help me to improve my skills. I hope to discover a new way of coding using C libraries and creating an hardware object for the first time. In this project, I will mainly implement the algorithms on the images we retrieved from the camera, create the website, help with the hardware and write in LaTeX. I am very excited because this project will improve my group working skills, something that is really helpful in companies. The final goal is very interesting because we will finally see the concrete results of our work, having a real support for our camera and a useful goal.</h1>
                 </div>
               </div>
             </div>
@@ -179,7 +284,7 @@
                       <img class="is-rounded" src="images/pp_discord256.png">
                     </figure>  
                 </div>
-                <div class="flip-box-back">
+                <div class="flip-box-back" id="myDiv">
                 <!-- BACK SIDE -->
                 <h1 class="subtitle is-centered">Growing up, I had a passion for photography. I would always volunteer to take family pictures and videos. Later, I grew up and then came my passion for IT along with coding. That is why when the guys told me about this project idea, I was 100% for it. As usual in a group project, I love learning new ways of working together and others' thoughts processes. For this project, I will be working on pre-processing of the images before passing them to the algorithm to detect the face. I will also be checking in on the website's development as I have already done one last year. Combining two of one's passions is something not many people have the opportunity of doing and I'm thankful for this opportunity. I'm excited to go on this journey with my members and I hope to achieve every goal we set for ourselves.</h1>
                 </div>
@@ -200,7 +305,7 @@
                     </figure>  
                 </div>
 
-                <div class="flip-box-back">
+                <div class="flip-box-back" id="myDiv">
                 <!-- BACK SIDE -->
                 <h1 class="subtitle">Creation is the epitome of humanity. With this core stigma embedded in my thought cabinet, I came to EPITA with dreams of constructing great projects in the future. IT is the engine of tomorrow, as with data and information, we grow as a species. This undertaking is perhaps the first truly grand project I am partaking in, and I do feel the weight of my responsibilities; those being working on the results of the pre-processing, turning the work of my colleague into harvested data that can be interpreted by the program. My work, this time around, will be transforming all resultant images into absolute black-white images, then applying dilation and erosion on each image, merging the set to get the closest representation of a face.
                 Hopefully I will be of help to my team, more so than that random fact you just learnt :).</h1>
@@ -211,8 +316,6 @@
           </div>
 
         </section>
-
-
 
 
         <script src="js/script.js" ></script>
