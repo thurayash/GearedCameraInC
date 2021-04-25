@@ -9,6 +9,17 @@
 
 #include "vidtest.h"
 
+uint8_t *buffer;
+struct v4l2_format fmt = {0};
+struct v4l2_buffer buf = {0};
+
+SDL_Surface* screen ;
+SDL_Surface* screen_dilation;
+
+SDL_RWops* buffer_stream;
+SDL_Surface* frame;
+
+SDL_Rect position = {.x = 0, .y = 0};
 
 static int xioctl(int fd, int request, void *arg)
 {
@@ -19,6 +30,7 @@ static int xioctl(int fd, int request, void *arg)
 
     return r;
 }
+
 
 int print_caps(int fd)
 {
@@ -55,8 +67,10 @@ int print_caps(int fd)
             "  Bounds: %dx%d+%d+%d\n"
             "  Default: %dx%d+%d+%d\n"
             "  Aspect: %d/%d\n",
-            cropcap.bounds.width, cropcap.bounds.height, cropcap.bounds.left, cropcap.bounds.top,
-            cropcap.defrect.width, cropcap.defrect.height, cropcap.defrect.left, cropcap.defrect.top,
+            cropcap.bounds.width, cropcap.bounds.height, cropcap.bounds.left, \
+                cropcap.bounds.top,
+            cropcap.defrect.width, cropcap.defrect.height, \
+                cropcap.defrect.left, cropcap.defrect.top,
             cropcap.pixelaspect.numerator, cropcap.pixelaspect.denominator);
 
     int support_grbg10 = 0;
@@ -130,7 +144,8 @@ int init_mmap(int fd)
         return 1;
     }
 
-    buffer = mmap (NULL, buf.length, PROT_READ | PROT_WRITE, MAP_SHARED, fd, buf.m.offset);
+    buffer = mmap (NULL, buf.length, PROT_READ | PROT_WRITE, MAP_SHARED, fd, \
+            buf.m.offset);
     printf("Length: %d\nAddress: %p\n", buf.length, buffer);
     printf("Image Length: %d\n", buf.bytesused);
 
@@ -167,14 +182,19 @@ int capture_image(int fd)
         perror("Retrieving Frame");
         return 1;
     }
-
-    // Save the frame (useless, just for the test)
-    //int outfd = open("out.img", O_WRONLY | O_CREAT, 0660);
-    //write(outfd, buffer, buf.bytesused);
-    //close(outfd);
-
     return 0;
 }
+
+float Max3(float a, float b, float c)
+{
+    if (a >= b && a >= c)
+        return a;
+    else if (b >= a && b >= c)
+        return b;
+    return c;
+}
+
+
 
 
 void sdlInit() // Init SDL with frame height and width
@@ -185,33 +205,77 @@ void sdlInit() // Init SDL with frame height and width
     IMG_Init(IMG_INIT_JPG);
 
 
+
     screen = SDL_SetVideoMode(
+            fmt.fmt.pix.width,
+            fmt.fmt.pix.height,
+            32, SDL_HWSURFACE );
+
+
+
+    screen_dilation = SDL_SetVideoMode(
             fmt.fmt.pix.width,
             fmt.fmt.pix.height,
             32, SDL_HWSURFACE );
 }
 
 
-void sdlUpdate() // Update the SDL_Surface with a new frame
+
+
+
+void sdlUpdate(int mode) // Update the SDL_Surface with a new frame
 {
     // Load from the v4l2 webcam buffer
     buffer_stream = SDL_RWFromMem(buffer, buf.bytesused);
 
     frame = IMG_Load_RW(buffer_stream, 0);
 
-    //========= Print pixel value ==========
-    Uint32 pixel;
-    Uint8 r, g, b;
+    // ################### APPLY ##########################
+    if (mode == 0)
+    {
+        SDL_BlitSurface(frame, NULL, screen, &position); // Show result1
+        SDL_Flip(screen);
+        return;
+    }
 
-    pixel = get_pixel(screen, 100, 100);
+    if (mode == 1){ // Black and white with noise
+        image_conversion(frame);
+        SDL_BlitSurface(frame, NULL, screen, &position); // Show result1
+        SDL_Flip(screen);
+        return;
+    }
+    else if(mode == 4){ // Robert edge red
+        SDL_Surface* rob_surface = to_rob(frame);
+        SDL_BlitSurface(rob_surface, NULL, screen, &position); // Show result1
+        SDL_Flip(screen);
+        return;
+    }
+    else if(mode == 2){ // Black and white dilated and eroded
+        image_conversion(frame); // Black and white in Frame (in place)
+        SDL_Surface* dilatation_surface = \
+            new_rgb_surface(fmt.fmt.pix.width, fmt.fmt.pix.height);
+        SDL_Surface* erode_surface = \
+            new_rgb_surface(fmt.fmt.pix.width, fmt.fmt.pix.height);
+        dilate_square(frame,dilatation_surface);
+        // Dilate frame in result (in place)
+        erode_square(dilatation_surface, erode_surface);
+        // Dilate result in result1 (in place)
 
-    SDL_GetRGB(pixel, screen->format, &r, &g, &b);
+        SDL_BlitSurface(erode_surface, NULL, screen, &position);
+        // Show result1
+        SDL_Flip(screen);
+    }
+    else if(mode == 3){ // Robert edge grayscale
+        SDL_Surface* rob_surface = first_rob(frame);
+        SDL_BlitSurface(rob_surface, NULL, screen, &position); // Show result1
+        SDL_Flip(screen);
+    }
+}
 
-    printf("PIXEL : (R: %u , G: %u,  B: %u)\n", r,g,b);
-    //======================================
 
-    // Updating the surface
-    SDL_BlitSurface(frame, NULL, screen, &position);
+void debugging(SDL_Surface* frames)
+{
+    SDL_BlitSurface(frames, NULL, screen, &position);
     SDL_Flip(screen);
 }
 
@@ -225,32 +289,4 @@ void sdlStop() // Stop SDL and free the surface !
 }
 
 
-int main()
-{
-    int fd;
 
-    fd = open("/dev/video0", O_RDWR);
-    if (fd == -1){
-        perror("Opening video device");
-        return 1;
-    }
-
-    if(print_caps(fd))
-        return 1;
-
-    sdlInit();
-
-    if(init_mmap(fd))
-        return 1;
-
-    for(int i = 0; i != 10000; i++){
-        if(capture_image(fd))
-            return 1;
-        sdlUpdate();
-        usleep(3000);
-    }
-
-    sdlStop();
-    close(fd);
-    return 0;
-}

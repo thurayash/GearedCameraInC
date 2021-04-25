@@ -1,3 +1,5 @@
+#include <err.h>
+
 #include "tools.h"
 
     static inline
@@ -6,6 +8,14 @@ Uint8* pixel_ref(SDL_Surface *surf, unsigned x, unsigned y)
     int bpp = surf->format->BytesPerPixel;
     return (Uint8*)surf->pixels + y * surf->pitch + x * bpp;
 }
+
+
+
+int save_image(SDL_Surface* img, char *path)
+{
+       return SDL_SaveBMP(img, path);
+}
+
 
 Uint32 get_pixel(SDL_Surface *surface, unsigned x, unsigned y)
 {
@@ -122,13 +132,6 @@ SDL_Surface* new_rgb_surface(int width, int height)
     return newSurface;
 }
 
-void update_surface(SDL_Surface* screen, SDL_Surface* image)
-{
-    if (SDL_BlitSurface(image, NULL, screen, NULL) < 0)
-        warnx("BlitSurface error: %s\n", SDL_GetError());
-
-    SDL_UpdateRect(screen, 0, 0, image->w, image->h);
-}
 
 void wait_for_keypressed()
 {
@@ -199,10 +202,10 @@ SDL_Surface* display_image(SDL_Surface *img)
 
 
 
-int save_image(SDL_Surface* img, char *path)
+void update_surface(SDL_Surface* screen, SDL_Surface* image)
 {
-       return SDL_SaveBMP(img, path);
+    if (SDL_BlitSurface(image, NULL, screen, NULL) < 0)
+        warnx("BlitSurface error: %s\n", SDL_GetError());
+
+    SDL_UpdateRect(screen, 0, 0, image->w, image->h);
 }
-
-
-
