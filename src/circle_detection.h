@@ -13,5 +13,6 @@ void circleDectection_center(SDL_Surface *img, int *resx, int *resy);
 void circleDectection_staticadapt(SDL_Surface *img, int *resx, int *resy);
 void circleDectection2_staticadapt(SDL_Surface *img, int *cx, int *cy);
 void circleDectection3_staticadapt(SDL_Surface *img, int *arr);
+void circleDectection_dynamicadapt(SDL_Surface *img, int *arr, int radinc);
 
 #endif
