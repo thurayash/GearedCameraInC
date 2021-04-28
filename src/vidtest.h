@@ -22,6 +22,7 @@
 
 #include "roberts_edge.h"
 
+#include "circle_detection.h"
 #define MAX3(m,n,p) ( (m) > (n) ? ((m) > (p) ? (m) : (p)) : ((n) > (p) ? \
             (n) : (p)))
 

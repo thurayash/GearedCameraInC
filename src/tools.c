@@ -198,6 +198,72 @@ SDL_Surface* display_image(SDL_Surface *img)
 }
 
 
+void draw_line(SDL_Surface* image, int x1, int y1, int x2, int y2, int color)
+{
+    if ( (x1 >= x2 && y1 == y2) || (y1 >= y2 && x1  == x2))
+        errx(EXIT_FAILURE, "Start point not compatible");
+    if (x1 != x2 && y1 != y2)
+        errx(EXIT_FAILURE, "Points aren't in the same line");
+    if (x1 < 0 || x1 >= image->w || y1 < 0 || y1 >= image->h)
+        errx(EXIT_FAILURE, "Start point outside of the image");
+
+    if (x2 < 0 || x2 >= image->w || y2 < 0 || y2 >= image->h)
+    {
+        printf("X2 : %i IMGW : %i Y2 : %i IMGH : %i", x2,image->w, y2, image->h);
+        errx(EXIT_FAILURE, "Finish1 point outside of the image");
+    }
+
+    Uint32 pixel;
+    if (x1 == x2)
+        for(int j = y1; j <= y2; j++)
+        {
+            if (color == 0)
+                pixel = SDL_MapRGB(image->format, 0, 255, 0);
+            else if (color == 1)
+                pixel = SDL_MapRGB(image->format, 0 , 0, 255);
+            else if (color == 2)
+                pixel = SDL_MapRGB(image->format, 0, 255, 255);
+
+            put_pixel(image, x1, j, pixel);
+        }
+    else if (y1 == y2)
+        for(int i = x1; i <= x2; i++)
+        {
+            if (color == 0)
+                pixel = SDL_MapRGB(image->format, 0, 255, 0);
+            else if (color == 1)
+                pixel = SDL_MapRGB(image->format, 0 , 0, 255);
+            else if (color == 2)
+                pixel = SDL_MapRGB(image->format, 0, 255, 255);
+            put_pixel(image, i, y1, pixel);
+        }
+    else
+        errx(EXIT_FAILURE, "Points aren't in the same line");
+
+    return (void)NULL;
+}
+
+
+
+void draw_rectangle(SDL_Surface* image, int x, int y, int size, int color)
+{
+    int xA,xB, yA,yB;
+
+    xA = x-size < 0 ? 0 : x - size;
+    yA = y-size < 0 ? 0 : y - size;
+
+    xB = x+size >= image->w  ? image->w - 2 :  x + size;
+
+    yB = y+size >= image->h ? image->h - 2 : y + size;
+
+    draw_line(image, xA, yA, xB, yA, color);
+    draw_line(image, xB, yA, xB, yB, color);
+    draw_line(image, xA, yA, xA, yB, color);
+    draw_line(image, xA, yB, xB, yB, color);
+
+    return (void)NULL;
+}
+
 
 int save_image(SDL_Surface* img, char *path)
 {

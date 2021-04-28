@@ -221,7 +221,7 @@ void sdlInit() // Init SDL with frame height and width
 
 
 
-
+void binary_operation(SDL_Surface* rob, SDL_Surface* skin);
 
 void sdlUpdate(int mode) // Update the SDL_Surface with a new frame
 {
@@ -235,23 +235,29 @@ void sdlUpdate(int mode) // Update the SDL_Surface with a new frame
     {
         SDL_BlitSurface(frame, NULL, screen, &position); // Show result1
         SDL_Flip(screen);
+        SDL_FreeSurface(frame);
         return;
     }
 
     if (mode == 1){ // Black and white with noise
-        image_conversion(frame);
+        SDL_Surface* skin_detect =  new_rgb_surface(fmt.fmt.pix.width, fmt.fmt.pix.height);
+        image_conversion(frame, skin_detect);
         SDL_BlitSurface(frame, NULL, screen, &position); // Show result1
         SDL_Flip(screen);
+        SDL_FreeSurface(frame);
         return;
     }
     else if(mode == 4){ // Robert edge red
-        SDL_Surface* rob_surface = to_rob(frame);
-        SDL_BlitSurface(rob_surface, NULL, screen, &position); // Show result1
+        to_rob(frame);
+        SDL_BlitSurface(frame, NULL, screen, &position); // Show result1
         SDL_Flip(screen);
+
+        SDL_FreeSurface(frame);
         return;
     }
     else if(mode == 2){ // Black and white dilated and eroded
-        image_conversion(frame); // Black and white in Frame (in place)
+        SDL_Surface* skin_detect =  new_rgb_surface(fmt.fmt.pix.width, fmt.fmt.pix.height);
+        image_conversion(frame, skin_detect);// Black and white in Frame
         SDL_Surface* dilatation_surface = \
             new_rgb_surface(fmt.fmt.pix.width, fmt.fmt.pix.height);
         SDL_Surface* erode_surface = \
@@ -264,11 +270,74 @@ void sdlUpdate(int mode) // Update the SDL_Surface with a new frame
         SDL_BlitSurface(erode_surface, NULL, screen, &position);
         // Show result1
         SDL_Flip(screen);
+        SDL_FreeSurface(dilatation_surface);
+        SDL_FreeSurface(erode_surface);
+        SDL_FreeSurface(frame);
     }
     else if(mode == 3){ // Robert edge grayscale
         SDL_Surface* rob_surface = first_rob(frame);
         SDL_BlitSurface(rob_surface, NULL, screen, &position); // Show result1
         SDL_Flip(screen);
+        SDL_FreeSurface(rob_surface);
+        //SDL_FreeSurface(frame);
+    }
+    else if (mode == 5)
+    {
+        SDL_Surface* skin_detect =  new_rgb_surface(fmt.fmt.pix.width, fmt.fmt.pix.height);
+        image_conversion(frame, skin_detect);
+
+        to_rob(frame);
+
+        SDL_Surface* dilatation_surface = new_rgb_surface(fmt.fmt.pix.width, fmt.fmt.pix.height);
+
+        SDL_Surface* erode_surface = new_rgb_surface(fmt.fmt.pix.width, fmt.fmt.pix.height);
+
+        dilate_square(skin_detect,dilatation_surface);
+
+        erode_square(dilatation_surface, erode_surface);
+
+        int resx, resy = 0;
+
+        binary_operation(frame, erode_surface);
+
+        circleDectection_staticadapt(erode_surface, &resx, &resy);
+
+        draw_rectangle(erode_surface, resx, resy, 50, 0);
+        //int arr[6];
+
+        //circleDectection3_staticadapt(erode_surface, arr);
+
+        //draw_rectangle(erode_surface, arr[0], arr[1], 50, 0);
+        //draw_rectangle(erode_surface, arr[2], arr[3], 50, 1);
+        //draw_rectangle(erode_surface, arr[4], arr[5], 50, 2);
+
+
+        SDL_BlitSurface(erode_surface, NULL, screen, &position);
+        SDL_Flip(screen);
+
+        SDL_FreeSurface(dilatation_surface);
+        SDL_FreeSurface(erode_surface);
+        SDL_FreeSurface(skin_detect);
+        SDL_FreeSurface(frame);
+
+        return;
+    }
+}
+
+
+void binary_operation(SDL_Surface* rob, SDL_Surface* skin)
+{
+    Uint8 r,g,b, rbw;
+    for(int i = 0; i < rob->w;i++)
+    {
+        for(int j = 0; j < rob->h; j++)
+        {
+
+            SDL_GetRGB(get_pixel(rob,i,j), rob->format, &r, &g, &b);
+            SDL_GetRGB(get_pixel(skin,i,j), skin->format, &rbw, &rbw, &rbw);
+            if (r == 255 && rbw == 255)
+                put_pixel(skin, i, j, SDL_MapRGB(skin->format, 255,0,0));
+        }
     }
 }
 

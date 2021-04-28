@@ -14,6 +14,16 @@ typedef struct{
 } Matrix;
 
 
+typedef struct{
+    int height;
+    int width;
+    int zSize;
+
+    int* data;
+}CirMatrix;
+
+
+
 Matrix* new_matrix(int n_rows, int n_cols);
 
 void free_matrix(Matrix* m);

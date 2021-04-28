@@ -31,6 +31,7 @@ void Test(SDL_Surface* image, SDL_Surface* screen)
 {
     /* Call here test */
 
+    /*
     printf("IMAGE   HEIGHT : %i , WIDTH : %i\n", image->h, image->w);
     printf("Image before post-processing ...\n");
     screen = display_image(image);
@@ -48,6 +49,7 @@ void Test(SDL_Surface* image, SDL_Surface* screen)
     put_pixel(image, resx, resy, pixel);
     screen = display_image(image);
     save_image(image, "HEY.bmp");
+    */
     wait_for_keypressed();
     (void)screen;
 }

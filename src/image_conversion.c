@@ -7,10 +7,11 @@ void to_ycbcr(int r, int g, int b, float *y, float *cb, float *cr)
     *cr = 128 + 0.43921484375 * r - 0.3677890625*g - 0.07142578125 * b;
 }
 
-void image_conversion(SDL_Surface* image)
+void image_conversion(SDL_Surface* image, SDL_Surface* skin)
 {
     size_t width = image->w;
     size_t height = image->h;
+
     for(size_t i = 0; i < width; i++)
     {
         for(size_t j = 0; j < height; j++)
@@ -53,7 +54,7 @@ void image_conversion(SDL_Surface* image)
             else
                 pixel = SDL_MapRGB(image->format, 0, 0, 0);
 
-            put_pixel(image, i, j, pixel);
+            put_pixel(skin, i, j, pixel);
 
         }
     }

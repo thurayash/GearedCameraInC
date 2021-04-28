@@ -36,7 +36,7 @@ Matrix* threshold(SDL_Surface *image, Matrix* res)
     return res;
 }
 
-SDL_Surface *to_rob(SDL_Surface *image)
+void to_rob(SDL_Surface *image)
 {
     size_t width = image->w;
     size_t height = image->h;
@@ -82,7 +82,7 @@ SDL_Surface *to_rob(SDL_Surface *image)
             b1 = abs(b1 - b4) + abs(b2 - b4);
 
 
-            if( r1 > 30)// If the pixel is usefull
+            if( r1 > 35)// If the pixel is usefull
                 pixel = SDL_MapRGB(image->format, 255, 0, 0);
             else // Useless
                 pixel = SDL_MapRGB(image->format, 0, 0, 0);
@@ -90,7 +90,7 @@ SDL_Surface *to_rob(SDL_Surface *image)
             put_pixel(image, i, j, pixel);
         }
     }
-    return image;
+    return (void)NULL;
 }
 
 
