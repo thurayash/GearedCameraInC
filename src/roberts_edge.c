@@ -82,7 +82,7 @@ void to_rob(SDL_Surface *image)
             b1 = abs(b1 - b4) + abs(b2 - b4);
 
 
-            if( r1 > 35)// If the pixel is usefull
+            if( r1 > 30)// If the pixel is usefull
                 pixel = SDL_MapRGB(image->format, 255, 0, 0);
             else // Useless
                 pixel = SDL_MapRGB(image->format, 0, 0, 0);

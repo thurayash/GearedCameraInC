@@ -198,7 +198,7 @@ SDL_Surface* display_image(SDL_Surface *img)
 }
 
 
-void draw_line(SDL_Surface* image, int x1, int y1, int x2, int y2, int color)
+void draw_line(SDL_Surface* image, int x1, int y1, int x2, int y2, int col1, int col2, int col3)
 {
     if ( (x1 >= x2 && y1 == y2) || (y1 >= y2 && x1  == x2))
         errx(EXIT_FAILURE, "Start point not compatible");
@@ -217,24 +217,14 @@ void draw_line(SDL_Surface* image, int x1, int y1, int x2, int y2, int color)
     if (x1 == x2)
         for(int j = y1; j <= y2; j++)
         {
-            if (color == 0)
-                pixel = SDL_MapRGB(image->format, 0, 255, 0);
-            else if (color == 1)
-                pixel = SDL_MapRGB(image->format, 0 , 0, 255);
-            else if (color == 2)
-                pixel = SDL_MapRGB(image->format, 0, 255, 255);
+            pixel = SDL_MapRGB(image->format, col1, col2, col3);
 
             put_pixel(image, x1, j, pixel);
         }
     else if (y1 == y2)
         for(int i = x1; i <= x2; i++)
         {
-            if (color == 0)
-                pixel = SDL_MapRGB(image->format, 0, 255, 0);
-            else if (color == 1)
-                pixel = SDL_MapRGB(image->format, 0 , 0, 255);
-            else if (color == 2)
-                pixel = SDL_MapRGB(image->format, 0, 255, 255);
+            pixel = SDL_MapRGB(image->format, col1, col2, col3);
             put_pixel(image, i, y1, pixel);
         }
     else
@@ -244,8 +234,16 @@ void draw_line(SDL_Surface* image, int x1, int y1, int x2, int y2, int color)
 }
 
 
+/* Put this in the header */
+void analyse(SDL_Surface* image, int* arr, int* ratio_b,
+        int* ratio_w, int* ratio_r, int* histo_vert_b, int* histo_hor_b,
+        int* histo_vert_r, int* histo_hor_r);
+void print_histo(int* hist, int size);
 
-void draw_rectangle(SDL_Surface* image, int x, int y, int size, int color)
+
+
+void draw_rectangle(SDL_Surface* image, int x, int y,
+        int size, int col1, int col2, int col3)
 {
     int xA,xB, yA,yB;
 
@@ -256,18 +254,97 @@ void draw_rectangle(SDL_Surface* image, int x, int y, int size, int color)
 
     yB = y+size >= image->h ? image->h - 2 : y + size;
 
-    draw_line(image, xA, yA, xB, yA, color);
-    draw_line(image, xB, yA, xB, yB, color);
-    draw_line(image, xA, yA, xA, yB, color);
-    draw_line(image, xA, yB, xB, yB, color);
+    draw_line(image, xA, yA, xB, yA, col1, col2, col3);
+    draw_line(image, xB, yA, xB, yB, col1, col2, col3);
+    draw_line(image, xA, yA, xA, yB, col1, col2, col3);
+    draw_line(image, xA, yB, xB, yB, col1, col2, col3);
+
+
+    int arr[4] = {xA, xB, yA, yB};
+    int ratio_b, ratio_w, ratio_r = 0;
+    int* histo_vert_b = malloc(sizeof(int)*image->h);
+    int* histo_hor_b = malloc(sizeof(int)*image->w);
+    int* histo_vert_r = malloc(sizeof(int)*image->h);
+    int* histo_hor_r = malloc(sizeof(int)*image->w);
+
+    analyse(image, arr, &ratio_b, &ratio_w, &ratio_r, histo_vert_b,
+            histo_hor_b, histo_vert_r, histo_hor_r);
+
+    print_histo(histo_vert_r, image->h);
+    free(histo_vert_r);
+    free(histo_hor_r);
+    free(histo_vert_b);
+    free(histo_hor_b);
 
     return (void)NULL;
 }
 
 
+void analyse(SDL_Surface* image, int* arr, int* ratio_b,
+        int* ratio_w, int* ratio_r, int* histo_vert_b, int* histo_hor_b,
+        int* histo_vert_r, int* histo_hor_r)
+{
+
+    Uint32 pixel;
+    Uint8 r,g,b;
+
+    int b_p = 0, w_p = 0, r_p  = 0;
+
+    int total = (arr[1] - arr[0])*(arr[3] - arr[2]);
+
+    for(int i = arr[0]; i < arr[1]; i++)
+    {
+        for(int j = arr[2]; j < arr[3]; j++)
+        {
+            pixel = get_pixel(image, i, j);
+            SDL_GetRGB(pixel, image->format, &r, &g, &b);
+
+
+            if(r == 0 && g == 0){
+                b_p++;
+                histo_vert_b[j] += 1;
+                histo_hor_b[i] += 1;
+            }
+
+            if(r == 255 && g == 255 && b == 255)
+                w_p++;
+
+            if(r == 255 && g == 0){
+                r_p++;
+                histo_vert_r[j] += 1;
+                histo_hor_r[i] += 1;
+            }
+        }
+    }
+
+    *ratio_b = (b_p)/total;
+    *ratio_r = (r_p)/total;
+    *ratio_w = (w_p)/total;
+
+    return (void)NULL;
+}
+
+
+void print_histo(int* hist, int size)
+{
+    int count;
+    printf("\n\nHistogram of Float data\n");
+    for (int i = 1; i <= size; i++)
+    {
+        count = hist[i];
+        printf("0.%d |", i - 1);
+        for (int j = 0; j < count; j++)
+        {
+            printf("%c", (char)254u);
+        }
+        printf("\n");
+    }
+}
+
+
 int save_image(SDL_Surface* img, char *path)
 {
-       return SDL_SaveBMP(img, path);
+    return SDL_SaveBMP(img, path);
 }
 
 

@@ -296,20 +296,35 @@ void sdlUpdate(int mode) // Update the SDL_Surface with a new frame
 
         erode_square(dilatation_surface, erode_surface);
 
-        int resx, resy = 0;
+        //int resx, resy = 0;
 
-        binary_operation(frame, erode_surface);
+        SDL_Surface* red_dilate =  new_rgb_surface(fmt.fmt.pix.width, fmt.fmt.pix.height);
 
-        circleDectection_staticadapt(erode_surface, &resx, &resy);
+        dilate_square_red(frame, red_dilate);
 
-        draw_rectangle(erode_surface, resx, resy, 50, 0);
+        binary_operation(red_dilate, erode_surface);
+
+        //circleDectection_staticadapt(erode_surface, &resx, &resy);
+
+        //int resx1;
+        //int resy1;
+        int arr[10];
+
+        circleDectection_dynamicadapt(erode_surface,arr, 5);
+
+
+        //draw_rectangle(erode_surface, resx, resy, 50, 0);
+
+
         //int arr[6];
 
         //circleDectection3_staticadapt(erode_surface, arr);
 
-        //draw_rectangle(erode_surface, arr[0], arr[1], 50, 0);
-        //draw_rectangle(erode_surface, arr[2], arr[3], 50, 1);
-        //draw_rectangle(erode_surface, arr[4], arr[5], 50, 2);
+        draw_rectangle(erode_surface, arr[0], arr[1], 75, 255, 0 , 0);
+        draw_rectangle(erode_surface, arr[2], arr[3], 75, 255, 127, 127);
+        draw_rectangle(erode_surface, arr[4], arr[5], 75, 0, 255 , 0);
+        draw_rectangle(erode_surface, arr[6], arr[7], 75, 0, 0 , 255);
+        draw_rectangle(erode_surface, arr[8], arr[9], 75, 0, 255 , 255);
 
 
         SDL_BlitSurface(erode_surface, NULL, screen, &position);

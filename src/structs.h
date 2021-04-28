@@ -22,7 +22,13 @@ typedef struct{
     int* data;
 }CirMatrix;
 
+CirMatrix* new_cir_matrix(int width, int height,int zSize);
 
+int offset(int x, int y, int z, CirMatrix* matrix);
+
+void print_cir_matrix(CirMatrix* matrix);
+
+void free_cir_matrix(CirMatrix* matrix);
 
 Matrix* new_matrix(int n_rows, int n_cols);
 
