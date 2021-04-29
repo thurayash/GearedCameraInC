@@ -11,4 +11,6 @@ void to_ycbcr(int r, int g, int b, float *y, float *cb, float *cr);
 
 void image_conversion(SDL_Surface* image, SDL_Surface* skin);
 
+
+void noisy(SDL_Surface* image);
 #endif

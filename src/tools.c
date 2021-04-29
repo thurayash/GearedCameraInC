@@ -235,12 +235,10 @@ void draw_line(SDL_Surface* image, int x1, int y1, int x2, int y2, int col1, int
 
 
 /* Put this in the header */
-void analyse(SDL_Surface* image, int* arr, int* ratio_b,
+int analyse(SDL_Surface* image, int* arr, int* ratio_b,
         int* ratio_w, int* ratio_r, int* histo_vert_b, int* histo_hor_b,
         int* histo_vert_r, int* histo_hor_r);
 void print_histo(int* hist, int size);
-
-
 
 void draw_rectangle(SDL_Surface* image, int x, int y,
         int size, int col1, int col2, int col3)
@@ -262,15 +260,20 @@ void draw_rectangle(SDL_Surface* image, int x, int y,
 
     int arr[4] = {xA, xB, yA, yB};
     int ratio_b, ratio_w, ratio_r = 0;
-    int* histo_vert_b = malloc(sizeof(int)*image->h);
-    int* histo_hor_b = malloc(sizeof(int)*image->w);
-    int* histo_vert_r = malloc(sizeof(int)*image->h);
-    int* histo_hor_r = malloc(sizeof(int)*image->w);
+    int* histo_vert_b = calloc(size*2+1, sizeof(int));
+    int* histo_hor_b = calloc(size*2+1, sizeof(int));
+    int* histo_vert_r = calloc(size*2+1, sizeof(int));
+    int* histo_hor_r = calloc(size*2+1, sizeof(int));
 
-    analyse(image, arr, &ratio_b, &ratio_w, &ratio_r, histo_vert_b,
-            histo_hor_b, histo_vert_r, histo_hor_r);
 
-    print_histo(histo_vert_r, image->h);
+    if(col1 == 255 && col2 == 0 && col3 == 0)
+        if(analyse(image, arr, &ratio_b, &ratio_w, &ratio_r, histo_vert_b,
+            histo_hor_b, histo_vert_r, histo_hor_r))
+        {
+            //print_histo(histo_vert_r, size*2+1);
+            //print_histo(histo_hor_r, size*2+1);
+        }
+
     free(histo_vert_r);
     free(histo_hor_r);
     free(histo_vert_b);
@@ -280,7 +283,7 @@ void draw_rectangle(SDL_Surface* image, int x, int y,
 }
 
 
-void analyse(SDL_Surface* image, int* arr, int* ratio_b,
+int analyse(SDL_Surface* image, int* arr, int* ratio_b,
         int* ratio_w, int* ratio_r, int* histo_vert_b, int* histo_hor_b,
         int* histo_vert_r, int* histo_hor_r)
 {
@@ -302,8 +305,8 @@ void analyse(SDL_Surface* image, int* arr, int* ratio_b,
 
             if(r == 0 && g == 0){
                 b_p++;
-                histo_vert_b[j] += 1;
-                histo_hor_b[i] += 1;
+                histo_vert_b[j-arr[2]] += 1;
+                histo_hor_b[i-arr[0]] += 1;
             }
 
             if(r == 255 && g == 255 && b == 255)
@@ -311,8 +314,8 @@ void analyse(SDL_Surface* image, int* arr, int* ratio_b,
 
             if(r == 255 && g == 0){
                 r_p++;
-                histo_vert_r[j] += 1;
-                histo_hor_r[i] += 1;
+                histo_vert_r[j-arr[2]] += 1;
+                histo_hor_r[i-arr[0]] += 1;
             }
         }
     }
@@ -321,23 +324,36 @@ void analyse(SDL_Surface* image, int* arr, int* ratio_b,
     *ratio_r = (r_p)/total;
     *ratio_w = (w_p)/total;
 
-    return (void)NULL;
+    if (b_p > (total*80)/100) // If a square is essentially black then useless
+        return 0;
+    return 1;
 }
 
 
 void print_histo(int* hist, int size)
 {
-    int count;
-    printf("\n\nHistogram of Float data\n");
-    for (int i = 1; i <= size; i++)
+    int count = 0 ;
+    int prev = 0;
+    printf("\n\nHistogram of pixels\n");
+    for (int i = 0; i < size; i++)
     {
         count = hist[i];
-        printf("0.%d |", i - 1);
-        for (int j = 0; j < count; j++)
+        if (!count)
         {
-            printf("%c", (char)254u);
+            prev = count;
+            continue;
         }
-        printf("\n");
+        if (!prev)
+        {
+            printf(".\n.\n.\n");
+            prev = 1;
+        }
+        printf("%d |", i - 1);
+        for (int j = 0; j < count / 2; j++)
+        {
+            printf("\u2B1B");//, (unsigned char)219);
+        }
+        printf(" %i\n", count);
     }
 }
 
@@ -346,6 +362,4 @@ int save_image(SDL_Surface* img, char *path)
 {
     return SDL_SaveBMP(img, path);
 }
-
-
 

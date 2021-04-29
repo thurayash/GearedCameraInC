@@ -240,12 +240,12 @@ void sdlUpdate(int mode) // Update the SDL_Surface with a new frame
     }
 
     if (mode == 1){ // Black and white with noise
-        SDL_Surface* skin_detect =  new_rgb_surface(fmt.fmt.pix.width, fmt.fmt.pix.height);
-        image_conversion(frame, skin_detect);
+        noisy(frame);
+
         SDL_BlitSurface(frame, NULL, screen, &position); // Show result1
         SDL_Flip(screen);
+
         SDL_FreeSurface(frame);
-        return;
     }
     else if(mode == 4){ // Robert edge red
         to_rob(frame);
@@ -256,8 +256,8 @@ void sdlUpdate(int mode) // Update the SDL_Surface with a new frame
         return;
     }
     else if(mode == 2){ // Black and white dilated and eroded
-        SDL_Surface* skin_detect =  new_rgb_surface(fmt.fmt.pix.width, fmt.fmt.pix.height);
-        image_conversion(frame, skin_detect);// Black and white in Frame
+        noisy(frame);// Black and white in Frame
+
         SDL_Surface* dilatation_surface = \
             new_rgb_surface(fmt.fmt.pix.width, fmt.fmt.pix.height);
         SDL_Surface* erode_surface = \
@@ -334,6 +334,7 @@ void sdlUpdate(int mode) // Update the SDL_Surface with a new frame
         SDL_FreeSurface(erode_surface);
         SDL_FreeSurface(skin_detect);
         SDL_FreeSurface(frame);
+        SDL_FreeSurface(red_dilate);
 
         return;
     }
@@ -366,7 +367,7 @@ void debugging(SDL_Surface* frames)
 
 void sdlStop() // Stop SDL and free the surface !
 {
-    SDL_FreeSurface(frame);
+    //SDL_FreeSurface(frame);
     SDL_RWclose(buffer_stream);
     IMG_Quit();
     SDL_Quit();
