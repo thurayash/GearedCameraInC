@@ -158,8 +158,10 @@ void circleDectection2_staticadapt(SDL_Surface *img, int *cx, int *cy)
     free_matrix(matrix);
 }
 
-//this circle detection return an array with the three top coordinates for centers
-//arr and arr+1 are the first x y ; then arr+2 arr+3 ; then arr+4 arr+5 for the third point
+//this circle detection return an array with the three top coordinates
+//for centers
+//arr and arr+1 are the first x y ; then arr+2 arr+3 ; then arr+4 arr+5
+//for the third point
 //int arr[6] = {0,0,0,0,0,0}; or *arr should be fed into as arguments
 void circleDectection3_staticadapt(SDL_Surface *img, int *arr)
 {

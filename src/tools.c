@@ -198,7 +198,8 @@ SDL_Surface* display_image(SDL_Surface *img)
 }
 
 
-void draw_line(SDL_Surface* image, int x1, int y1, int x2, int y2, int col1, int col2, int col3)
+void draw_line(SDL_Surface* image, int x1, int y1, int x2, int y2,
+        int col1, int col2, int col3)
 {
     if ( (x1 >= x2 && y1 == y2) || (y1 >= y2 && x1  == x2))
         errx(EXIT_FAILURE, "Start point not compatible");

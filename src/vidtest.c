@@ -283,14 +283,17 @@ void sdlUpdate(int mode) // Update the SDL_Surface with a new frame
     }
     else if (mode == 5)
     {
-        SDL_Surface* skin_detect =  new_rgb_surface(fmt.fmt.pix.width, fmt.fmt.pix.height);
+        SDL_Surface* skin_detect =  new_rgb_surface(fmt.fmt.pix.width,
+                fmt.fmt.pix.height);
         image_conversion(frame, skin_detect);
 
         to_rob(frame);
 
-        SDL_Surface* dilatation_surface = new_rgb_surface(fmt.fmt.pix.width, fmt.fmt.pix.height);
+        SDL_Surface* dilatation_surface = new_rgb_surface(fmt.fmt.pix.width,
+                fmt.fmt.pix.height);
 
-        SDL_Surface* erode_surface = new_rgb_surface(fmt.fmt.pix.width, fmt.fmt.pix.height);
+        SDL_Surface* erode_surface = new_rgb_surface(fmt.fmt.pix.width,
+                fmt.fmt.pix.height);
 
         dilate_square(skin_detect,dilatation_surface);
 
@@ -298,7 +301,8 @@ void sdlUpdate(int mode) // Update the SDL_Surface with a new frame
 
         //int resx, resy = 0;
 
-        SDL_Surface* red_dilate =  new_rgb_surface(fmt.fmt.pix.width, fmt.fmt.pix.height);
+        SDL_Surface* red_dilate =  new_rgb_surface(fmt.fmt.pix.width,
+                fmt.fmt.pix.height);
 
         dilate_square_red(frame, red_dilate);
 
