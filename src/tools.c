@@ -210,7 +210,8 @@ void draw_line(SDL_Surface* image, int x1, int y1, int x2, int y2,
 
     if (x2 < 0 || x2 >= image->w || y2 < 0 || y2 >= image->h)
     {
-        printf("X2 : %i IMGW : %i Y2 : %i IMGH : %i", x2,image->w, y2, image->h);
+        printf("X2 : %i IMGW : %i Y2 : %i IMGH : %i", \
+                x2,image->w, y2, image->h);
         errx(EXIT_FAILURE, "Finish1 point outside of the image");
     }
 

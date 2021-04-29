@@ -283,7 +283,8 @@ void circleDectection_dynamicadapt(SDL_Surface *img, int *arr, int radinc)
                         {
                             int y = i + R*cos(theta);
                             //cos takes double, check for this
-                            int x = j + R*sin(theta); //sin takes double as well
+                            int x = j + R*sin(theta); //sin takes double as
+                            //well
 
                             //maybe change y, x
                             matrix->data[offset(x,y,radin,matrix)] +=1;
