@@ -272,8 +272,8 @@ void draw_rectangle(SDL_Surface* image, int x, int y,
         if(analyse(image, arr, &ratio_b, &ratio_w, &ratio_r, histo_vert_b,
             histo_hor_b, histo_vert_r, histo_hor_r))
         {
-            //print_histo(histo_vert_r, size*2+1);
-            //print_histo(histo_hor_r, size*2+1);
+            print_histo(histo_vert_b, size*2+1);
+            print_histo(histo_hor_b, size*2+1);
         }
 
     free(histo_vert_r);
