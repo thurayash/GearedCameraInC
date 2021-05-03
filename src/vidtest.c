@@ -324,11 +324,11 @@ void sdlUpdate(int mode) // Update the SDL_Surface with a new frame
 
         //circleDectection3_staticadapt(erode_surface, arr);
 
-        draw_rectangle(erode_surface, arr[0], arr[1], 75, 255, 0 , 0);
-        draw_rectangle(erode_surface, arr[2], arr[3], 75, 255, 127, 127);
-        draw_rectangle(erode_surface, arr[4], arr[5], 75, 0, 255 , 0);
-        draw_rectangle(erode_surface, arr[6], arr[7], 75, 0, 0 , 255);
-        draw_rectangle(erode_surface, arr[8], arr[9], 75, 0, 255 , 255);
+        draw_rectangle(erode_surface, arr[0], arr[1], 75, 255, 0 , 0, 0);
+        draw_rectangle(erode_surface, arr[2], arr[3], 75, 255, 127, 127, 0);
+        draw_rectangle(erode_surface, arr[4], arr[5], 75, 0, 255 , 0, 0);
+        draw_rectangle(erode_surface, arr[6], arr[7], 75, 0, 0 , 255, 0);
+        draw_rectangle(erode_surface, arr[8], arr[9], 75, 0, 255 , 255, 0);
 
 
         SDL_BlitSurface(erode_surface, NULL, screen, &position);
@@ -341,6 +341,68 @@ void sdlUpdate(int mode) // Update the SDL_Surface with a new frame
         SDL_FreeSurface(red_dilate);
 
         return;
+    }
+    else if(mode == 6)
+    {
+        SDL_Surface* skin_detect =  new_rgb_surface(fmt.fmt.pix.width,
+                fmt.fmt.pix.height);
+        image_conversion(frame, skin_detect);
+
+        to_rob(frame);
+
+        SDL_Surface* dilatation_surface = new_rgb_surface(fmt.fmt.pix.width,
+                fmt.fmt.pix.height);
+
+        SDL_Surface* erode_surface = new_rgb_surface(fmt.fmt.pix.width,
+                fmt.fmt.pix.height);
+
+        dilate_square(skin_detect,dilatation_surface);
+
+        erode_square(dilatation_surface, erode_surface);
+
+        //int resx, resy = 0;
+
+        SDL_Surface* red_dilate =  new_rgb_surface(fmt.fmt.pix.width,
+                fmt.fmt.pix.height);
+
+        dilate_square_red(frame, red_dilate);
+
+        binary_operation(red_dilate, erode_surface);
+
+        //circleDectection_staticadapt(erode_surface, &resx, &resy);
+
+        //int resx1;
+        //int resy1;
+        int arr[10];
+
+        circleDectection_dynamicadapt(erode_surface,arr, 5);
+
+
+        //draw_rectangle(erode_surface, resx, resy, 50, 0);
+
+
+        //int arr[6];
+
+        //circleDectection3_staticadapt(erode_surface, arr);
+
+        draw_rectangle(erode_surface, arr[0], arr[1], 75, 255, 0 , 0, 1);
+        draw_rectangle(erode_surface, arr[2], arr[3], 75, 255, 127, 127, 1);
+        draw_rectangle(erode_surface, arr[4], arr[5], 75, 0, 255 , 0, 1);
+        draw_rectangle(erode_surface, arr[6], arr[7], 75, 0, 0 , 255, 1);
+        draw_rectangle(erode_surface, arr[8], arr[9], 75, 0, 255 , 255, 1);
+
+
+        SDL_BlitSurface(erode_surface, NULL, screen, &position);
+        SDL_Flip(screen);
+
+        SDL_FreeSurface(dilatation_surface);
+        SDL_FreeSurface(erode_surface);
+        SDL_FreeSurface(skin_detect);
+        SDL_FreeSurface(frame);
+        SDL_FreeSurface(red_dilate);
+
+        return;
+
     }
 }
 

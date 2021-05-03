@@ -11,7 +11,8 @@ int main(int argc, char** argv)
                 \n2: Skin detection dilated and eroded\
                 \n3: Robert edges detection grayscale\
                 \n4: Real roberts edge detection\
-                \n5: Hough Transform CircleDetection");
+                \n5: Hough Transform CircleDetection\
+                \n6: Analyse square historgrame");
     int fd;
 
     int mode = atoi(argv[1]);

@@ -243,7 +243,7 @@ int analyse(SDL_Surface* image, int* arr, int* ratio_b,
 void print_histo(int* hist, int size);
 
 void draw_rectangle(SDL_Surface* image, int x, int y,
-        int size, int col1, int col2, int col3)
+        int size, int col1, int col2, int col3, int analyse_bool)
 {
     int xA,xB, yA,yB;
 
@@ -268,7 +268,7 @@ void draw_rectangle(SDL_Surface* image, int x, int y,
     int* histo_hor_r = calloc(size*2+1, sizeof(int));
 
 
-    if(col1 == 255 && col2 == 0 && col3 == 0)
+    if(analyse_bool && col1 == 255 && col2 == 0 && col3 == 0)
         if(analyse(image, arr, &ratio_b, &ratio_w, &ratio_r, histo_vert_b,
             histo_hor_b, histo_vert_r, histo_hor_r))
         {
