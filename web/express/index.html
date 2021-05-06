@@ -27,8 +27,13 @@
 <body>
 
 
-<section class="hero is-fullheight" style="background-color: black;">
+<section class="hero is-fullheight video" style="background-color: black;">
   <div class="hero-head">
+    <div class="hero-video">
+      <video poster="" playsinline autoplay muted preload="auto" id="myVideo">
+          <source src="videos/main_vid.mp4" type="video/mp4">
+      </video>
+    </div>
     <nav class="navbar">
       <div class="container">
         <div class="navbar-brand">
@@ -68,17 +73,14 @@
         </div>
       </nav>
     </div>
-    <div class="hero-body login">
+    <div class="hero-body">
       <div class="container has-text-centered">
-        <p class="title is-1" style="color: white;">
-          G.C.C - EPITA
+        <p class="title is-1" style="color: white;" id="title">
         </p>
-        <p class="subtitle" style="color: white;">
-          Geared Camera in C
-        </p>
-        <video src="videos/main_vid.mp4" autoplay="" muted="" width="100%" height="100%">
+        <p class="subtitle" style="color: white;" id="description"></p>
       </div>
     </div>
+    
   </div>
   <div class="hero-footer has-text-centered">
     <div class="contentDiv"><a style="color: white" class="arrow far fa-hand-point-down fa-2x" href="#whatIsGCC"></a>
@@ -123,113 +125,90 @@
     </div>
 </section>
 
-<section class = "section is-fullheight" id="vidéo1">
+<section class = "section is-fullheight" id="video1">
     <div class = "container has-text-centered">
       <span class = "title is-2">
         The pros<br>
       </span><br><br>
     </div> <br>
     <div class="container">
-      <div class="columns is-desktop">
-        <div class="column has-text-centered">
-          <div class="box">
-            <div class="vidéo has-shadow">
-            <video src="videos/video1.mp4" autoplay="" muted="" loop="" playsinline="" width="100%" height="auto">
-            </video>
+      <div class="columns">
+          <div class="column">
+            <div class="content">
+              <h1>Hello World</h1>
+              <p>Lorem ipsum<sup><a>[1]</a></sup> dolor sit amet, consectetur adipiscing elit. Nulla accumsan, metus ultrices eleifend gravida, nulla nunc varius lectus, nec rutrum justo nibh eu lectus. Ut vulputate semper dui. Fusce erat odio, sollicitudin vel erat vel, interdum mattis neque. Sub<sub>script</sub> works as well!</p>
+              <h2>Second level</h2>
+              <p>Curabitur accumsan turpis pharetra <strong>augue tincidunt</strong> blandit. Quisque condimentum maximus mi, sit amet commodo arcu rutrum id. Proin pretium urna vel cursus venenatis. Suspendisse potenti. Etiam mattis sem rhoncus lacus dapibus facilisis. Donec at dignissim dui. Ut et neque nisl.</p>
+              <ul>
+                <li>In fermentum leo eu lectus mollis, quis dictum mi aliquet.</li>
+                <li>Morbi eu nulla lobortis, lobortis est in, fringilla felis.</li>
+                <li>Aliquam nec felis in sapien venenatis viverra fermentum nec lectus.</li>
+                <li>Ut non enim metus.</li>
+              </ul>
+              <h3>Third level</h3>
+              <p>Quisque ante lacus, malesuada ac auctor vitae, congue <a href="#">non ante</a>. Phasellus lacus ex, semper ac tortor nec, fringilla condimentum orci. Fusce eu rutrum tellus.</p>
+              <ol>
+                <li>Donec blandit a lorem id convallis.</li>
+                <li>Cras gravida arcu at diam gravida gravida.</li>
+                <li>Integer in volutpat libero.</li>
+                <li>Donec a diam tellus.</li>
+                <li>Aenean nec tortor orci.</li>
+                <li>Quisque aliquam cursus urna, non bibendum massa viverra eget.</li>
+                <li>Vivamus maximus ultricies pulvinar.</li>
+              </ol>
             </div>
           </div>
-        </div>
+          <div class="column">
+            <div class="vidéo has-shadow">
+              <video src="videos/video1.mp4" autoplay="" muted="" playsinline="" width="100%" height="auto"></video>
+            </div>
+          </div>
+      </div>
       </div>
     </div>
 </section>
-
 
 <section class = "section is-fullheight" id="eclate">
     <div class = "container has-text-centered">
       <span class = "title is-2">
-        The pros<br>
+        PROS 2<br>
       </span><br><br>
-</section>
+    </div>
 
+    <div class="container">
+      <div class="columns">
+          <div class="column"> 
+              <h1>Adaptative</h1>
+              <ol>
+                <li>The GCC support can handle various types of cameras as well as specific dimensions including the biggest ones.</li>
+                <li>The "U shaped" support allows to fix the camera correctly in order to prevent any sliding.</li>
+              </ol>
+            
 
-
-<div class="float-container">
-
-  <div class="float-child">
-    <h3 class="title is-3">Adaptative</h3>
-      <ul class="uk-list uk-list-disc" title="Adaptative">
-        <li>
-            <p>The GCC support can handle various types of cameras as well as specific dimensions including the biggest ones.</p>
-        </li>
-        <li>
-          <p>The "U shaped" support allows to fix the camera correctly in order to prevent any sliding.</p>
-        </li>
-      </ul>
-      
-        
-    <h3 class="title is-3">Simple and easy to use</h3>
-      <ul class="uk-list uk-list-disc" title="Adaptative">
-        <li>
-            <p>As everything is programmed by our smart ingeneers, the GCC support is totally automatic and do not need any user interaction!</p>
-        </li>
-        <li>
-          <p>Just plug the usb port into you computer and you are ready to go!</p>
-        </li>
-      </ul>
-    <h3 class="title is-3">Light and portable</h3>
-      <ul class="uk-list uk-list-disc" title="Adaptative">
-        <li>
-            <p>The GCC support is made of ABS plastic and printed in 3D. This material allows to have a force resistive component while being fairly light.</p>
-        </li>
-        <li>
-          <p>The weight of the supoort being small, u can without difficulties bring it to your office or your home everyday if you feel like it!</p>
-        </li>
-      </ul>
-  </div>
-
-  <div class="float-child">
-      <div class="columns is-desktop">
-        <div class="column has-text-centered">
-          <div class="box">
-            <div class="vidéo has-shadow">
-            <video src="videos/eclate.mp4" autoplay="" muted="" loop="" playsinline="" width="100%" height="auto">
-            </video>
+              <h1>Simple and easy to use</h1>
+              <ol>
+                <li>As everything is programmed by our smart ingeneers, the GCC support is totally automatic and do not need any user interaction!</li>
+                <li>Just plug the usb port into you computer and you are ready to go!</li>
+              </ol>
+              
+              <h1>Light and portable</h1>
+              <ol>
+                <li>The GCC support is made of ABS plastic and printed in 3D. This material allows to have a force resistive component while being fairly light.</li>
+                <li>The weight of the supoort being small, u can without difficulties bring it to your office or your home everyday if you feel like it!</li>
+              </ol>
+          </div>          
+          <div class="column"> 
+            <div class="video has-shadow">
+                  <video src="videos/eclate.mp4" autoplay="" muted="" loop="" playsinline="" width="100%" height="auto"></video>
             </div>
           </div>
-        </div>
       </div>
     </div>
-
-</div>
-
-<!--
-<div class="container">
-  <div class="pane pad-viewport">
-    <div class="wrapper">
-      <div class="row center-h pane__content">
-        <div class="col span-4 pane__heading">
-          <div class="hero__heading__actions reveal" data-reveal-delay="800">
-          
-        </div>
-      </div>
-      <div class="col span-8 pane__visual">
-        <div class="screenshot screenshot--has-shadow">
-          <video autoplay muted loop playsinline width="100%" poster="" height="auto" class="screenshot__media" ><source src="videos/video1.mp4" type="video/mp4"></video>
-        </div>
-      </div>
-    </div>
-</div>
--->
-
+</section>
 
 <section class="section is-medium container"><!-- style="background-color: #ffb15a;"> <-->
   <div class = "container has-text-centered">
         <span class = "title is-2">
-          <br>
-          <br>
-          <br>
-          <br>
-          <br>
             The team
           <br>
         </span><br><br>
@@ -315,19 +294,21 @@
             </div>
           </div>
 
-        </section>
+</section>
 
+<script src="https://cdn.jsdelivr.net/npm/typeit@7.0.4/dist/typeit.min.js"></script>
 
-        <script src="js/script.js" ></script>
-        <script src="js/card.js"   ></script>
-      </body>
+<script src="js/script.js" ></script>
+<script src="js/card.js"   ></script>
 
-      <div class="content has-text-centered">
-        <p>
-          <strong>GCC</strong> by <a href="#">The team</a>. The source code <isindex></isindex> licensed
-          <a href="http://opensource.org/licenses/mit-license.php">MIT</a>. The website content
-          is licensed <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY NC SA 4.0</a>.
-        </p>
-      </div>
+</body>
 
-      </html>
+<div class="content has-text-centered">
+  <p>
+    <strong>GCC</strong> by <a href="#">The team</a>. The source code <isindex></isindex> licensed
+    <a href="http://opensource.org/licenses/mit-license.php">MIT</a>. The website content
+    is licensed <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY NC SA 4.0</a>.
+  </p>
+</div>
+
+</html>

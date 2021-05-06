@@ -1,3 +1,4 @@
+
 document.addEventListener('DOMContentLoaded', () => {
 
     // Get all "navbar-burger" elements
@@ -28,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
 const tabs = document.querySelectorAll('.tabs li');
 const tabContentBoxes = document.querySelectorAll('#tab-content > div');
 const ex = document.getElementById("tab-container");
-const divs = ex.getElementsByTagName('div');
+//const divs = ex.getElementsByTagName('div');
 
 tabs.forEach(tab => {
     tab.addEventListener('click', () => {
@@ -94,4 +95,30 @@ function MobileTabs(id){
 
 
 
+document.getElementById('myVideo').addEventListener('ended',myHandler,false);
+    function myHandler(e) {
+        activate();
+}
 
+
+function activate()
+{
+    new TypeIt("#description", {
+      speed: 50,
+      waitUntilVisible: true,
+      loop: true
+    })
+      .type("GCC The most ", {delay: 300})      
+      .type('<b>efficient</b> camera ever')
+      .pause(600)
+      .move(-12)
+      .delete(9)
+      .type('<b>funny</b>', {delay: 300})
+      .pause(600)
+      .delete(5)
+      .type('<b>friendly</b>',{delay:300})
+      .move('END')
+      .type(' &#128515;',{delay :300})
+      .pause(50000)
+      .go();
+}

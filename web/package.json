@@ -6,6 +6,8 @@
         "start": "node server.js"
     },
     "dependencies": {
-        "express": "^4.17.1"
-    }
+        "express": "^4.17.1",
+        "typeit": "^7.0.4"
+    },
+    "type": "module"
 }

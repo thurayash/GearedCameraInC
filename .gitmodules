@@ -1,0 +1,3 @@
+[submodule "web/express/typed.js"]
+	path = web/express/typed.js
+	url = https://github.com/mattboldt/typed.js.git
