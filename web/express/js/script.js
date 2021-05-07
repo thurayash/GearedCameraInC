@@ -99,14 +99,16 @@ function MobileTabs(id){
 
 
 
+//disableScroll();
+
 mainVideo.addEventListener('ended',myHandler,false);
     function myHandler(e) {
         let element = document.getElementById("heroCont");
-
-        element.setAttribute("style", "animation-name: image_blur;animation-duration : 6s;animation-fill-mode:forwards;");
-        sleep(500);
-        //element.setAttribute("style", "backdrop-filter: blur(10px);");
+        element.setAttribute("style", "animation-name: image_blur;animation-duration : 5s;animation-fill-mode:forwards;");
+        sleep(500);        
+        document.getElementById("title").setAttribute("style", "animation-name: text_appear;animation-duration : 3s;animation-fill-mode:forwards;");
         activate();
+        //enableScroll();
 
 }
 
@@ -137,4 +139,14 @@ window.addEventListener('scroll', function()
 {
     let value = 1 + window.scrollY/-600;
     mainVideo.style.opacity = value;
-})
+});
+
+
+function disableScroll() {
+document.body.style.overflow = 'hidden';
+document.querySelector('html').scrollTop = window.scrollY;
+}
+
+function enableScroll() {
+document.body.style.overflow = null;
+}
