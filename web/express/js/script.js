@@ -1,4 +1,8 @@
 
+
+let mainVideo = document.getElementById('myVideo');
+
+
 document.addEventListener('DOMContentLoaded', () => {
 
     // Get all "navbar-burger" elements
@@ -95,9 +99,15 @@ function MobileTabs(id){
 
 
 
-document.getElementById('myVideo').addEventListener('ended',myHandler,false);
+mainVideo.addEventListener('ended',myHandler,false);
     function myHandler(e) {
+        let element = document.getElementById("heroCont");
+
+        element.setAttribute("style", "animation-name: image_blur;animation-duration : 6s;animation-fill-mode:forwards;");
+        sleep(500);
+        //element.setAttribute("style", "backdrop-filter: blur(10px);");
         activate();
+
 }
 
 
@@ -122,3 +132,9 @@ function activate()
       .pause(50000)
       .go();
 }
+
+window.addEventListener('scroll', function()
+{
+    let value = 1 + window.scrollY/-600;
+    mainVideo.style.opacity = value;
+})
