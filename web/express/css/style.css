@@ -167,6 +167,5 @@ h2{
   overflow: scroll;
   text-overflow: ellipsis;
   word-wrap: break-word;
-  word-break: break-word;
-  
+  word-break: break-word;  
 }
