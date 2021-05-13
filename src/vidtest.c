@@ -270,6 +270,27 @@ void sdlUpdate(int mode) // Update the SDL_Surface with a new frame
         SDL_BlitSurface(rob_surface, NULL, screen, &position); // Show result1
         SDL_Flip(screen);
     }
+    else if(mode ==5)
+    {
+        image_conversion(frame); // Black and white in Frame (in place)
+        SDL_Surface* dilatation_surface = \
+            new_rgb_surface(fmt.fmt.pix.width, fmt.fmt.pix.height);
+        SDL_Surface* erode_surface = \
+            new_rgb_surface(fmt.fmt.pix.width, fmt.fmt.pix.height);
+        dilate_square(frame,dilatation_surface);
+        // Dilate frame in result (in place)
+        erode_square(dilatation_surface, erode_surface);
+        SDL_Surface* rob_surface = to_rob(frame);
+        binary_operation(rob_surface,erode_surface);
+        SDL_BlitSurface(erode_surface, NULL, screen, &position); // Show result1
+        //5 is radinc, so you need 10 elm for x y (2 coord)
+        int *array= malloc(10*sizeof(int));
+        //int resx1;
+        //int resy1;
+        circleDectection_dynamicadapt(erode_surface,array,5);
+        SDL_Flip(screen);
+        return;
+    }
 }
 
 
@@ -288,5 +309,20 @@ void sdlStop() // Stop SDL and free the surface !
     SDL_Quit();
 }
 
+void binary_operation(SDL_Surface* rob, SDL_Surface* skin)
+{
+    Uint8 r,g,b, rbw;
+    for(int i = 0; i < rob->w;i++)
+    {
+        for(int j = 0; j < rob->h; j++)
+        {
+
+            SDL_GetRGB(get_pixel(rob,i,j), rob->format, &r, &g, &b);
+            SDL_GetRGB(get_pixel(skin,i,j), skin->format, &rbw, &rbw, &rbw);
+            if (r == 255 && rbw == 255)
+                put_pixel(skin, i, j, SDL_MapRGB(skin->format, 255,0,0));
+        }
+    }
+}
 
 

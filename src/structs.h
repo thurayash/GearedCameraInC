@@ -13,8 +13,23 @@ typedef struct{
     int** data; // <- note that this is a pointer to one dim array
 } Matrix;
 
+typedef struct{
+    int height;
+    int width;
+    int zSize;
+
+    int* data;
+}CirMatrix;
 
 Matrix* new_matrix(int n_rows, int n_cols);
+
+CirMatrix* new_cir_matrix(int width, int height,int zSize);
+
+int offset(int x, int y, int z, CirMatrix* matrix);
+
+void print_cir_matrix(CirMatrix* matrix);
+
+void free_cir_matrix(CirMatrix* matrix);
 
 void free_matrix(Matrix* m);
 

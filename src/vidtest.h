@@ -29,6 +29,7 @@
 #define MIN(a,b) ((a) < (b)  ? (a) : (b) )
 #define MIN3(a,b,c) MIN(MIN(a,b),c)
 
+void binary_operation(SDL_Surface* rob, SDL_Surface* skin);
 
 int print_caps(int fd);
 

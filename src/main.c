@@ -15,7 +15,7 @@ int main(int argc, char** argv)
     int fd;
 
     int mode = atoi(argv[1]);
-    if (mode == 5)
+    /*if (mode == 5)
     {
         if(argc < 3)
             errx(EXIT_FAILURE, "Mode 5 needs an image path !");
@@ -31,7 +31,7 @@ int main(int argc, char** argv)
 
         SDL_FreeSurface(screen);
         return 0;
-    }
+    }*/
     fd = open("/dev/video0", O_RDWR);
     if (fd == -1){
         perror("Opening video device");
