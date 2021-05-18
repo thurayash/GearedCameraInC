@@ -3,17 +3,21 @@
 <head>
 	<meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-
+  <!--meta http-equiv="refresh" content="10" -->
   <!-- BULMA -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
 
-  <!-- FONT AWESOME -->
+  <!-- FONT AWESOME --> 
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css" integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
 
   <!-- CSS -->
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/card.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.6.18/dist/css/uikit.min.css" />
+
+
+  <!-- JQUERY -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
   <title>GCC Website</title>
 </head>
@@ -26,12 +30,13 @@
 </style>
 <body>
 
+<a  id="return-to-top"> <i class="fas fa-angle-up"></i></a>
 
 <section class="hero is-fullheight video" style="background-color: black;">
   <div class="hero-head">
-    <div class="hero-video">
+    <div class="hero-video" media="(min-width: 465px)">
       <video poster="" playsinline autoplay muted preload="auto" id="myVideo">
-          <source src="videos/main_vid.mp4" type="video/mp4">
+          <source src="videos/main_vid.mp4" type="video/mp4" id="computerVideo">
       </video>
     </div>
     <nav class="navbar">
@@ -48,20 +53,26 @@
         </div>
           <div id="navbarMenuHeroB" class="navbar-menu">
             <div class="navbar-end">
-              <a class="navbar-item" href="#">
-                <i class="fas fa-home"></i> &nbsp;Home 
-              </a>
+              <span class="navbar-item ">
+                <a class="navbar-item has-text-white" href="#">
+                  <i class="fas fa-home"></i> &nbsp;Home 
+                </a>
+              </span>
               <!--<a class="navbar-item" href="examples.html">
                 <i class="fas fa-images"></i> &nbsp;Pictures
               </a>-->
-              <a class="navbar-item" href="documentation.html">
-                <i class="fas fa-book"></i> &nbsp;Documentation 
-              </a>
-              <a class="navbar-item" href="timeline.html">
-                <i class="fas fa-history"></i> &nbsp;Timeline
-              </a>
               <span class="navbar-item">
-                <a class="button is-info is-inverted" href="https://github.com/thuraya-shanbari/GearedCameraInC.git" target="_blank" style="color: black;">
+                <a class="navbar-item has-text-white" href="documentation.html">
+                  <i class="fas fa-book"></i> &nbsp;Documentation 
+                </a>
+              </span>
+              <span class="navbar-item">
+                <a class="navbar-item has-text-white" href="timeline.html">
+                  <i class="fas fa-history"></i> &nbsp;Timeline
+                </a>
+              </span>
+              <span class="navbar-item ">
+                <a class="button is-info has-orange-color" href="https://github.com/thuraya-shanbari/GearedCameraInC.git" target="_blank" style="color: black; background-color: orange;">
                   <span class="icon">
                     <i class="fab fa-github-alt"></i>
                   </span>
@@ -75,7 +86,7 @@
     </div>
     <div class="hero-body" id="heroCont">
       <div class="container has-text-centered">
-        <p class="title is-1" style="color: white;opacity:0;" id="title" > G.C.C - EPITA
+        <p class="title is-1 has-text-white" style="color: white; opacity:0;" id="title" > G.C.C - EPITA
         </p>
         <p class="subtitle" style="color: white;" id="description"></p>
       </div>
@@ -87,37 +98,37 @@
     </div>
   </section>
 
-<section class = "section is-medium" id="whatIsGCC">
+<section class = "section is-medium mb-6" id="whatIsGCC">
     <div class = "container has-text-centered">
-      <span class = "title is-2">
+      <span class = "title is-2 has-text-white">
         What is GCC ?<br>
       </span><br><br>
     </div> <br>
-    <div class="container is-fluid">
+    <div class="container is-fluid pt-6" style="opacity:0;" id="PHW">
       <div class="columns is-desktop">
-        <div class="column has-text-centered">
-          <div class="box">
-            <p class="title is-3">The principle</p>
-            <i class="fas fa-cogs fa-5x"></i>
+        <div class="column has-text-centered" >
+          <div class="box" style="background-color: rgb(36 64 108);" >
+            <p class="title is-3 has-text-white">The principle</p>
+            <i class="fas fa-cogs fa-5x has-text-white"></i>
             <br><br>
-            <p class="subtitle">GCC is a 3D printed device that is compatible with every time of camera/webcam. This techonological device's goal is to make the attached camera follow you in every of your movements.</p>
+            <p class="subtitle has-text-white">GCC is a 3D printed device that is compatible with every time of camera/webcam. This techonological device's goal is to make the attached camera follow you in every of your movements.</p><br><br>
           </div>
         </div>
         <div class="column has-text-centered">
-          <div class="box">
-            <p class="title is-3">How does it work?</p>
-            <i class="fas fa-code fa-5x "></i>
+          <div class="box" style="background-color: rgb(36 64 108);">
+            <p class="title is-3 has-text-white">How does it work?</p>
+            <i class="fas fa-code fa-5x has-text-white"></i>
             <br><br>
-            <p class="subtitle">The idea is simple: we apply various algorithms in order to detect the center of your head. Once we have the coordonates, we send a signal to the hardware that activates different gears using step by step motors in order to make the camera move on one of the 2 axis.</p>
+            <p class="subtitle has-text-white">The idea is simple: we apply various algorithms in order to detect the center of your head. Once we have the coordonates, we send a signal to the hardware that activates different gears using step by step motors in order to make the camera move on one of the 2 axis.</p>
 
           </div>
         </div>
         <div class="column has-text-centered">
-          <div class="box">
-            <p class="title is-3">But who would use such a device?</p>
-            <i class="fas fa-question fa-5x"></i>
+          <div class="box" style="background-color: rgb(36 64 108);">
+            <p class="title is-3 has-text-white">The utility</p>
+            <i class="fas fa-question fa-5x has-text-white"></i>
             <br><br>
-            <p class="subtitle">From the online teachers to the classical manager, this device could help a large variety of people. It will follow the speaker in his speech, without him ever having to care about being in the camera field.</p>
+            <p class="subtitle has-text-white">From the online teachers to the classical manager, this device could help a large variety of people. It will follow the speaker in his speech, without him ever having to care about being in the camera field.</p><br><br>
 
           </div>
         </div>
@@ -134,79 +145,51 @@
     <div class="container">
       <div class="columns">
           <div class="column">
-            <div class="content">
-              <h1>Hello World</h1>
-              <p>Lorem ipsum<sup><a>[1]</a></sup> dolor sit amet, consectetur adipiscing elit. Nulla accumsan, metus ultrices eleifend gravida, nulla nunc varius lectus, nec rutrum justo nibh eu lectus. Ut vulputate semper dui. Fusce erat odio, sollicitudin vel erat vel, interdum mattis neque. Sub<sub>script</sub> works as well!</p>
-              <h2>Second level</h2>
-              <p>Curabitur accumsan turpis pharetra <strong>augue tincidunt</strong> blandit. Quisque condimentum maximus mi, sit amet commodo arcu rutrum id. Proin pretium urna vel cursus venenatis. Suspendisse potenti. Etiam mattis sem rhoncus lacus dapibus facilisis. Donec at dignissim dui. Ut et neque nisl.</p>
-              <ul>
-                <li>In fermentum leo eu lectus mollis, quis dictum mi aliquet.</li>
-                <li>Morbi eu nulla lobortis, lobortis est in, fringilla felis.</li>
-                <li>Aliquam nec felis in sapien venenatis viverra fermentum nec lectus.</li>
-                <li>Ut non enim metus.</li>
-              </ul>
-              <h3>Third level</h3>
-              <p>Quisque ante lacus, malesuada ac auctor vitae, congue <a href="#">non ante</a>. Phasellus lacus ex, semper ac tortor nec, fringilla condimentum orci. Fusce eu rutrum tellus.</p>
-              <ol>
-                <li>Donec blandit a lorem id convallis.</li>
-                <li>Cras gravida arcu at diam gravida gravida.</li>
-                <li>Integer in volutpat libero.</li>
-                <li>Donec a diam tellus.</li>
-                <li>Aenean nec tortor orci.</li>
-                <li>Quisque aliquam cursus urna, non bibendum massa viverra eget.</li>
-                <li>Vivamus maximus ultricies pulvinar.</li>
-              </ol>
+            <div class="messageEclate has-text-centered" id="firstME">
+              <span>
+                <i class="fas fa-spell-check fa-5x" style="color: white;"></i>
+                <h1 class="title has-text-white">Simple and easy to use</h1>
+                
+              </span>
+              </div>
+              <br><br>
+            <div class="messageEclate has-text-centered" id="secondME">
+              <span>
+                <i class="fas fa-feather fa-5x" style="color: white;"></i>
+              <h1 class="title has-text-white">Light and portable</h1>
+              </span>
             </div>
+          <br><br>
+          <div class="messageEclate has-text-centered" id="thirdME">
+              <span>
+                <i class="fas fa-tachometer-alt fa-5x" style="color: white;"></i>
+                <h1 class="title has-text-white">Fast and accurate</h1>
+                
+              </span>
+              </div>
           </div>
           <div class="column">
-            <div class="vidéo has-shadow">
-              <video src="videos/video1.mp4" autoplay="" muted="" playsinline="" width="100%" height="auto"></video>
-            </div>
-          </div>
-      </div>
-      </div>
-    </div>
-</section>
-
-<section class = "section is-fullheight" id="eclate">
-    <div class = "container has-text-centered">
-      <span class = "title is-2">
-        PROS 2<br>
-      </span><br><br>
-    </div>
-
-    <div class="container">
-      <div class="columns">
-          <div class="column"> 
-              <h1>Adaptative</h1>
-              <ol>
-                <li>The GCC support can handle various types of cameras as well as specific dimensions including the biggest ones.</li>
-                <li>The "U shaped" support allows to fix the camera correctly in order to prevent any sliding.</li>
-              </ol>
-            
-
-              <h1>Simple and easy to use</h1>
-              <ol>
-                <li>As everything is programmed by our smart ingeneers, the GCC support is totally automatic and do not need any user interaction!</li>
-                <li>Just plug the usb port into you computer and you are ready to go!</li>
-              </ol>
-              
-              <h1>Light and portable</h1>
-              <ol>
-                <li>The GCC support is made of ABS plastic and printed in 3D. This material allows to have a force resistive component while being fairly light.</li>
-                <li>The weight of the supoort being small, u can without difficulties bring it to your office or your home everyday if you feel like it!</li>
-              </ol>
-          </div>          
-          <div class="column"> 
             <div class="video has-shadow">
-                  <video src="videos/eclate.mp4" autoplay="" muted="" loop="" playsinline="" width="100%" height="auto"></video>
+              <video src="videos/video1.mp4" autoplay="" muted="" playsinline="" width="100%" height="auto" id="eclateVideo"  ></video>
             </div>
           </div>
+      </div>
       </div>
     </div>
 </section>
 
-<section class="section is-medium container"><!-- style="background-color: #ffb15a;"> <-->
+<section class="hero is-fullheight video" style="background-color: white;">
+    <div class="hero-video" media="(min-width: 465px)">
+      <video poster="" playsinline autoplay muted preload="auto" id="myVideo">
+          <source src="videos/main_vid.mp4" type="video/mp4" id="computerVideo"> <!-- Need to create the video on blender -->
+
+      </video>
+    </div>
+</section>
+
+
+
+<section class="section is-medium container">
   <div class = "container has-text-centered">
         <span class = "title is-2">
             The team
@@ -227,7 +210,10 @@
                 </div>
                 <div class="flip-box-back" id="myDiv">
                 <!-- BACK SIDE -->
-                <h1 class="subtitle">I've always been fascinated by computers. Indeed, since I was very young, I was influenced by my entourage made up mainly of engineers, and I very quickly became crazed about engineering electronics and computer science. I have been able to realize several projects in which technique was the key, both in the field of mechanics and electronics as well as in the field of computer science, a machine without a brain... It's pretty lame :( .  I wish more than anything to make this passion my future profession. Doing this project will allow me to gain experience in the field of functional programming and thus get closer and closer to my dream ... Wingardium Leviosa !</h1>
+                
+                <h1 class="subtitle">
+
+                I've always been fascinated by computers. Indeed, since I was very young, I was influenced by my entourage made up mainly of engineers, and I very quickly became crazed about engineering electronics and computer science. I have been able to realize several projects in which technique was the key, both in the field of mechanics and electronics as well as in the field of computer science, a machine without a brain... It's pretty lame :( .  I wish more than anything to make this passion my future profession. Doing this project will allow me to gain experience in the field of functional programming and thus get closer and closer to my dream ... Wingardium Leviosa !</h1>
                 </div>
               </div>
             </div>

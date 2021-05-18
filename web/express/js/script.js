@@ -102,14 +102,14 @@ function MobileTabs(id){
 //disableScroll();
 
 mainVideo.addEventListener('ended',myHandler,false);
-    function myHandler(e) {
-        let element = document.getElementById("heroCont");
-        element.setAttribute("style", "animation-name: image_blur;animation-duration : 5s;animation-fill-mode:forwards;");
-        sleep(500);        
-        document.getElementById("title").setAttribute("style", "animation-name: text_appear;animation-duration : 3s;animation-fill-mode:forwards;");
-        activate();
-        //enableScroll();
 
+function myHandler(e) {
+    console.log("hERE");
+    let element = document.getElementById("heroCont");
+    element.setAttribute("style", "animation-name: image_blur;animation-duration : 5s;animation-fill-mode:forwards;");
+    sleep(500);        
+    document.getElementById("title").setAttribute("style", "animation-name: text_appear;animation-duration : 2s;animation-fill-mode:forwards;");
+    activate();
 }
 
 
@@ -120,17 +120,17 @@ function activate()
       waitUntilVisible: true,
       loop: true
     })
-      .type("GCC The most ", {delay: 300})      
+      .type("The most ", {delay: 300})      
       .type('<b>efficient</b> camera ever')
       .pause(600)
       .move(-12)
       .delete(9)
-      .type('<b>funny</b>', {delay: 300})
-      .pause(600)
-      .delete(5)
-      .type('<b>friendly</b>',{delay:300})
+      .type('<b>hilarious</b>', {delay: 300})
+      .pause(900)
+      .delete(9)
+      .type('<b>buddy-buddy</b>',{delay:300})
       .move('END')
-      .type(' &#128515;',{delay :300})
+      .type(' 🥰',{delay :300})
       .pause(50000)
       .go();
 }
@@ -150,3 +150,36 @@ document.querySelector('html').scrollTop = window.scrollY;
 function enableScroll() {
 document.body.style.overflow = null;
 }
+
+
+
+$(window).scroll(function() {
+    if ($(this).scrollTop() >= 50) {        // If page is scrolled more than 50px
+        $('#return-to-top').fadeIn(200);    // Fade in the arrow
+    } else {
+        $('#return-to-top').fadeOut(200);   // Else fade out the arrow
+    }
+});
+$('#return-to-top').click(function() {      // When arrow is clicked
+    $('body,html').animate({
+        scrollTop : 0                       // Scroll to top of body
+    }, 500);
+});
+
+$('#whatIsGCC').one('mouseover', function(){
+  var column = document.getElementById("PHW");
+  column.setAttribute("style", "animation-duration:3s;animation-name:slidePHW ;")
+});
+
+
+
+$('#video1').one('mouseover', function()
+{
+    var firstME = document.getElementById("firstME");   
+    var secondME = document.getElementById("secondME");
+    var thirdME = document.getElementById("thirdME");
+    firstME.setAttribute("style", "animation-duration:2s;animation-name:slideApp;animation-fill-mode:forwards;");
+    sleep(1000);
+    secondME.setAttribute("style", "animation-duration:2s;animation-name:slideApp;animation-fill-mode:forwards;");
+    thirdME.setAttribute("style", "animation-duration:2s;animation-name:slideApp;animation-fill-mode:forwards;");
+});

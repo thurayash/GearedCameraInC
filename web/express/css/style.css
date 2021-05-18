@@ -1,15 +1,44 @@
 html
 {
   scroll-behavior: smooth;
+  background-color: #212324;
 }
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+  ::-webkit-scrollbar-track {
+  background: #212324; 
+}
+  ::-webkit-scrollbar-thumb {
+  background: #888; 
+    border-radius:10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  
+  background: #555; 
+} 
+
+/*.navbar-item:hover{
+  background-color: #2123248f;
+}*/
 
 .contentDiv {
     position: relative;
 }
 
-.navbar-link.is-active, .navbar-link:focus, .navbar-link:focus-within, .navbar-link:hover, a.navbar-item.is-active, a.navbar-item:focus, a.navbar-item:focus-within, a.navbar-item:hover {
-    background-color: rgb(53, 50, 50, 0.10); 
-    color: black;
+@media only screen and (max-width: 1024px){
+.navbar-menu{
+  background-color: #19191a59;
+}
+}
+
+.text-white:hover{
+  color:green;
+}
+
+a.navbar-item:hover {
+  background-color: #24242478;
 }
 
 @keyframes bouncing {
@@ -17,6 +46,12 @@ html
     50% {bottom: 20px;}
     100% {bottom: 0;}
 }
+
+@media screen and (max-width: 1023px)
+.navbar-menu {
+  background-color: green;
+}
+
 .a
 {
   color: white;
@@ -97,6 +132,7 @@ html
 body{
   margin:0;
   padding:0;
+  background-color: #212324;
 }
 h1{
   font-family: 'Montserrat', sans-serif;
@@ -317,4 +353,77 @@ h2{
   49.98%,62.64% {transform:translate3d(0,-75%,0);}
   66.64%,79.3% {transform:translate3d(0,-50%,0);}
   83.3%,95.96% {transform:translate3d(0,-25%,0);}
+}
+
+
+#return-to-top {
+    position: fixed;
+    bottom: 20px;
+    right: 3px;
+    background: rgb(0, 0, 0);
+    background: rgb(0 0 0 / 19%);
+    width: 45px;
+    height: 50px;
+    display: block;
+    text-decoration: none;
+    -webkit-border-radius: 35px;
+    -moz-border-radius: 35px;
+    border-radius: 35px;
+    display: none;
+    -webkit-transition: all 0.3s linear;
+    -moz-transition: all 0.3s ease;
+    -ms-transition: all 0.3s ease;
+    -o-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+}
+#return-to-top i {
+    color: #fff;
+    margin: 0;
+    position: relative;
+    left: 16px;
+    top: 13px;
+    font-size: 19px;
+    -webkit-transition: all 0.3s ease;
+    -moz-transition: all 0.3s ease;
+    -ms-transition: all 0.3s ease;
+    -o-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+}
+#return-to-top:hover {
+    background: rgba(0, 0, 0, 0.9);
+}
+#return-to-top:hover i {
+    color: #fff;
+    top: 5px;
+}
+
+.messageEclate{
+  position: relative;
+  opacity: 0;
+}
+
+@keyframes slideApp{
+  from{
+    transform: translateX(-10px);
+    opacity: 0;
+  }
+  to{
+    transform: translateX(10px);
+    opacity: 1;
+  }
+}
+
+@keyframes slidePHW{
+  from{
+    transform: translateY(10px);
+    opacity: 0;
+  }
+  to{
+    transform: translateY(-10px);
+    opacity: 1;
+  }
+}
+
+.contentMessageEclate{
+  position: relative;
 }
