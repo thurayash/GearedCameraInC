@@ -42,5 +42,6 @@ void sdlUpdate(int);
 
 void sdlStop();
 
+int vidtest_camCheck(char* cameraPath);
 
 #endif
