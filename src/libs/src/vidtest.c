@@ -7,7 +7,7 @@
  *
 */
 
-#include "vidtest.h"
+#include "../header/vidtest.h"
 
 uint8_t *buffer;
 struct v4l2_format fmt = {0};

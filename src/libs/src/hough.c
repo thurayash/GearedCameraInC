@@ -1,4 +1,4 @@
-#include "hough.h"
+#include "../header/hough.h"
 void binary(SDL_Surface* image)
 {
     int height = image->h;

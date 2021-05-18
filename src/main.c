@@ -1,5 +1,5 @@
-#include "main.h"
-#include "tools.h"
+#include "libs/header/main.h"
+#include "libs/header/tools.h"
 
 
 int initialisation_video(char* path)

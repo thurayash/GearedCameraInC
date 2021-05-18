@@ -1,4 +1,4 @@
-#include "dilation_erosion.h"
+#include "../header/dilation_erosion.h"
 
 void sett_pixel(SDL_Surface *surface, int x, int y, Uint32 pixel)
 {
