@@ -36,9 +36,8 @@ verif_line:
 -include ${DEP}
 
 verif_space :
-	python3 .space_verif.py *.c *.h
-
+	python3 .space_verif.py libs/src/*.c libs/header/*.h
 remove_space:
-	sed -i "s/\s*$$//" *.c *.h
+	sed -i "s/\s*$$//" libs/src/*.c libs/header/*.h
 
 # END
