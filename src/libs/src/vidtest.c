@@ -7,7 +7,7 @@
  *
 */
 
-#include "vidtest.h"
+#include "../header/vidtest.h"
 
 uint8_t *buffer;
 struct v4l2_format fmt = {0};
@@ -30,6 +30,45 @@ static int xioctl(int fd, int request, void *arg)
 
     return r;
 }
+
+
+
+int vidtest_camCheck(char* cameraPath)
+{
+    int fd;
+    char fourcc[5] = {0};
+
+    if ( ( fd = open(cameraPath, O_RDWR))  < 0)
+        goto vidtest_camCheck_null; // Path not found
+
+
+    struct v4l2_capability caps = {};
+    struct v4l2_cropcap cropcap = {0};
+    cropcap.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
+
+    if ( xioctl(fd, VIDIOC_CROPCAP, &cropcap) < 0 ||
+            xioctl(fd, VIDIOC_QUERYCAP, &caps) < 0)
+        goto vidtest_camCheck_null; // Cropping problems
+
+
+    struct v4l2_fmtdesc fmtdesc = {0};
+    fmtdesc.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
+    while (0 == xioctl(fd, VIDIOC_ENUM_FMT, &fmtdesc))
+    {
+        strncpy(fourcc, (char *)&fmtdesc.pixelformat, 4);
+        if (fmtdesc.pixelformat == V4L2_PIX_FMT_MJPEG)
+        {
+            close(fd);
+            return 1;
+        }
+        fmtdesc.index++;
+    }
+vidtest_camCheck_null:
+    close(fd);
+    return -1; // Doesn't  support GRBG10
+}
+
+
 
 
 int print_caps(int fd)

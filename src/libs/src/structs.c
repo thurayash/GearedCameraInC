@@ -1,4 +1,4 @@
-#include "structs.h"
+#include "../header/structs.h"
 
 CirMatrix* new_cir_matrix(int width, int height,int zSize){
     CirMatrix* new_matrix = malloc(sizeof(CirMatrix));

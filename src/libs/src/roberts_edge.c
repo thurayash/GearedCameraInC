@@ -1,6 +1,6 @@
-#include "roberts_edge.h"
-#include "structs.h"
-#include "tools.h"
+#include "../header/roberts_edge.h"
+#include "../header/structs.h"
+#include "../header/tools.h"
 
 
 Matrix* threshold(SDL_Surface *image, Matrix* res)

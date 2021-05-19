@@ -6,24 +6,33 @@ CFLAGS=-Wall -Wextra -g -std=gnu99 -O3 -O0
 LDFLAGS= -lm
 LDLIBS=-lSDL -lSDL_image
 
-SRC= tools.c main.c vidtest.c rgb_to_hsi.c image_conversion.c \
-		 roberts_edge.c structs.c dilation_erosion.c circle_detection.c\
-		 hough.c#Source files here
+SRC=$(shell find libs/ -type f -name '*.c' ! -iname "verif_line.c")
 OBJ= ${SRC:.c=.o}
 DEP= ${SRC:.c=.d}
+MYDIR=libs/src
+MYOBJ=libs/obj/
 
 all: main #Replace by 'main' if only one .exe
 
-main: ${OBJ}
-	$(CC) $(CFLAGS) $(OBJ) -o main $(LDFLAGS) $(LDLIBS)
+object:${SRC}
+	@for f in $(shell ls ${MYDIR}/*.c | grep -v 'verif_line.c$$' | xargs -n 1 basename); do echo \
+	"Compilling $${f} ..." >> libs/LOGS; \
+	$(CC) $(CFLAGS) -o libs/obj/$${f%.*}.o -c libs/src/$${f} $(LDFLAGS) $(LDLIBS); done
+	echo "\nObjects compilling done !" >> libs/LOGS
+
+main: object
+	$(CC) $(CFLAGS) $(MYOBJ)* -o main $(LDFLAGS) $(LDLIBS)
 
 .PHONY: clean
 
 clean:
+	echo  > libs/LOGS
+	rm -f libs/obj/*.o
 	rm -f ${OBJ} ${DEP} ${BIN} main
 
 verif_line:
-	./verif *.c *.h
+	./libs/verif ./libs/src/*.c
+	./libs/verif ./libs/header/*.h
 -include ${DEP}
 
 verif_space :

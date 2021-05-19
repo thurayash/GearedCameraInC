@@ -1,4 +1,4 @@
-#include "tools.h"
+#include "../header/tools.h"
 
     static inline
 Uint8* pixel_ref(SDL_Surface *surf, unsigned x, unsigned y)

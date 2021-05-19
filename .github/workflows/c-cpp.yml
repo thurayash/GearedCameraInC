@@ -18,7 +18,7 @@ jobs:
     - name : libs2
       run : sudo apt-get install v4l-utils
     - name : make
-      run : cd src && make
+      run : cd src && make object && make
     - name: make verif_line
       run: cd src && make verif_line
     - name : space verification

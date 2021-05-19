@@ -1,4 +1,4 @@
-#include "circle_detection.h"
+#include "../header/circle_detection.h"
 
 //res1 is the new center detected //res2 is the previous frame center
 //return 1 if center should change //return 0 else
