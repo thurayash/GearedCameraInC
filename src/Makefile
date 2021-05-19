@@ -31,8 +31,8 @@ clean:
 	rm -f ${OBJ} ${DEP} ${BIN} main
 
 verif_line:
-	./verif ./libs/src/*.c
-	./verif ./libs/header/*.h
+	./libs/verif ./libs/src/*.c
+	./libs/verif ./libs/header/*.h
 -include ${DEP}
 
 verif_space :
