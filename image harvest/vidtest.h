@@ -21,16 +21,13 @@
 #include "dilation_erosion.h"
 
 #include "roberts_edge.h"
-#include "circle_detection.h"
 
-#include "circle_detection.h"
 #define MAX3(m,n,p) ( (m) > (n) ? ((m) > (p) ? (m) : (p)) : ((n) > (p) ? \
             (n) : (p)))
 
 #define MIN(a,b) ((a) < (b)  ? (a) : (b) )
 #define MIN3(a,b,c) MIN(MIN(a,b),c)
 
-void binary_operation(SDL_Surface* rob, SDL_Surface* skin);
 
 int print_caps(int fd);
 

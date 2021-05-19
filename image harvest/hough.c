@@ -1,4 +1,5 @@
 #include "hough.h"
+#include "roberts_edge.h"
 void binary(SDL_Surface* image)
 {
     int height = image->h;
@@ -16,7 +17,7 @@ void binary(SDL_Surface* image)
 
             SDL_GetRGB(pixel, image->format, &r , &g, &b);
 
-            if(r > 126)
+            if(r > 127)
                 pixel = SDL_MapRGB(image->format, 255, 255, 255);
             else
                 pixel = SDL_MapRGB(image->format, 0, 0, 0);
@@ -31,14 +32,14 @@ void Test(SDL_Surface* image, SDL_Surface* screen)
 {
     /* Call here test */
 
-    /*
     printf("IMAGE   HEIGHT : %i , WIDTH : %i\n", image->h, image->w);
     printf("Image before post-processing ...\n");
     screen = display_image(image);
     wait_for_keypressed();
-    printf("Image binary ...\n");
+    printf("Image binary and Robert's Edge Detection...\n");
     binary(image);
-    screen = display_image(image);
+    image = to_rob(image);
+    //screen = display_image(image);
     wait_for_keypressed();
     printf("Image after post-processing ...\n");
     int resx, resy;
@@ -47,9 +48,20 @@ void Test(SDL_Surface* image, SDL_Surface* screen)
     Uint32 pixel = get_pixel(image, resy, resx);
     pixel = SDL_MapRGB(image->format, 0, 255, 0);
     put_pixel(image, resx, resy, pixel);
+    pixel = SDL_MapRGB(image->format, 0, 255, 0);
+    put_pixel(image, resx+1, resy+1, pixel);
+    pixel = SDL_MapRGB(image->format, 0, 255, 0);
+    put_pixel(image, resx+2, resy+2, pixel);
+    pixel = SDL_MapRGB(image->format, 0, 255, 0);
+    put_pixel(image, resx+3, resy+3, pixel);
+    pixel = SDL_MapRGB(image->format, 0, 255, 0);
+    put_pixel(image, resx-1, resy-1, pixel);
+    pixel = SDL_MapRGB(image->format, 0, 255, 0);
+    put_pixel(image, resx-2, resy-2, pixel);
+    pixel = SDL_MapRGB(image->format, 0, 255, 0);
+    put_pixel(image, resx-3, resy-3, pixel);
     screen = display_image(image);
     save_image(image, "HEY.bmp");
-    */
     wait_for_keypressed();
     (void)screen;
 }

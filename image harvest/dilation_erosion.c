@@ -163,37 +163,3 @@ void erode_square(SDL_Surface* image, SDL_Surface* result)
     }
 }
 
-
-
-void dilate_square_red(SDL_Surface* image, SDL_Surface* result)
-{
-    Uint8 r,g,b;
-
-    for (int i=2; i < (result->w - 2); i++)
-    {
-        for (int j=2; j< (result->h - 2); j++)
-        {
-            Uint32 uull = get_pixel(image, i, j); //from pixel.c
-            //to be able to easily manipulate pixels
-            SDL_GetRGB(uull,result->format, &r ,&g, &b);
-            if (r == 255)// It's not auto. white it can be gray unless u work
-                // On a binary image
-            {
-                uull = SDL_MapRGB(result->format, 255, 0, 0);
-                put_pixel(result, i, j, uull);
-                put_pixel(result, i-2, j, uull);
-                put_pixel(result, i-1, j, uull);
-                put_pixel(result, i, j-2, uull);
-                put_pixel(result, i, j-1, uull);
-                put_pixel(result, i+2, j, uull);
-                put_pixel(result, i+1, j, uull);
-                put_pixel(result, i, j+2, uull);
-                put_pixel(result, i, j+1, uull);
-                put_pixel(result, i+1, j+1, uull);
-                put_pixel(result, i-1, j+1, uull);
-                put_pixel(result, i+1, j-1, uull);
-                put_pixel(result, i-1, j-1, uull);
-            }
-        }
-    }
-}

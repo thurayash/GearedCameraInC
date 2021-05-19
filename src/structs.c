@@ -1,6 +1,5 @@
 #include "structs.h"
 
-
 CirMatrix* new_cir_matrix(int width, int height,int zSize){
     CirMatrix* new_matrix = malloc(sizeof(CirMatrix));
 
@@ -40,7 +39,8 @@ void print_cir_matrix(CirMatrix* matrix){
             }
 
             printf("%i",
-                    matrix->data[((matrix->zSize-1)* matrix->height * matrix->width ) +
+                    matrix->data[((matrix->zSize-1)* matrix->height *
+                        matrix->width ) +
                     (j*matrix->height) + i]);
             printf("]\t");
         }

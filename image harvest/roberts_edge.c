@@ -36,7 +36,7 @@ Matrix* threshold(SDL_Surface *image, Matrix* res)
     return res;
 }
 
-void to_rob(SDL_Surface *image)
+SDL_Surface *to_rob(SDL_Surface *image)
 {
     size_t width = image->w;
     size_t height = image->h;
@@ -90,7 +90,7 @@ void to_rob(SDL_Surface *image)
             put_pixel(image, i, j, pixel);
         }
     }
-    return (void)NULL;
+    return image;
 }
 
 

@@ -14,7 +14,4 @@ SDL_Surface* erode_cross(SDL_Surface* image);
 
 void dilate_square(SDL_Surface* image, SDL_Surface* result);
 void erode_square(SDL_Surface* image, SDL_Surface* result);
-
-
-void dilate_square_red(SDL_Surface* image, SDL_Surface* result);
 #endif

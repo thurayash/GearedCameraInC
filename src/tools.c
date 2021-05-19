@@ -198,11 +198,170 @@ SDL_Surface* display_image(SDL_Surface *img)
 }
 
 
-
-int save_image(SDL_Surface* img, char *path)
+void draw_line(SDL_Surface* image, int x1, int y1, int x2, int y2,
+        int col1, int col2, int col3)
 {
-       return SDL_SaveBMP(img, path);
+    if ( (x1 >= x2 && y1 == y2) || (y1 >= y2 && x1  == x2))
+        errx(EXIT_FAILURE, "Start point not compatible");
+    if (x1 != x2 && y1 != y2)
+        errx(EXIT_FAILURE, "Points aren't in the same line");
+    if (x1 < 0 || x1 >= image->w || y1 < 0 || y1 >= image->h)
+        errx(EXIT_FAILURE, "Start point outside of the image");
+
+    if (x2 < 0 || x2 >= image->w || y2 < 0 || y2 >= image->h)
+    {
+        printf("X2 : %i IMGW : %i Y2 : %i IMGH : %i", \
+                x2,image->w, y2, image->h);
+        errx(EXIT_FAILURE, "Finish1 point outside of the image");
+    }
+
+    Uint32 pixel;
+    if (x1 == x2)
+        for(int j = y1; j <= y2; j++)
+        {
+            pixel = SDL_MapRGB(image->format, col1, col2, col3);
+
+            put_pixel(image, x1, j, pixel);
+        }
+    else if (y1 == y2)
+        for(int i = x1; i <= x2; i++)
+        {
+            pixel = SDL_MapRGB(image->format, col1, col2, col3);
+            put_pixel(image, i, y1, pixel);
+        }
+    else
+        errx(EXIT_FAILURE, "Points aren't in the same line");
+
+    return (void)NULL;
 }
 
 
+/* Put this in the header */
+int analyse(SDL_Surface* image, int* arr, int* ratio_b,
+        int* ratio_w, int* ratio_r, int* histo_vert_b, int* histo_hor_b,
+        int* histo_vert_r, int* histo_hor_r);
+void print_histo(int* hist, int size);
+
+void draw_rectangle(SDL_Surface* image, int x, int y,
+        int size, int col1, int col2, int col3, int analyse_bool)
+{
+    int xA,xB, yA,yB;
+
+    xA = x-size < 0 ? 0 : x - size;
+    yA = y-size < 0 ? 0 : y - size;
+
+    xB = x+size >= image->w  ? image->w - 2 :  x + size;
+
+    yB = y+size >= image->h ? image->h - 2 : y + size;
+
+    draw_line(image, xA, yA, xB, yA, col1, col2, col3);
+    draw_line(image, xB, yA, xB, yB, col1, col2, col3);
+    draw_line(image, xA, yA, xA, yB, col1, col2, col3);
+    draw_line(image, xA, yB, xB, yB, col1, col2, col3);
+
+
+    int arr[4] = {xA, xB, yA, yB};
+    int ratio_b, ratio_w, ratio_r = 0;
+    int* histo_vert_b = calloc(size*2+1, sizeof(int));
+    int* histo_hor_b = calloc(size*2+1, sizeof(int));
+    int* histo_vert_r = calloc(size*2+1, sizeof(int));
+    int* histo_hor_r = calloc(size*2+1, sizeof(int));
+
+
+    if(analyse_bool && col1 == 255 && col2 == 0 && col3 == 0)
+        if(analyse(image, arr, &ratio_b, &ratio_w, &ratio_r, histo_vert_b,
+            histo_hor_b, histo_vert_r, histo_hor_r))
+        {
+            print_histo(histo_vert_b, size*2+1);
+            print_histo(histo_hor_b, size*2+1);
+        }
+
+    free(histo_vert_r);
+    free(histo_hor_r);
+    free(histo_vert_b);
+    free(histo_hor_b);
+
+    return (void)NULL;
+}
+
+
+int analyse(SDL_Surface* image, int* arr, int* ratio_b,
+        int* ratio_w, int* ratio_r, int* histo_vert_b, int* histo_hor_b,
+        int* histo_vert_r, int* histo_hor_r)
+{
+
+    Uint32 pixel;
+    Uint8 r,g,b;
+
+    int b_p = 0, w_p = 0, r_p  = 0;
+
+    int total = (arr[1] - arr[0])*(arr[3] - arr[2]);
+
+    for(int i = arr[0]; i < arr[1]; i++)
+    {
+        for(int j = arr[2]; j < arr[3]; j++)
+        {
+            pixel = get_pixel(image, i, j);
+            SDL_GetRGB(pixel, image->format, &r, &g, &b);
+
+
+            if(r == 0 && g == 0){
+                b_p++;
+                histo_vert_b[j-arr[2]] += 1;
+                histo_hor_b[i-arr[0]] += 1;
+            }
+
+            if(r == 255 && g == 255 && b == 255)
+                w_p++;
+
+            if(r == 255 && g == 0){
+                r_p++;
+                histo_vert_r[j-arr[2]] += 1;
+                histo_hor_r[i-arr[0]] += 1;
+            }
+        }
+    }
+
+    *ratio_b = (b_p)/total;
+    *ratio_r = (r_p)/total;
+    *ratio_w = (w_p)/total;
+
+    if (b_p > (total*80)/100) // If a square is essentially black then useless
+        return 0;
+    return 1;
+}
+
+
+void print_histo(int* hist, int size)
+{
+    int count = 0 ;
+    int prev = 0;
+    printf("\n\nHistogram of pixels\n");
+    for (int i = 0; i < size; i++)
+    {
+        count = hist[i];
+        if (!count)
+        {
+            prev = count;
+            continue;
+        }
+        if (!prev)
+        {
+            printf(".\n.\n.\n");
+            prev = 1;
+        }
+        printf("%d |", i - 1);
+        for (int j = 0; j < count / 2; j++)
+        {
+            printf("\u2B1B");//, (unsigned char)219);
+        }
+        printf(" %i\n", count);
+    }
+}
+
+
+int save_image(SDL_Surface* img, char *path)
+{
+    return SDL_SaveBMP(img, path);
+}
 
