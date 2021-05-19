@@ -17,12 +17,8 @@ jobs:
       run : sudo apt-get install libsdl-image1.2 libsdl-image1.2-dev libsdl1.2-dev libsdl1.2debian
     - name : libs2
       run : sudo apt-get install v4l-utils
-    - name : src
-      run : cd src
-    - name : make obj
-      run : make object
     - name : make
-      run : make
+      run : cd src && make object && make
     - name: make verif_line
       run: cd src && make verif_line
     - name : space verification
