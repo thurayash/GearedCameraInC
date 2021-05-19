@@ -33,7 +33,8 @@ int initialisation_video(char* path)
         errx(EXIT_FAILURE, "No camera found please insert a camera !\n");
     }
 
-    char* buffer = malloc(sizeof(char)*size+2); // Contient la liste des /dev/videoN
+    char* buffer = malloc(sizeof(char)*size+2);
+    // Contient la liste des /dev/videoN
 
     n = 0;
 
@@ -72,7 +73,8 @@ int initialisation_video(char* path)
         errx(EXIT_FAILURE, "No camera was found please connect a camera !");
 
     if (number_of_token == 1){
-        printf("Only compatible camera is %s, setting up...\n",token_list[alone_token]);
+        printf("Only compatible camera is %s, setting up...\n",\
+                token_list[alone_token]);
         strcpy(path, token_list[alone_token]);
         printf("Success !\n \n ");
         goto token_jump;
