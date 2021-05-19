@@ -6,9 +6,7 @@ CFLAGS=-Wall -Wextra -g -std=gnu99 -O3 -O0
 LDFLAGS= -lm
 LDLIBS=-lSDL -lSDL_image
 
-SRC= tools.c main.c vidtest.c rgb_to_hsi.c image_conversion.c \
-		 roberts_edge.c structs.c dilation_erosion.c circle_detection.c\
-		 hough.c#Source files here
+SRC=$(shell find libs/ -type f -name '*.c' ! -iname "verif_line.c")
 OBJ= ${SRC:.c=.o}
 DEP= ${SRC:.c=.d}
 
@@ -20,10 +18,12 @@ main: ${OBJ}
 .PHONY: clean
 
 clean:
+	rm -f libs/src/*.o
 	rm -f ${OBJ} ${DEP} ${BIN} main
 
 verif_line:
-	./verif *.c *.h
+	./verif ./libs/src/*.c
+	./verif ./libs/header/*.h
 -include ${DEP}
 
 verif_space :
