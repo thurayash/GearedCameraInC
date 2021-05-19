@@ -21,7 +21,7 @@ object:${SRC}
 	echo "\nObjects compilling done !" >> libs/LOGS
 
 main: object
-	$(CC) $(CFLAGS) $(MYOBJ)* -o main $(LDFLAGS) $(LDLIBS)
+	$(CC) $(CFLAGS) $(MYOBJ)*.o -o main $(LDFLAGS) $(LDLIBS)
 
 .PHONY: clean
 
