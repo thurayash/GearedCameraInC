@@ -9,16 +9,25 @@ LDLIBS=-lSDL -lSDL_image
 SRC=$(shell find libs/ -type f -name '*.c' ! -iname "verif_line.c")
 OBJ= ${SRC:.c=.o}
 DEP= ${SRC:.c=.d}
+MYDIR=libs/src
+MYOBJ=libs/obj/
 
 all: main #Replace by 'main' if only one .exe
 
-main: ${OBJ}
-	$(CC) $(CFLAGS) $(OBJ) -o main $(LDFLAGS) $(LDLIBS)
+object:${SRC}
+	@for f in $(shell ls ${MYDIR}/*.c | grep -v 'verif_line.c$$' | xargs -n 1 basename); do echo \
+	"Compilling $${f} ..." >> libs/LOGS; \
+	$(CC) $(CFLAGS) -o libs/obj/$${f%.*}.o -c libs/src/$${f} $(LDFLAGS) $(LDLIBS); done
+	echo "\nObjects compilling done !" >> libs/LOGS
+
+main: object
+	$(CC) $(CFLAGS) $(MYOBJ)* -o main $(LDFLAGS) $(LDLIBS)
 
 .PHONY: clean
 
 clean:
-	rm -f libs/src/*.o
+	echo  > libs/LOGS
+	rm -f libs/obj/*.o
 	rm -f ${OBJ} ${DEP} ${BIN} main
 
 verif_line:
