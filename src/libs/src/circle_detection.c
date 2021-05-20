@@ -282,29 +282,24 @@ void circleDectection_dynamicadapt(SDL_Surface *img, int *arr, int radinc)
             SDL_GetRGB(pix7,img->format, &r7 ,&g7, &b7);
             SDL_GetRGB(pix8,img->format, &r8 ,&g8, &b8);
 
-            if (r == 255 && g == 255 && r1 == 255 && g1 == 255 && r2 == 255 && g2 == 255 && r3 == 255 && g3 == 255 && r4 == 255 && g4 == 255 && r5 == 255 && g5 == 255 && r6 == 255 && g6 == 255 && r7 == 255 && g7 == 255 && r8 == 255 && g8 == 255) //if it is white
+            if (r == 255 && g == 0 && r1 == 255 && g1 == 0 && r2 == 255 && g2 == 0 && r3 == 255 && g3 == 0 && r4 == 255 && g4 == 0 && r5 == 255 && g5 == 0 && r6 == 255 && g6 == 0 && r7 == 255 && g7 == 0 && r8 == 255 && g8 == 0) //if it is white
                 // face edge pixel (it is in binary since BW)
             {
-                for (int radin = 0; radin < 1; radin++)
+
+                for (size_t theta = 0; theta < 360; theta+=2)
                 {
-                    R += radin;
 
-                    for (size_t theta = 0; theta < 360; theta+=2)
-                    {
+                    int y = i + R*cos(theta);
+                    //cos takes double, check for this
+                    int x = j + R*sin(theta); //sin takes double as
 
-                        int y = i + R*cos(theta);
-                        //cos takes double, check for this
-                        int x = j + R*sin(theta); //sin takes double as
+                    if(x < 0 || x > img->w || y < 0 || y > img->h)
+                        continue;
 
-                        if(x < 0 || x > img->w || y < 0 || y > img->h)
-                            continue;
+                    //int result = sqrt( pow((float)(j - y), 2) + pow((float)(i - x), 2));
 
-                        //int result = sqrt( pow((float)(j - y), 2) + pow((float)(i - x), 2));
-
-                        //if ( result <= R + R/10 && result >= R - R/10) // Outside the circle
-                        matrix->data[offset(x,y,radin,matrix)] += 1;//maybe change y, x
-                    }
-                    R-=radin;
+                    //if ( result <= R + R/10 && result >= R - R/10) // Outside the circle
+                    matrix->data[offset(x,y,0,matrix)] += 1;//maybe change y, x
                 }
             }
         }
@@ -319,16 +314,13 @@ void circleDectection_dynamicadapt(SDL_Surface *img, int *arr, int radinc)
     {
         for (int j = 0; j < img->h; j++)
         {
-            for (int rad = 0; rad < 1; rad++)
-            {
-                int current_val = matrix->data[offset(j,i,rad,matrix)] ;
+            int current_val = matrix->data[offset(j,i,0,matrix)] ;
 
-                if (current_val > val_max)
-                {
-                    x_max = i;
-                    y_max = j;
-                    val_max = current_val;
-                }
+            if (current_val > val_max)
+            {
+                x_max = i;
+                y_max = j;
+                val_max = current_val;
             }
         }
     }

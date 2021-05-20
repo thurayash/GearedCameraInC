@@ -21,6 +21,10 @@ SDL_Surface* frame;
 
 SDL_Rect position = {.x = 0, .y = 0};
 
+Uint8 vidtest_thresold_value = 0;
+
+int vidtest_nbr_frame = 0;
+
 static int xioctl(int fd, int request, void *arg)
 {
     int r;
@@ -287,7 +291,7 @@ void sdlUpdate(int mode) // Update the SDL_Surface with a new frame
         SDL_FreeSurface(frame);
     }
     else if(mode == 4){ // Robert edge red
-        to_rob(frame);
+        to_rob(frame, 30);
         SDL_BlitSurface(frame, NULL, screen, &position); // Show result1
         SDL_Flip(screen);
 
@@ -326,7 +330,7 @@ void sdlUpdate(int mode) // Update the SDL_Surface with a new frame
                 fmt.fmt.pix.height);
         image_conversion(frame, skin_detect);
 
-        to_rob(frame);
+        to_rob(frame, 30);
 
         SDL_Surface* dilatation_surface = new_rgb_surface(fmt.fmt.pix.width,
                 fmt.fmt.pix.height);
@@ -385,11 +389,41 @@ void sdlUpdate(int mode) // Update the SDL_Surface with a new frame
     }
     else if(mode == 6)
     {
+
         SDL_Surface* skin_detect =  new_rgb_surface(fmt.fmt.pix.width,
                 fmt.fmt.pix.height);
         image_conversion(frame, skin_detect);
 
-        to_rob(frame);
+        unsigned long* histo = calloc(256, sizeof(unsigned long));
+
+        // Grayscale
+        for (size_t i = 0; i < frame->w; i++) // Gray Scale
+        {
+            for (size_t j = 0; j < frame->h; j++)
+            {
+                Uint8 r,g,b;
+
+                Uint32 pixel = get_pixel(frame, i, j);
+                SDL_GetRGB(pixel, frame->format, &r, &g, &b);
+                Uint8 gray = (r+g+b)/3;
+
+                histo[gray]++;
+
+                pixel = SDL_MapRGB(frame->format, gray, gray, gray);
+
+                put_pixel(frame, i, j, pixel);
+            }
+        }
+
+        if (vidtest_nbr_frame == 10 ||  vidtest_nbr_frame == 0){
+            vidtest_thresold_value = Threshold_value(frame, frame->w, frame->h, histo);
+            vidtest_nbr_frame = 0;
+        }
+        vidtest_nbr_frame++;
+
+        free(histo);
+
+        to_rob(frame, vidtest_thresold_value);
 
         SDL_Surface* dilatation_surface = new_rgb_surface(fmt.fmt.pix.width,
                 fmt.fmt.pix.height);
@@ -454,6 +488,13 @@ void sdlUpdate(int mode) // Update the SDL_Surface with a new frame
 
     }
 }
+
+
+void TEST(SDL_Surface* test){
+    SDL_BlitSurface(test, NULL, screen, &position);
+    SDL_Flip(screen);
+}
+
 
 
 void binary_operation(SDL_Surface* rob, SDL_Surface* skin)

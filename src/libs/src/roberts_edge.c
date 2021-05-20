@@ -3,10 +3,8 @@
 #include "../header/tools.h"
 
 
-Uint8 Threshold_value(SDL_Surface* image, int width, int height);
+Uint8 Threshold_value(SDL_Surface* image, int width, int height, unsigned long*);
 
-void Applying_Threshold(SDL_Surface* image, Uint8 threshold
-        , int width, int height, int red);
 
 Matrix* threshold(SDL_Surface *image, Matrix* res)
 {
@@ -41,30 +39,10 @@ Matrix* threshold(SDL_Surface *image, Matrix* res)
     return res;
 }
 
-void to_rob(SDL_Surface *image)
+void to_rob(SDL_Surface *image, int threshold)
 {
     size_t width = image->w;
     size_t height = image->h;
-
-    for (size_t i = 0; i < width; i++) // Gray Scale
-    {
-        for (size_t j = 0; j < height; j++)
-        {
-            Uint8 r,g,b;
-
-            Uint32 pixel = get_pixel(image, i, j);
-            SDL_GetRGB(pixel, image->format, &r, &g, &b);
-            Uint8 gray = (r+g+b)/3;
-
-            pixel = SDL_MapRGB(image->format, gray, gray, gray);
-
-            put_pixel(image, i, j, pixel);
-        }
-    }
-
-    Uint8 threshold = Threshold_value(image, image->w, image->h);
-
-    Applying_Threshold(image, threshold, image->w, image->h, 0);
 
     Uint8 r1,g1,b1, r2, g2, b2, r3, g3, b3, r4, g4, b4;
     Uint32 p1, p2, p3, p4;
@@ -84,10 +62,26 @@ void to_rob(SDL_Surface *image)
             SDL_GetRGB(p3, image->format, &r3, &g3, &b3);
             SDL_GetRGB(p4, image->format, &r4, &g4, &b4);
 
+
+            if (r1 > threshold)
+                r1 = 0;
+            b1 = g1 = r1;
+
+            if (r2 > threshold)
+                r2 = 0;
+            b2 = g2 = r2;
+
+            if (r3 > threshold)
+                r3 = 0;
+            b3 = g3 = r3;
+
+            if (r4 > threshold)
+                r4 = 0;
+            b4 = g4 = r4;
+
             r1 = abs(r1 - r4) + abs(r2 - r4);
             g1 = abs(g1 - g4) + abs(g2 - g4);
             b1 = abs(b1 - b4) + abs(b2 - b4);
-            // R =
 
 
             if( r1 > 30)// If the pixel is usefull
@@ -98,6 +92,7 @@ void to_rob(SDL_Surface *image)
             put_pixel(image, i, j, pixel);
         }
     }
+
     return (void)NULL;
 }
 
@@ -158,44 +153,11 @@ SDL_Surface *first_rob(SDL_Surface *image)
 
 
 
-void Set_Histo_0(unsigned long histo[256])
-{
-    histo[0] = 1;
-    for(int i = 1; i < 256; i++)
-    {
-        histo[i] = 0;
-    }
-}
-
-
-
-void Get_Histo(SDL_Surface* image, unsigned long histo[256], int width,
-        int height)
-    // Getting the histo for all the pixels
-{
-
-    for(int i = 0; i < width; i++)
-    {
-        for(int j = 0; j < height; j++)
-        {
-
-            Uint8 r, g, b;
-            Uint32 pixel = get_pixel(image, i, j);
-            SDL_GetRGB(pixel, image->format, &r, &g, &b);
-            int greyscale = (r+g+b)/3;
-            histo[greyscale] += 1;
-
-        }
-    }
-}
-
-
-Uint8 Threshold_value(SDL_Surface* image, int width, int height)
+Uint8 Threshold_value(SDL_Surface* image, int width, int height, unsigned long *histo)
 {
     Uint8 threshold =  0;
     //Uint8 threshold2 = 0;
     double nbrPixel = width * height;
-    unsigned long histo[256];
 
     unsigned long sum = 0;
     unsigned long w1 = 0,w2 = 0;
@@ -204,11 +166,7 @@ Uint8 Threshold_value(SDL_Surface* image, int width, int height)
     unsigned long sumB = 0;
     unsigned long var_max = 0;
 
-
-    Set_Histo_0(histo);
-    Get_Histo(image, histo, width, height);
-    for(int i = 0; i < 256; i++)
-    {
+    for(int i = 0; i < 256; i++){
         sum +=  i*histo[i];
     }
 
@@ -239,25 +197,4 @@ Uint8 Threshold_value(SDL_Surface* image, int width, int height)
     return threshold;
 }
 
-
-void Applying_Threshold(SDL_Surface* image, Uint8 threshold
-        , int width, int height, int red)
-{
-    for(int i = 0; i < width; i++)
-    {
-        for(int j = 0; j < height; j++)
-        {
-            Uint8 r, g, b;
-            Uint32 pixel = get_pixel(image, i, j);
-            SDL_GetRGB(pixel, image->format, &r, &g, &b);
-            int greyscale = (r+g+b)/3;
-            if (greyscale > threshold)
-            {
-                Uint32 pixel1 = get_pixel(image, i, j);
-                pixel1 = SDL_MapRGB(image->format, 0, 0, 0);
-                put_pixel(image, i, j, pixel1);
-            }
-        }
-    }
-}
 
