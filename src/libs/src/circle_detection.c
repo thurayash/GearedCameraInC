@@ -251,44 +251,58 @@ void circleDectection_dynamicadapt(SDL_Surface *img, int *arr, int radinc)
     //new matrix to fill the vote count.
     CirMatrix *matrix = new_cir_matrix(img->w, img->h,5);
 
-    Uint8 r,g,b;
+    Uint8 r,g,b,r1, g1, b1,r2, g2, b2,r3, g3, b3,r4, g4, b4,r5, g5, b5,r6, g6, b6,r7, g7, b7,r8, g8, b8;
 
     //we start with the loswest radius
-    int R = img->h /12;
+    int R = 20; // R = 20
     // The width is always 752 same for the height 480
-    int counterx, countery;
-    Uint32 pix;
-    for (int i = R+3; i < img->w -R -3; i++)
+    Uint32 pix, pix1, pix2, pix3, pix4, pix5, pix6, pix7, pix8;
+
+    for (int i = 1; i < img->w-1; i++)
     {
-        for (int j = R+3; j < img->h -R -3; j++)
+        for (int j = 1; j < img->h-1; j++)
         {
             pix = get_pixel(img, i, j); //from pixel.c
+            pix1 = get_pixel(img, i, j+1); //from pixel.c
+            pix2 = get_pixel(img, i, j-1); //from pixel.c
+            pix3 = get_pixel(img, i+1, j); //from pixel.c
+            pix4 = get_pixel(img, i+1, j+1); //from pixel.c
+            pix5 = get_pixel(img, i+1, j-1); //from pixel.c
+            pix6 = get_pixel(img, i-1, j); //from pixel.c
+            pix7 = get_pixel(img, i-1, j+1); //from pixel.c
+            pix8 = get_pixel(img, i-1, j-1); //from pixel.c
             //to be able to easily manipulate pixels
             SDL_GetRGB(pix,img->format, &r ,&g, &b);
-            if (r == 255 ) //if it is white
+            SDL_GetRGB(pix1,img->format, &r1 ,&g1, &b1);
+            SDL_GetRGB(pix2,img->format, &r2 ,&g2, &b2);
+            SDL_GetRGB(pix3,img->format, &r3 ,&g3, &b3);
+            SDL_GetRGB(pix4,img->format, &r4 ,&g4, &b4);
+            SDL_GetRGB(pix5,img->format, &r5 ,&g5, &b5);
+            SDL_GetRGB(pix6,img->format, &r6 ,&g6, &b6);
+            SDL_GetRGB(pix7,img->format, &r7 ,&g7, &b7);
+            SDL_GetRGB(pix8,img->format, &r8 ,&g8, &b8);
+
+            if (r == 255 && g == 255 && r1 == 255 && g1 == 255 && r2 == 255 && g2 == 255 && r3 == 255 && g3 == 255 && r4 == 255 && g4 == 255 && r5 == 255 && g5 == 255 && r6 == 255 && g6 == 255 && r7 == 255 && g7 == 255 && r8 == 255 && g8 == 255) //if it is white
                 // face edge pixel (it is in binary since BW)
             {
-
-                //here is where we will need to check for each Radius
-                //if there was a circle already drawn to not take the point
-                for (int radin = 0; radin <= radinc; radin++)
+                for (int radin = 0; radin < 1; radin++)
                 {
-                    R+= radin;
-                    if ((counterx >= i+R-R/10||counterx <= i-R + R/10) || \
-                            (countery >= j+R -R/10|| countery <= j-R + R/10))
-                    {
-                        counterx =i;
-                        countery = j;
-                        for (size_t theta = 0; theta < 360; theta+=2)
-                        {
-                            int y = i + R*cos(theta);
-                            //cos takes double, check for this
-                            int x = j + R*sin(theta); //sin takes double as
-                            //well
+                    R += radin;
 
-                            //maybe change y, x
-                            matrix->data[offset(x,y,radin,matrix)] +=1;
-                        }
+                    for (size_t theta = 0; theta < 360; theta+=2)
+                    {
+
+                        int y = i + R*cos(theta);
+                        //cos takes double, check for this
+                        int x = j + R*sin(theta); //sin takes double as
+
+                        if(x < 0 || x > img->w || y < 0 || y > img->h)
+                            continue;
+
+                        //int result = sqrt( pow((float)(j - y), 2) + pow((float)(i - x), 2));
+
+                        //if ( result <= R + R/10 && result >= R - R/10) // Outside the circle
+                        matrix->data[offset(x,y,radin,matrix)] += 1;//maybe change y, x
                     }
                     R-=radin;
                 }
@@ -297,23 +311,30 @@ void circleDectection_dynamicadapt(SDL_Surface *img, int *arr, int radinc)
     }
     //we now have the matrix with the votes.
     //the greatest number is most likely the center
-    int *votes = calloc(radinc ,sizeof(int));//maybe =NULL
-    for (int v = 0; v < img->w; v++)
+    int x_max = 0;
+    int y_max = 0;
+    int val_max = 0;
+
+    for (int i = 0; i < img->w; i++)
     {
-        for (int b = 0; b < img->h; b++)
+        for (int j = 0; j < img->h; j++)
         {
-            for (int rad = 0; rad <= radinc; rad++)
+            for (int rad = 0; rad < 1; rad++)
             {
-                if (*(votes+rad) < matrix->data[offset(b,v,rad,matrix)])
+                int current_val = matrix->data[offset(j,i,rad,matrix)] ;
+
+                if (current_val > val_max)
                 {
-                    //ar
-                    *(votes+rad) = matrix->data[offset(b,v,rad, matrix)];
-                    *(arr+rad)= v;
-                    *(arr + 1 + rad) = b;
+                    x_max = i;
+                    y_max = j;
+                    val_max = current_val;
                 }
             }
         }
     }
-    free(votes); //maybe?
+
+    arr[0] = x_max;
+    arr[1] = y_max;
     free_cir_matrix(matrix);
 }
+

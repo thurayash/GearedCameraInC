@@ -81,7 +81,7 @@ int initialisation_video(char* path)
     }
 
 
-    printf("Select a camera (0-%i):", number_of_token);
+    printf("Select a camera (0-%i):", number_of_token-1);
 
     char rsp[10];
 token_number:
