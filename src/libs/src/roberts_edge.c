@@ -3,9 +3,6 @@
 #include "../header/tools.h"
 
 
-Uint8 Threshold_value(SDL_Surface* image, int width, int height, unsigned long*);
-
-
 Matrix* threshold(SDL_Surface *image, Matrix* res)
 {
     size_t width = image->w;
@@ -153,7 +150,7 @@ SDL_Surface *first_rob(SDL_Surface *image)
 
 
 
-Uint8 Threshold_value(SDL_Surface* image, int width, int height, unsigned long *histo)
+Uint8 Threshold_value(int width, int height, unsigned long *histo)
 {
     Uint8 threshold =  0;
     //Uint8 threshold2 = 0;

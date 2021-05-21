@@ -3,6 +3,8 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <SDL/SDL.h>
+#include <SDL/SDL_image.h>
 
 #define ROW 5
 #define COL 3
@@ -21,6 +23,14 @@ typedef struct{
 
     int* data;
 }CirMatrix;
+
+
+typedef struct{
+    SDL_Surface* frame;
+    SDL_Surface* conv;
+    SDL_Surface* dilate;
+    SDL_Surface* eroded;
+}ThreadD;
 
 CirMatrix* new_cir_matrix(int width, int height,int zSize);
 

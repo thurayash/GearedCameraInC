@@ -246,7 +246,7 @@ void circleDectection3_staticadapt(SDL_Surface *img, int *arr)
 }
 
 //CircleDetection Dynamic Adapt
-void circleDectection_dynamicadapt(SDL_Surface *img, int *arr, int radinc)
+void circleDectection_dynamicadapt(SDL_Surface *img, int *arr)
 {
     //new matrix to fill the vote count.
     CirMatrix *matrix = new_cir_matrix(img->w, img->h,5);

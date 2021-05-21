@@ -13,6 +13,7 @@
 #include <math.h>
 #include <SDL/SDL.h>
 #include <SDL/SDL_image.h>
+#include <pthread.h>
 
 #include "tools.h"
 #include "rgb_to_hsi.h"

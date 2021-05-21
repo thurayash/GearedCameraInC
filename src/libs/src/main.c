@@ -106,7 +106,7 @@ token_jump:
 
     free(token_list);
 
-   return 1;
+    return 1;
 }
 
 int main(int argc, char** argv)
@@ -142,13 +142,23 @@ int main(int argc, char** argv)
     if(init_mmap(fd))
         return 1;
 
+    SDL_Event event;
+
     for(int i = 0; i != 10000; i++){
         if(capture_image(fd))
             return 1;
         sdlUpdate(mode);
+        SDL_PollEvent(&event);
+        if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_ESCAPE)
+        {
+            printf("Closing process...\n");
+            goto main_stop_jump;
+        }
         usleep(3000);
     }
 
+
+main_stop_jump:
     sdlStop();
     close(fd);
     return 0;

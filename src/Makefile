@@ -1,8 +1,8 @@
 # Makefile
 
-CC= gcc #-fsanitize=address
+CC= gcc#-fsanitize=address
 
-CFLAGS=-Wall -Wextra -g -std=gnu99 -O3 -O0
+CFLAGS=-Wall -Wextra -g -std=gnu99 -O3 -O0 -pthread
 LDFLAGS= -lm
 LDLIBS=-lSDL -lSDL_image
 
