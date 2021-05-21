@@ -363,6 +363,7 @@ void sdlUpdate(int mode) // Update the SDL_Surface with a new frame
         dilate_square_red(frame, red_dilate);
 
         //binary_operation(red_dilate, erode_surface);
+        //binari(red_dilate, erode_surface);
 
         //circleDectection_staticadapt(erode_surface, &resx, &resy);
 
@@ -457,6 +458,7 @@ void sdlUpdate(int mode) // Update the SDL_Surface with a new frame
         pthread_join(thread, &pvalue);
 
         binary_operation(red_dilate, data->eroded);
+        binari(red_dilate, data->eroded);
 
         //circleDectection_staticadapt(erode_surface, &resx, &resy);
 
@@ -471,7 +473,7 @@ void sdlUpdate(int mode) // Update the SDL_Surface with a new frame
 
         //put_pixel(data->frame, arr[0], arr[1], pixel);
 
-        draw_rectangle(data->eroded, arr[0], arr[1], 75, 255, 0 , 0, 1);
+        draw_rectangle(data->eroded, arr[0], arr[1], 75, 255, 0 , 0, 0);
 
         //draw_rectangle(erode_surface, arr[2], arr[3], 75, 255, 127, 127, 0);
         //draw_rectangle(erode_surface, arr[4], arr[5], 75, 0, 255 , 0, 0);
