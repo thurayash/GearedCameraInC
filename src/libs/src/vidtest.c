@@ -415,6 +415,7 @@ void sdlUpdate(int mode) // Update the SDL_Surface with a new frame
         pthread_join(thread, &pvalue);
 
         binary_operation(red_dilate, data->eroded);
+        //binari(red_dilate, data->eroded);
 
         Candidates** vidtest_candidates_arr_t1 =
             malloc(sizeof(Candidates*)*CANDIDATE_NUMBER);
@@ -467,9 +468,6 @@ void sdlUpdate(int mode) // Update the SDL_Surface with a new frame
         draw_rectangle(data->eroded, cirlce_data2->arr[1]->x, cirlce_data2->arr[1]->y, 75, 255, 127 , 0, 0);
 
         draw_rectangle(data->eroded, cirlce_data2->arr[2]->x, cirlce_data2->arr[2]->y, 75, 56, 154 , 66, 0);
-
-
-
 
         //draw_rectangle(erode_surface, arr[2], arr[3], 75, 255, 127, 127, 0);
         //draw_rectangle(erode_surface, arr[4], arr[5], 75, 0, 255 , 0, 0);
