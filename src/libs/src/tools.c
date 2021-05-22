@@ -268,12 +268,19 @@ void draw_rectangle(SDL_Surface* image, int x, int y,
     int* histo_hor_r = calloc(size*2+1, sizeof(int));
 
 
-    if(analyse_bool && col1 == 255 && col2 == 0 && col3 == 0)
+    if(analyse_bool && col1 == 255 && col2 == 255 && col3 == 0)
         if(analyse(image, arr, &ratio_b, &ratio_w, &ratio_r, histo_vert_b,
             histo_hor_b, histo_vert_r, histo_hor_r))
         {
+            printf("HISTO VERT R \n");
             print_histo(histo_vert_b, size*2+1);
+
+            printf("HISTO HORT R \n");
             print_histo(histo_hor_b, size*2+1);
+            printf("[");
+            for(int i =0; i < size*2;i++)
+                printf("%i,", histo_hor_b[i]);
+            printf("]\n");
         }
 
     free(histo_vert_r);
