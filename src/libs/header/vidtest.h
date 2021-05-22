@@ -17,19 +17,18 @@
 
 #include "tools.h"
 #include "rgb_to_hsi.h"
-#include "image_conversion.h"
-
-#include "dilation_erosion.h"
-
 #include "roberts_edge.h"
+#include "thread_func.h"
+#include "binari.h"
 
-#include "circle_detection.h"
 #define MAX3(m,n,p) ( (m) > (n) ? ((m) > (p) ? (m) : (p)) : ((n) > (p) ? \
             (n) : (p)))
 
 #define MIN(a,b) ((a) < (b)  ? (a) : (b) )
 #define MIN3(a,b,c) MIN(MIN(a,b),c)
 
+
+#define CANDIDATE_NUMBER 3
 
 int print_caps(int fd);
 
@@ -45,4 +44,6 @@ void sdlStop();
 
 int vidtest_camCheck(char* cameraPath);
 
+
+void binary_operation(SDL_Surface* rob, SDL_Surface* skin);
 #endif

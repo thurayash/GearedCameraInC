@@ -13,7 +13,7 @@ typedef struct{
     int rows; // number of rows
     int cols; // number of columns
     int** data; // <- note that this is a pointer to one dim array
-} Matrix;
+}Matrix;
 
 
 typedef struct{
@@ -31,6 +31,22 @@ typedef struct{
     SDL_Surface* dilate;
     SDL_Surface* eroded;
 }ThreadD;
+
+
+typedef struct{
+    int x ;
+    int y ;
+    int val_max;
+}Candidates;
+
+
+typedef struct{
+    SDL_Surface* fusion_bin;
+    int R;
+    Candidates** arr;
+}ThreadDC;
+
+Candidates* new_candidate();
 
 CirMatrix* new_cir_matrix(int width, int height,int zSize);
 

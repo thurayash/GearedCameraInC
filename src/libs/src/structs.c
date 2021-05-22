@@ -15,6 +15,15 @@ CirMatrix* new_cir_matrix(int width, int height,int zSize){
 int offset(int x, int y, int z, CirMatrix* matrix){
     return (z * matrix->zSize * matrix->width) + (x*matrix->height) + y;
 }
+
+Candidates* new_candidate(){
+    Candidates* result = malloc(sizeof(Candidates));
+    result->x = 0;
+    result->y = 0;
+    result->val_max = 0;
+    return result;
+}
+
 /*
  * [
  *  [ [0,1,2], [3,4,5]   ],
