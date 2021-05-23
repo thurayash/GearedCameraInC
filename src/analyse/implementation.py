@@ -1,5 +1,6 @@
 # Do the python implementation here !
 
+
 def kolmogorov(histo1, histo2):
     stat, p_value = 0,0
     # TODO
@@ -30,3 +31,4 @@ def cumulative_fonction(histo1, nbr_pixels):
         current_sum += tmp
     
     return result
+
