@@ -456,18 +456,18 @@ void sdlUpdate(int mode) // Update the SDL_Surface with a new frame
 
         //put_pixel(data->frame, arr[0], arr[1], pixel);
 
-        draw_rectangle(data->eroded, cirlce_data1->arr[0]->x, cirlce_data1->arr[0]->y, 37, 255, 0 , 0, 0);
+        draw_rectangle(frame, data->eroded, cirlce_data1->arr[0]->x, cirlce_data1->arr[0]->y, 37, 255, 0 , 0, 0);
 
-        draw_rectangle(data->eroded, cirlce_data1->arr[1]->x, cirlce_data1->arr[1]->y, 37, 0, 255 , 0, 0);
+        draw_rectangle(frame, data->eroded, cirlce_data1->arr[1]->x, cirlce_data1->arr[1]->y, 37, 0, 255 , 0, 0);
 
-        draw_rectangle(data->eroded, cirlce_data1->arr[2]->x, cirlce_data1->arr[2]->y, 37, 0, 0 , 255, 0);
+        draw_rectangle(frame, data->eroded, cirlce_data1->arr[2]->x, cirlce_data1->arr[2]->y, 37, 0, 0 , 255, 0);
 
 
-        draw_rectangle(data->eroded, cirlce_data2->arr[0]->x, cirlce_data2->arr[0]->y, 75, 255, 255 , 0, 1);
+        draw_rectangle(frame, data->eroded, cirlce_data2->arr[0]->x, cirlce_data2->arr[0]->y, 75, 255, 255 , 0, 1);
 
-        draw_rectangle(data->eroded, cirlce_data2->arr[1]->x, cirlce_data2->arr[1]->y, 75, 255, 127 , 0, 0);
+        draw_rectangle(frame, data->eroded, cirlce_data2->arr[1]->x, cirlce_data2->arr[1]->y, 75, 255, 127 , 0, 0);
 
-        draw_rectangle(data->eroded, cirlce_data2->arr[2]->x, cirlce_data2->arr[2]->y, 75, 56, 154 , 66, 0);
+        draw_rectangle(frame, data->eroded, cirlce_data2->arr[2]->x, cirlce_data2->arr[2]->y, 75, 56, 154 , 66, 0);
 
         //draw_rectangle(erode_surface, arr[2], arr[3], 75, 255, 127, 127, 0);
         //draw_rectangle(erode_surface, arr[4], arr[5], 75, 0, 255 , 0, 0);
@@ -475,7 +475,7 @@ void sdlUpdate(int mode) // Update the SDL_Surface with a new frame
         //draw_rectangle(erode_surface, arr[8], arr[9], 75, 0, 255 , 255, 1);
 
 
-        SDL_BlitSurface(data->eroded, NULL, screen, &position);
+        SDL_BlitSurface(frame, NULL, screen, &position);
         SDL_Flip(screen);
 
         for(short i = 0; i < CANDIDATE_NUMBER; i++){
