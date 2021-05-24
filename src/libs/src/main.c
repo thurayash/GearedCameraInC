@@ -120,6 +120,9 @@ int main(int argc, char** argv)
                 \n4: Real roberts edge detection\
                 \n5: Hough Transform CircleDetection\
                 \n6: Analyse square historgrame");
+
+    /*launch_start to establishe a connection with the hardware*/
+
     int fd;
 
     char path[24];
