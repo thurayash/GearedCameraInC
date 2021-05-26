@@ -30,7 +30,8 @@ int initialisation_video(char* path)
 
     if(!size){
         printf("\n\n");
-        errx(EXIT_FAILURE, "No camera found please insert a camera !\n");
+        errx(EXIT_FAILURE, "Error Code 5 :\
+        No camera found please insert a camera !\n");
     }
 
     char* buffer = malloc(sizeof(char)*size+2);
@@ -70,7 +71,8 @@ int initialisation_video(char* path)
     printf(" ---------------------------------------------\n");
     printf("\n");
     if (number_of_token == 0)
-        errx(EXIT_FAILURE, "No camera was found please connect a camera !");
+        errx(EXIT_FAILURE, "Error Code 5 :\
+        No camera was found please connect a camera !");
 
     if (number_of_token == 1){
         printf("Only compatible camera is %s, setting up...\n",\
@@ -130,7 +132,7 @@ int main(int argc, char** argv)
 
     fd = open(path, O_RDWR);
     if (fd == -1){
-        perror("Opening video device");
+        perror("File not found : Opening video device");
         return 1;
     }
 

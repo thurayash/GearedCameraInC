@@ -371,7 +371,8 @@ void sdlUpdate(int mode) // Update the SDL_Surface with a new frame
         void* pvalue;
 
         if (pthread_create(&thread, NULL, thread_skin_func, (void*)data) < 0)
-            errx(EXIT_FAILURE, "Thread not created !");
+            errx(EXIT_FAILURE, "Vidtest.c ; line 374\
+            Thread not created !");
 
         SDL_Surface* vidtest_surface_edges =
             new_rgb_surface(fmt.fmt.pix.width, fmt.fmt.pix.height);
