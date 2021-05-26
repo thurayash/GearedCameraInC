@@ -64,10 +64,10 @@ double r3_dist(double r7, double r4)
     return sqrt((r7*r7) + (r4*r4));
 }
 
-double biggear_angle(double realdist, double pfl, double foundpfl, double realdist2, double foundpfl2, int x1, int y1, int x2, int y2)
+double biggear_angle(double realdist, double pfl, double foundpfl, double foundpfl2, int x1, int y1, int x2, int y2)
 {
     double r1 = r1_dist(realdist, pfl, foundpfl);
-    double r7 = r7_dist(realdist2, pfl, foundpfl2);
+    double r7 = r7_dist(realdist, pfl, foundpfl2);
     double r4 = r4_dist(x1, y1, x2, y2, pfl);
     double r8 = r8_dist(r7, r1);
     double r2 = r2_dist(r8,r4);
