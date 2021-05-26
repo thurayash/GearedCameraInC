@@ -89,12 +89,9 @@ double smallgear_angle(double r2, int y1, int y2, double pfl_2)
     return asin(sinu) * val;
 }
 
-
-/*
-
-//id == the smallest reallife distance between the two points
+//fpl = Face Pixel length ; ammout of pixels length wise of a face
 //coord of the two centers of 2 points of interest
-double gauss_dist(double id, int x1, int y1, int x2, int y2)
+double gauss_dist(double fpl, int x1, int y1, int x2, int y2)
 {
     //int list[] = {(radius of detection, length in pixel of a face) * number of how many circle radii};
     double xres = 0;
@@ -116,31 +113,31 @@ double gauss_dist(double id, int x1, int y1, int x2, int y2)
         pixdist = xres;
     //25 cm is average face (check value!!!)
     //converted to real life
-    return (pixdist * 25.0) / id; 
+    return (pixdist * 25.0) / fpl; 
 }
 
- * //x1 y 1 center coord of first frame
+/*
+---------------> X
+|
+|
+Y*/
+ //x1 y 1 center coord of image
 //x2 y 2 center coord of second frame
-//dist1 is the distance between camera and first face
-//dist 2 is that of second face
-//both dist1 and 2 are inferred from the Circle detection algo ( which colored rectangle)
-double* find_angle(int x1, int y1, int x2, int y2, int dist1, int dist2)
+//dist = real life dist : deduced from pixel length in a set array
+//fpl : you already know.....
+//fuck arrays, feed it two var, biggear and small gear
+void find_angle(int x1, int y1, int x2, int y2, double fpl, double dist\
+,double* biggear, double *smallgear)
 {
-    int Xgdist = gauss_dist(dist1, x1, y1, x2, y2);
-    double dist22 = sqrt((double)((Xgdist*Xgdist) + (dist1*dist1)));
-    double alpha = cos(((double)dist1)/dist22);
-    //big gear angle
-    double biggear = acos(alpha);
-    //check if it is y1 x2 for the second point
-    //do we have :?
-    //  ---------->y
-    //  |
-    //  | x
-    int Xgdist2 = gauss_dist(dist1,x2,y2, x1,y2);
-    double beta = Xgdist/ dist22;
-    double smallgear = asin(beta);
-    double result[] = {biggear, smallgear};
-    return result;
-    //how do we return the two doubles?// cant havecofofoefef before slepp
+    //beta dist = distance betwen orthog projec of second frame and center updown, so (x2,Y1)
+    double betadist = gauss_dist(fpl, x1, y1, x2, y1);
+    double betaangle = tan(betadist/ dist);
+    *biggear = atan(betaangle);
+
+    //alphadist = dist between orthog projec of second frame and center sidwares
+    double alphadist = gauss_dist(fpl, x1, y1, x1, y2);
+    double alphaangle = tan(alphadist);
+    *smallgear= atan(alphaangle);
+
+
 }
-*/
