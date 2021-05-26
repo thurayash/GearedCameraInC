@@ -303,7 +303,8 @@ int launch_start()
         for(int i = 0; i <done; i++) printf("Port available: %s\n", result[i]);
     }
     else
-        err(1,"Connection failed ! Unplug the device and retry !");
+        err(1,"Error Code 2 (Tools Communication :line 306):\
+        Connection failed ! Unplug the device and retry !");
 
     for(int i = 0; i < done; i++){
         char* command = malloc(512* sizeof(char));
