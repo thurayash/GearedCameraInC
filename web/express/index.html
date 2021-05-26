@@ -1,324 +1,340 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!--meta http-equiv="refresh" content="10" -->
-  <!-- BULMA -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- BULMA -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
 
-  <!-- FONT AWESOME -->
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css" integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
+        <!-- FONT AWESOME -->
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css" integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
 
-  <!-- CSS -->
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/card.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.6.18/dist/css/uikit.min.css" />
+        <!-- CSS -->
+        <link rel="stylesheet" href="css/style.css">
+        <link rel="stylesheet" href="css/card.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.6.18/dist/css/uikit.min.css" />
+        <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
 
 
-  <!-- JQUERY -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <!-- JQUERY -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
-  <title>GCC Website</title>
-</head>
+        <title>GCC Website</title>
+    </head>
 
-<style type="text/css">
-  @media screen and (min-width: 1024px)
-  .section.is-medium {
+    <style type="text/css">
+@media screen and (min-width: 1024px)
+.section.is-medium {
     padding: 5rem 1.5rem;
-  }
-</style>
-<body>
+}
+    </style>
+    <body>
 
-<a  id="return-to-top"> <i class="fas fa-angle-up"></i></a>
+        <a  id="return-to-top"> <i class="fas fa-angle-up"></i></a>
 
-<section class="hero is-fullheight video" style="background-color: black;">
-  <div class="hero-head">
-    <div class="hero-video" media="(min-width: 465px)">
-      <video poster="" playsinline autoplay muted preload="auto" id="myVideo">
-          <source src="videos/main_vid.mp4" type="video/mp4" id="computerVideo">
-      </video>
-    </div>
-    <nav class="navbar">
-      <div class="container">
-        <div class="navbar-brand">
-          <a class="navbar-item" href="index.html">
-            <img src="images/GCC.png" alt="Logo">
-          </a>
-          <span class="navbar-burger" data-target="navbarMenuHeroB">
-            <span></span>
-            <span></span>
-            <span></span>
-          </span>
-        </div>
-          <div id="navbarMenuHeroB" class="navbar-menu">
-            <div class="navbar-end">
-              <span class="navbar-item ">
-                <a class="navbar-item has-text-white" href="#">
-                  <i class="fas fa-home"></i> &nbsp;Home
-                </a>
-              </span>
-              <!--<a class="navbar-item" href="examples.html">
-                <i class="fas fa-images"></i> &nbsp;Pictures
-              </a>-->
-              <span class="navbar-item">
-                <a class="navbar-item has-text-white" href="documentation.html">
-                  <i class="fas fa-book"></i> &nbsp;Documentation
-                </a>
-              </span>
-              <span class="navbar-item">
-                <a class="navbar-item has-text-white" href="timeline.html">
-                  <i class="fas fa-history"></i> &nbsp;Timeline
-                </a>
-              </span>
-              <span class="navbar-item ">
-                <a class="button is-info has-orange-color" href="https://github.com/thuraya-shanbari/GearedCameraInC.git" target="_blank" style="color: black; background-color: orange;">
-                  <span class="icon">
-                    <i class="fab fa-github-alt"></i>
-                  </span>
-                  <span>Download</span>
-                </a>
-              </span>
+        <section class="hero is-fullheight video" style="background-color: black;">
+            <div class="hero-head">
+                <div class="hero-video" media="(min-width: 465px)">
+                    <video poster="" playsinline autoplay muted preload="auto" id="myVideo">
+                        <source src="videos/main_vid.mp4" type="video/mp4" id="computerVideo">
+                    </video>
+                </div>
+                <nav class="navbar">
+                    <div class="container">
+                        <div class="navbar-brand">
+                            <a class="navbar-item" href="index.html">
+                                <img src="images/GCC.png" alt="Logo">
+                            </a>
+                            <span class="navbar-burger" data-target="navbarMenuHeroB">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </span>
+                        </div>
+                        <div id="navbarMenuHeroB" class="navbar-menu">
+                            <div class="navbar-end">
+                                <span class="navbar-item ">
+                                    <a class="navbar-item has-text-white" href="#">
+                                        <i class="fas fa-home"></i> &nbsp;Home
+                                    </a>
+                                </span>
+                                <span class="navbar-item">
+                                    <a class="navbar-item has-text-white" href="doc.html">
+                                        <i class="fas fa-book"></i> &nbsp;Documentation
+                                    </a>
+                                </span>
+                                <span class="navbar-item">
+                                    <a class="navbar-item has-text-white" href="timeline.html">
+                                        <i class="fas fa-history"></i> &nbsp;Timeline
+                                    </a>
+                                </span>
+                                <span class="navbar-item">
+                                    <a class="navbar-item has-text-white" href="gallery.html">
+                                        <i class="fas fa-image"></i> &nbsp;Gallery
+                                    </a>
+                                </span>
+                                <span class="navbar-item ">
+                                    <a class="button is-info has-orange-color" href="https://github.com/thuraya-shanbari/GearedCameraInC.git" target="_blank" style="color: black; background-color: orange;">
+                                        <span class="icon">
+                                            <i class="fab fa-github-alt"></i>
+                                        </span>
+                                        <span>Download</span>
+                                    </a>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
             </div>
-          </div>
-        </div>
-      </nav>
-    </div>
-    <div class="hero-body" id="heroCont">
-      <div class="container has-text-centered">
-        <p class="title is-1 has-text-white" style="color: white; opacity:0;" id="title" > G.C.C - EPITA
+            <div class="hero-body" id="heroCont">
+                <div class="container has-text-centered">
+                    <p class="title is-1 has-text-white" style="color: white; opacity:0;" id="title" > G.C.C - EPITA
+                    </p>
+                    <p class="subtitle" style="color: white;" id="description"></p>
+                </div>
+            </div>
+
+            </div>
+            <div class="hero-footer has-text-centered">
+                <div class="contentDiv"><a style="color: white" class="arrow fas fa-caret-down fa-2x" href="#whatIsGCC"></a>
+                </div>
+        </section>
+
+        <section class = "section is-medium mb-6" id="whatIsGCC">
+            <div class = "container has-text-centered">
+                <span class = "title is-2 has-text-white">
+                    What is GCC ?<br>
+                </span><br><br><br>
+            </div> <br>
+            <div class="container is-fluid pt-6">
+                <div class="columns is-desktop">
+                    <!-- FIRST COLUMN -->
+                    <div class="column has-text-centered" data-aos="fade-up-right" data-aos-offset="200" data-aos-duration="800" data-aos-delay="200">
+                        <div class="box" style="background-color: rgb(36 64 108);border-radius: 100px;" >
+                            <p class="title is-3 has-text-white">The principle</p>
+                            <i class="fas fa-cogs fa-5x has-text-white"></i>
+                            <br><br>
+                            <p class="subtitle has-text-white">GCC is a 3D printed device that is compatible with every time of camera/webcam. This techonological device's goal is to make the attached camera follow you in every of your movements.</p><br><br>
+                        </div>
+                    </div>
+                    <!-- SECOND COLUMN -->
+                    <div class="column has-text-centered"  data-aos="fade-up" data-aos-offset="200" data-aos-duration="800" data-aos-delay="200">
+                        <div class="box" style="background-color: rgb(36 64 108);border-radius: 100px;">
+                            <p class="title is-3 has-text-white">How does it work?</p>
+                            <i class="fas fa-code fa-5x has-text-white"></i>
+                            <br><br>
+                            <p class="subtitle has-text-white">The idea is simple: we apply various algorithms in order to detect the center of your head. Once we have the coordonates, we send a signal to the hardware that activates different gears using step by step motors in order to make the camera move on one of the 2 axis.</p>
+
+                        </div>
+                    </div>
+                    <!-- THIRD COLUMN -->
+                    <div class="column has-text-centered" data-aos="fade-up-left" data-aos-offset="200" data-aos-duration="800" data-aos-delay="200">
+                        <div class="box" style="background-color: rgb(36 64 108);border-radius: 100px;">
+                            <p class="title is-3 has-text-white">The utility</p>
+                            <i class="fas fa-question fa-5x has-text-white"></i>
+                            <br><br>
+                            <p class="subtitle has-text-white">From the online teachers to the classical manager, this device could help a large variety of people. It will follow the speaker in his speech, without him ever having to care about being in the camera field.</p><br><br>
+
+                        </div>
+                    </div>
+                </div>
+            </div><br>
+        </section>
+
+        <section class = "section is-fullheight" id="video1" data-aos="fade-left"
+                                                             data-aos-offset="300"
+                                                             data-aos-easing="ease-in-sine">
+            <div class = "container has-text-centered">
+                <span class = "title is-2 has-text-white">
+                    Abilities<br>
+                </span><br><br>
+            </div> <br>
+            <div class="container">
+                <div class="columns">
+                    <div class="column">
+                        <div class="messageEclate has-text-centered" data-aos="fade-right"
+                                                                     data-aos-offset="300"
+                                                                     data-aos-easing="ease-in-sine">
+                            <span>
+                                <i class="fas fa-spell-check fa-5x" style="color: white;"></i>
+                                <h1 class="title has-text-white">Simple and easy to use</h1>
+
+                            </span>
+                        </div>
+                        <br><br>
+                        <div class="messageEclate has-text-centered" data-aos="fade-right"
+                                                                     data-aos-offset="300"
+                                                                     data-aos-easing="ease-in-sine">
+                            <span>
+                                <i class="fas fa-feather fa-5x" style="color: white;"></i>
+                                <h1 class="title has-text-white">Light and portable</h1>
+                            </span>
+                        </div>
+                        <br><br>
+                        <div class="messageEclate has-text-centered" data-aos="fade-right"
+                                                                     data-aos-offset="300"
+                                                                     data-aos-easing="ease-in-sine">
+                            <span>
+                                <i class="fas fa-tachometer-alt fa-5x" style="color: white;"></i>
+                                <h1 class="title has-text-white">Fast and accurate</h1>
+
+                            </span>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="video has-shadow">
+                            <video src="videos/video1.mp4" autoplay="" muted="" playsinline="" width="100%" height="auto" id="eclateVideo"  ></video>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </section>
+
+
+
+        <section class="section is-medium container">
+            <div class = "container has-text-centered">
+                <span class = "title is-2 has-text-white">
+                    G.C.C Developers team
+                </span><br><br>
+            </div> <br>
+            <div class="columns is-desktop">
+                <!-- Column 1 -->
+                <div class="column has-text-centered"  data-aos="fade-up" data-aos-offset="200" data-aos-duration="800" data-aos-delay="200">
+                    <div class="flip-box">
+                        <div class="flip-box-inner">
+                            <div class="flip-box-front">
+                                <br>
+                                <h1 class="title is-h3 has-text-white">Yassine</h1>
+                                <figure class="image is-256x128 is-inline-block">
+                                    <img class="is-rounded" src="images/yassine.damiri.jpg">
+                                </figure>
+                            </div>
+                            <div class="flip-box-back" id="myDiv">
+                                <!-- BACK SIDE -->
+                                <br>
+                                <h1 class="title is-h3 has-text-white">Yassine</h1>
+                                <h1 class="subtitle"></h1>
+                                <br>
+                                <figure class="image is-256x256 is-inline-block">
+                                    <img class="is-rounded" src="images/blank.jpg">
+                                </figure>
+                                <div class="centered_text">
+                                    <h1 class="title is-h1">Project Manager</h1>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Column 2 -->
+                <div class="column has-text-centered"  data-aos="fade-up" data-aos-offset="200" data-aos-duration="800" data-aos-delay="250">
+                    <div class="flip-box">
+                        <div class="flip-box-inner">
+                            <div class="flip-box-front">
+                                <br>
+                                <h1 class="title is-h3 has-text-white">Karim</h1>
+                                <figure class="image flip-image is-inline-block">
+                                    <img class="is-rounded" src="images/karim.abou-dargham.jpg">
+                                </figure>
+                            </div>
+                            <div class="flip-box-back" id="myDiv">
+                                <!-- BACK SIDE -->
+                                <br>
+                                <h1 class="title is-h3 has-text-white">Karim</h1>
+                                <h1 class="subtitle"></h1>
+                                <br>
+                                <figure class="image is-256x256 is-inline-block">
+                                    <img class="is-rounded" src="images/blank.jpg">
+                                </figure>
+                                <div class="centered_text">
+                                    <h1 class="title is-h1">Hough Expert</h1>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Column 3 -->
+                <div class="column has-text-centered"  data-aos="fade-up" data-aos-offset="200" data-aos-duration="800" data-aos-delay="300">
+                    <div class="flip-box">
+                        <div class="flip-box-inner">
+                            <div class="flip-box-front">
+                                <br>
+                                <h1 class="title is-h3 has-text-white">Thuraya</h1>
+                                <figure class="image is-256x256 is-inline-block">
+                                    <img class="is-rounded" src="images/tutu.jpg">
+                                </figure>
+                            </div>
+                            <div class="flip-box-back" id="myDiv">
+                                <!-- BACK SIDE -->
+                                <br>
+                                <h1 class="title is-h3 has-text-white">Thuraya</h1>
+                                <h1 class="subtitle"></h1>
+                                <br>
+                                <figure class="image is-256x256 is-inline-block">
+                                    <img class="is-rounded" src="images/blank.jpg">
+                                </figure>
+                                <div class="centered_text">
+                                    <h1 class="title is-h1">Edge Expert</h1>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Column 4 -->
+                <div class="column has-text-centered"  data-aos="fade-up" data-aos-offset="200" data-aos-duration="800" data-aos-delay="350">
+                    <div class="flip-box">
+                        <div class="flip-box-inner">
+                            <div class="flip-box-front">
+                                <br>
+
+                                <h1 class="title is-h3 has-text-white">Maxence</h2>
+                                <figure class="image is-256x256 is-inline-block">
+                                    <img class="is-rounded" src="images/maxence.crouzy.jpg">
+                                </figure>
+                            </div>
+
+                            <div class="flip-box-back" id="myDiv">
+                                <!-- BACK SIDE -->
+                                <br>
+                                <h1 class="title is-h3 has-text-white">Maxence</h1>
+                                <h1 class="subtitle"></h1>
+                                <br>
+                                <figure class="image is-256x256 is-inline-block">
+                                    <img class="is-rounded" src="images/blank.jpg">
+                                </figure>
+                                <div class="centered_text">
+                                    <h1 class="title is-h1">Analyse Expert</h1>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <script src="https://cdn.jsdelivr.net/npm/typeit@7.0.4/dist/typeit.min.js"></script>
+
+        <script src="js/script.js" ></script>
+        <script src="js/card.js"   ></script>
+        <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+        <script>
+            AOS.init();
+        </script>
+    </body>
+
+    <div class="content has-text-centered">
+        <p>
+        <strong>GCC</strong> by <a href="#">The team</a>. The source code <isindex></isindex> licensed
+        <a href="http://opensource.org/licenses/mit-license.php">MIT</a>. The website content
+        is licensed <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY NC SA 4.0</a>.
         </p>
-        <p class="subtitle" style="color: white;" id="description"></p>
-      </div>
     </div>
-
-  </div>
-  <div class="hero-footer has-text-centered">
-    <div class="contentDiv"><a style="color: white" class="arrow fas fa-caret-down fa-2x" href="#whatIsGCC"></a>
-    </div>
-  </section>
-
-<section class = "section is-medium mb-6" id="whatIsGCC">
-    <div class = "container has-text-centered">
-      <span class = "title is-2 has-text-white">
-        What is GCC ?<br>
-      </span><br><br>
-    </div> <br>
-    <div class="container is-fluid pt-6" style="opacity:0;" id="PHW">
-      <div class="columns is-desktop">
-        <div class="column has-text-centered" >
-          <div class="box" style="background-color: rgb(36 64 108);border-radius: 100px;" >
-            <p class="title is-3 has-text-white">The principle</p>
-            <i class="fas fa-cogs fa-5x has-text-white"></i>
-            <br><br>
-            <p class="subtitle has-text-white">GCC is a 3D printed device that is compatible with every time of camera/webcam. This techonological device's goal is to make the attached camera follow you in every of your movements.</p><br><br>
-          </div>
-        </div>
-        <div class="column has-text-centered">
-          <div class="box" style="background-color: rgb(36 64 108);border-radius: 100px;">
-            <p class="title is-3 has-text-white">How does it work?</p>
-            <i class="fas fa-code fa-5x has-text-white"></i>
-            <br><br>
-            <p class="subtitle has-text-white">The idea is simple: we apply various algorithms in order to detect the center of your head. Once we have the coordonates, we send a signal to the hardware that activates different gears using step by step motors in order to make the camera move on one of the 2 axis.</p>
-
-          </div>
-        </div>
-        <div class="column has-text-centered">
-          <div class="box" style="background-color: rgb(36 64 108);border-radius: 100px;">
-            <p class="title is-3 has-text-white">The utility</p>
-            <i class="fas fa-question fa-5x has-text-white"></i>
-            <br><br>
-            <p class="subtitle has-text-white">From the online teachers to the classical manager, this device could help a large variety of people. It will follow the speaker in his speech, without him ever having to care about being in the camera field.</p><br><br>
-
-          </div>
-        </div>
-      </div>
-    </div>
-</section>
-
-<section class = "section is-fullheight" id="video1">
-    <div class = "container has-text-centered">
-      <span class = "title is-2 has-text-white">
-        Abilities<br>
-      </span><br><br>
-    </div> <br>
-    <div class="container">
-      <div class="columns">
-          <div class="column">
-            <div class="messageEclate has-text-centered" id="firstME">
-              <span>
-                <i class="fas fa-spell-check fa-5x" style="color: white;"></i>
-                <h1 class="title has-text-white">Simple and easy to use</h1>
-
-              </span>
-              </div>
-              <br><br>
-            <div class="messageEclate has-text-centered" id="secondME">
-              <span>
-                <i class="fas fa-feather fa-5x" style="color: white;"></i>
-              <h1 class="title has-text-white">Light and portable</h1>
-              </span>
-            </div>
-          <br><br>
-          <div class="messageEclate has-text-centered" id="thirdME">
-              <span>
-                <i class="fas fa-tachometer-alt fa-5x" style="color: white;"></i>
-                <h1 class="title has-text-white">Fast and accurate</h1>
-
-              </span>
-              </div>
-          </div>
-          <div class="column">
-            <div class="video has-shadow">
-              <video src="videos/video1.mp4" autoplay="" muted="" playsinline="" width="100%" height="auto" id="eclateVideo"  ></video>
-            </div>
-          </div>
-      </div>
-      </div>
-    </div>
-</section>
-
-
-
-<section class="section is-medium container">
-  <div class = "container has-text-centered">
-        <span class = "title is-2 has-text-white">
-            G.C.C Developers team
-        </span><br><br>
-  </div> <br>
-  <div class="columns is-desktop">
-          <!-- Column 1 -->
-          <div class="column has-text-centered">
-            <div class="flip-box">
-              <div class="flip-box-inner">
-                <div class="flip-box-front">
-                  <br>
-                  <h1 class="title is-h3 has-text-white">Yassine</h1>
-                      <figure class="image is-256x128 is-inline-block">
-                      <img class="is-rounded" src="images/yassine.damiri.jpg">
-                    </figure>
-                </div>
-                <div class="flip-box-back" id="myDiv">
-                <!-- BACK SIDE -->
-                <br>
-                <h1 class="title is-h3 has-text-white">Yassine</h1>
-                    <h1 class="subtitle"></h1>
-                    <br>
-                    <figure class="image is-256x256 is-inline-block">
-                      <img class="is-rounded" src="images/blank.jpg">
-                    </figure>
-                    <div class="centered_text">
-                        <h1 class="title is-h1">Project Manager</h1>
-                    </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Column 2 -->
-          <div class="column has-text-centered">
-            <div class="flip-box">
-              <div class="flip-box-inner">
-                <div class="flip-box-front">
-                  <br>
-                  <h1 class="title is-h3 has-text-white">Karim</h1>
-                      <figure class="image flip-image is-inline-block">
-                      <img class="is-rounded" src="images/karim.abou-dargham.jpg">
-                    </figure>
-                </div>
-                <div class="flip-box-back" id="myDiv">
-                <!-- BACK SIDE -->
-                <br>
-                <h1 class="title is-h3 has-text-white">Karim</h1>
-                    <h1 class="subtitle"></h1>
-                    <br>
-                    <figure class="image is-256x256 is-inline-block">
-                      <img class="is-rounded" src="images/blank.jpg">
-                    </figure>
-                    <div class="centered_text">
-                    <h1 class="title is-h1">Hough Expert</h1>
-                </div>
-                </div>
-
-              </div>
-            </div>
-          </div>
-
-          <!-- Column 3 -->
-          <div class="column has-text-centered">
-            <div class="flip-box">
-              <div class="flip-box-inner">
-                <div class="flip-box-front">
-                  <br>
-                  <h1 class="title is-h3 has-text-white">Thuraya</h1>
-                      <figure class="image is-256x256 is-inline-block">
-                      <img class="is-rounded" src="images/tutu.jpg">
-                    </figure>
-                </div>
-                <div class="flip-box-back" id="myDiv">
-                <!-- BACK SIDE -->
-                <br>
-                <h1 class="title is-h3 has-text-white">Thuraya</h1>
-                    <h1 class="subtitle"></h1>
-                    <br>
-                    <figure class="image is-256x256 is-inline-block">
-                      <img class="is-rounded" src="images/blank.jpg">
-                    </figure>
-                <div class="centered_text">
-                    <h1 class="title is-h1">Edge Expert</h1>
-                </div>
-                </div>
-
-              </div>
-            </div>
-          </div>
-
-          <!-- Column 4 -->
-          <div class="column has-text-centered">
-            <div class="flip-box">
-              <div class="flip-box-inner">
-                <div class="flip-box-front">
-                  <br>
-
-                  <h1 class="title is-h3 has-text-white">Karim</h2>
-                    <figure class="image is-256x256 is-inline-block">
-                      <img class="is-rounded" src="images/maxence.crouzy.jpg">
-                    </figure>
-                </div>
-
-                <div class="flip-box-back" id="myDiv">
-                <!-- BACK SIDE -->
-                <br>
-                <h1 class="title is-h3 has-text-white">Thuraya</h1>
-                    <h1 class="subtitle"></h1>
-                    <br>
-                    <figure class="image is-256x256 is-inline-block">
-                      <img class="is-rounded" src="images/blank.jpg">
-                    </figure>
-                    <div class="centered_text">
-                        <h1 class="title is-h1">Analyse Expert</h1>
-                    </div>
-                </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-</section>
-
-<script src="https://cdn.jsdelivr.net/npm/typeit@7.0.4/dist/typeit.min.js"></script>
-
-<script src="js/script.js" ></script>
-<script src="js/card.js"   ></script>
-
-</body>
-
-<div class="content has-text-centered">
-  <p>
-    <strong>GCC</strong> by <a href="#">The team</a>. The source code <isindex></isindex> licensed
-    <a href="http://opensource.org/licenses/mit-license.php">MIT</a>. The website content
-    is licensed <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY NC SA 4.0</a>.
-  </p>
-</div>
 
 </html>

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!-- BULMA -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+
+        <!-- FONT AWESOME -->
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css" integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
+
+        <!-- CSS -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.6.18/dist/css/uikit.min.css" />
+        <link rel="stylesheet" href="css/style.css">
+        <link rel="stylesheet" href="css/timeline.css"/>
+        <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css"/>
+        <link rel="stylesheet" href="csS/gallery.css"/>
+
+        <title>GCC Timeline</title>
+    </head>
+
+    <body>
+        <div class="hero-head">
+            <nav  style="background-color:#212324" class="navbar">
+                <div class="container">
+                    <div class="navbar-brand">
+                        <a class="navbar-item" href="index.html">
+                            <img src="images/GCC_IMGS.png" alt="Logo">
+                        </a>
+
+                        <span class="navbar-burger" data-target="navbarMenuHeroB">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </span>
+                    </div>
+                    <div id="navbarMenuHeroB" class="navbar-menu">
+                        <div class="navbar-end">
+                            <span class="navbar-item ">
+                                <a class="navbar-item has-text-white" href="index.html">
+                                    <i class="fas fa-home"></i> &nbsp;Home
+                                </a>
+                            </span>
+                            <span class="navbar-item">
+                                <a class="navbar-item has-text-white" href="doc.html">
+                                    <i class="fas fa-book"></i> &nbsp;Documentation
+                                </a>
+                            </span>
+                            <span class="navbar-item">
+                                <a class="navbar-item has-text-white" href="timeline.html">
+                                    <i class="fas fa-history"></i> &nbsp;Timeline
+                                </a>
+                            </span>
+                           <span class="navbar-item">
+                                <a class="navbar-item has-text-white" href="gallery.html">
+                                    <i class="fas fa-image"></i> &nbsp;Gallery
+                                </a>
+                            </span>
+                            <span class="navbar-item ">
+                                <a class="button is-info has-orange-color" href="https://github.com/thuraya-shanbari/GearedCameraInC.git" target="_blank" style="color: black; background-color: orange;">
+                                    <span class="icon">
+                                        <i class="fab fa-github-alt"></i>
+                                    </span>
+                                    <span>Download</span>
+                                </a>
+                            </span>
+
+                        </div>
+
+                    </div>
+                </div>
+            </nav>
+        </div>
+        <section class="hero has-text-centered">
+            <div class="hero-body">
+                <h3 class="title is-1 has-text-white">Gallery</h3>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container is-fluid">
+                <div class="columns">
+                    <div class="column">
+                        <div class="block" data-aos="zoom-in" data-aos-duration="500">
+                            <img src="https://source.unsplash.com/800x1000/?nature,water" onclick="openModal(this);">
+                        </div>
+                        <div class="block" data-aos="zoom-in" data-aos-duration="500">
+
+                            <img src="https://source.unsplash.com/800x550/?nature,water" onclick="openModal(this);">
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="block" data-aos="zoom-in" data-aos-duration="500">
+
+                            <img src="https://source.unsplash.com/800x600/?nature,water" onclick="openModal(this);">
+                        </div>
+                        <div class="block" data-aos="zoom-in" data-aos-duration="500">
+
+                            <img src="https://source.unsplash.com/800x650/?nature,water" onclick="openModal(this);">
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="block"data-aos="zoom-in" data-aos-duration="500">
+
+                            <img src="https://source.unsplash.com/800x900/?nature,water" onclick="openModal(this);">
+                        </div>
+                        <div class="block" data-aos="zoom-in" data-aos-duration="500">
+
+                            <img src="https://source.unsplash.com/800x700/?nature,water" onclick="openModal(this);">
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="modal" id="launchModal">
+                    <div class="modal-background" style="backdrop-filter:blur(10px);"></div>
+                    <div class="modal-content">
+                        <p class="image is-fullwidth">
+                        <img src="" id="srcModal" alt="">
+                        </p>
+                    </div>
+                    <button class="modal-close is-large" aria-label="close" onclick="document.getElementById('launchModal').classList.remove('is-active');"></button>
+                </div>
+
+
+        </section>
+
+        <script src="js/gallery.js"></script>
+        <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+        <script>
+            AOS.init();
+        </script>
+    </body>
+</html>

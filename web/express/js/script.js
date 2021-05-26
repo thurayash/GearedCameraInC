@@ -165,21 +165,3 @@ $('#return-to-top').click(function() {      // When arrow is clicked
         scrollTop : 0                       // Scroll to top of body
     }, 500);
 });
-
-$('#whatIsGCC').one('mouseover', function(){
-  var column = document.getElementById("PHW");
-  column.setAttribute("style", "animation-duration:3s;animation-name:slidePHW ;")
-});
-
-
-
-$('#video1').one('mouseover', function()
-{
-    var firstME = document.getElementById("firstME");
-    var secondME = document.getElementById("secondME");
-    var thirdME = document.getElementById("thirdME");
-    firstME.setAttribute("style", "animation-duration:2s;animation-name:slideApp;animation-fill-mode:forwards;");
-    sleep(1000);
-    secondME.setAttribute("style", "animation-duration:2s;animation-name:slideApp;animation-fill-mode:forwards;");
-    thirdME.setAttribute("style", "animation-duration:2s;animation-name:slideApp;animation-fill-mode:forwards;");
-});
