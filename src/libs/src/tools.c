@@ -235,14 +235,7 @@ void draw_line(SDL_Surface* image, int x1, int y1, int x2, int y2,
     return (void)NULL;
 }
 
-
-/* Put this in the header */
-int analyse(SDL_Surface* image, int* arr, int* ratio_b,
-        int* ratio_w, int* ratio_r, int* histo_vert_b, int* histo_hor_b,
-        int* histo_vert_r, int* histo_hor_r);
-void print_histo(int* hist, int size);
-
-void draw_rectangle(SDL_Surface* image, int x, int y,
+void draw_rectangle(SDL_Surface* frame, SDL_Surface* image, int x, int y,
         int size, int col1, int col2, int col3, int analyse_bool)
 {
     int xA,xB, yA,yB;
@@ -254,34 +247,25 @@ void draw_rectangle(SDL_Surface* image, int x, int y,
 
     yB = y+size >= image->h ? image->h - 2 : y + size;
 
-    draw_line(image, xA, yA, xB, yA, col1, col2, col3);
-    draw_line(image, xB, yA, xB, yB, col1, col2, col3);
-    draw_line(image, xA, yA, xA, yB, col1, col2, col3);
-    draw_line(image, xA, yB, xB, yB, col1, col2, col3);
+    draw_line(frame, xA, yA, xB, yA, col1, col2, col3);
+    draw_line(frame, xB, yA, xB, yB, col1, col2, col3);
+    draw_line(frame, xA, yA, xA, yB, col1, col2, col3);
+    draw_line(frame, xA, yB, xB, yB, col1, col2, col3);
 
 
     int arr[4] = {xA, xB, yA, yB};
-    int ratio_b, ratio_w, ratio_r = 0;
+    float ratio_b, ratio_w, ratio_r = 0;
     int* histo_vert_b = calloc(size*2+1, sizeof(int));
     int* histo_hor_b = calloc(size*2+1, sizeof(int));
     int* histo_vert_r = calloc(size*2+1, sizeof(int));
     int* histo_hor_r = calloc(size*2+1, sizeof(int));
 
 
-    if(analyse_bool && col1 == 255 && col2 == 255 && col3 == 0)
+    if(analyse_bool)
         if(analyse(image, arr, &ratio_b, &ratio_w, &ratio_r, histo_vert_b,
             histo_hor_b, histo_vert_r, histo_hor_r))
-        {
-            printf("HISTO VERT R \n");
-            print_histo(histo_vert_b, size*2+1);
-
-            printf("HISTO HORT R \n");
-            print_histo(histo_hor_b, size*2+1);
-            printf("[");
-            for(int i =0; i < size*2;i++)
-                printf("%i,", histo_hor_b[i]);
-            printf("]\n");
-        }
+            printf("----\nRatio white: %f\nRatio red: %f\nRatio black: %f\n",
+                    ratio_w, ratio_r, ratio_b);
 
     free(histo_vert_r);
     free(histo_hor_r);
@@ -292,8 +276,8 @@ void draw_rectangle(SDL_Surface* image, int x, int y,
 }
 
 
-int analyse(SDL_Surface* image, int* arr, int* ratio_b,
-        int* ratio_w, int* ratio_r, int* histo_vert_b, int* histo_hor_b,
+int analyse(SDL_Surface* image, int* arr, float* ratio_b,
+        float* ratio_w, float* ratio_r, int* histo_vert_b, int* histo_hor_b,
         int* histo_vert_r, int* histo_hor_r)
 {
 
@@ -329,9 +313,9 @@ int analyse(SDL_Surface* image, int* arr, int* ratio_b,
         }
     }
 
-    *ratio_b = (b_p)/total;
-    *ratio_r = (r_p)/total;
-    *ratio_w = (w_p)/total;
+    *ratio_b = 100*(float)(b_p)/(float)total;
+    *ratio_r = 100*(float)(r_p)/(float)total;
+    *ratio_w = 100*(float)(w_p)/(float)total;
 
     if (b_p > (total*80)/100) // If a square is essentially black then useless
         return 0;
