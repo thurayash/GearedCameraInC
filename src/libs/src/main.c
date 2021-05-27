@@ -9,7 +9,7 @@ int initialisation_video(char* path)
     FILE *ls_cmd = popen("ls /dev/video*", "r");
 
     if (ls_cmd == NULL || length_ls == NULL) {
-        fprintf(stderr, "popen(3) error");
+        fprintf(stderr, "Error Code 1 : popen(3) error (main.c line 12)");
         exit(EXIT_FAILURE);
     }
 
@@ -135,7 +135,7 @@ int main(int argc, char** argv)
 
     fd = open(path, O_RDWR);
     if (fd == -1){
-        perror("File not found : Opening video device");
+        perror("Error Code 1 : File not found : Opening video device");
         return 1;
     }
 

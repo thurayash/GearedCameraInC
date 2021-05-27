@@ -115,7 +115,7 @@ SDL_Surface* new_rgb_surface(int width, int height)
 
     if (newSurface == NULL)
     {
-        printf("SDL_CreateRGBSurface() failed: %s\n", SDL_GetError());
+        printf("Error Code 2 : SDL_CreateRGBSurface() failed: %s\n", SDL_GetError());
         exit(1);
     }
 
@@ -157,7 +157,7 @@ SDL_Surface* load_image(char *path)
     // If it fails, die with an error message.
     img = IMG_Load(path);
     if (!img)
-        errx(3, "can't load %s: %s", path, IMG_GetError());
+        errx(3, "Error Code 3 :can't load %s: %s", path, IMG_GetError());
 
     return img;
 }
