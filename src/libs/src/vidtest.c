@@ -77,7 +77,7 @@ int print_caps(int fd)
     struct v4l2_capability caps = {};
     if (-1 == xioctl(fd, VIDIOC_QUERYCAP, &caps))
     {
-        perror("Querying Capabilities");
+        perror("Error Code 4 : Querying Capabilities");
         return 1;
     }
 
@@ -99,7 +99,7 @@ int print_caps(int fd)
     cropcap.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
     if (-1 == xioctl (fd, VIDIOC_CROPCAP, &cropcap))
     {
-        perror("Querying Cropping Capabilities");
+        perror("Error Code 4 : Querying Cropping Capabilities");
         return 1;
     }
 
@@ -133,7 +133,7 @@ int print_caps(int fd)
 
     if (!support_grbg10)
     {
-        printf("Doesn't support GRBG10.\n");
+        printf("Error Code 4 : Doesn't support GRBG10.\n");
         return 1;
     }
 
@@ -146,7 +146,7 @@ int print_caps(int fd)
 
     if (-1 == xioctl(fd, VIDIOC_S_FMT, &fmt))
     {
-        perror("Setting Pixel Format");
+        perror("Error Code 4 : Setting Pixel Format");
         return 1;
     }
 
@@ -172,7 +172,7 @@ int init_mmap(int fd)
     req.memory = V4L2_MEMORY_MMAP;
 
     if (-1 == xioctl(fd, VIDIOC_REQBUFS, &req)){
-        perror("Requesting Buffer");
+        perror("Error Code 4 : Requesting Buffer");
         return 1;
     }
 
@@ -181,7 +181,7 @@ int init_mmap(int fd)
     buf.memory = V4L2_MEMORY_MMAP;
     buf.index = 0;
     if(-1 == xioctl(fd, VIDIOC_QUERYBUF, &buf)){
-        perror("Querying Buffer");
+        perror("Error Code 4 : Querying Buffer");
         return 1;
     }
 
@@ -199,12 +199,12 @@ int capture_image(int fd)
     buf.memory = V4L2_MEMORY_MMAP;
     buf.index = 0;
     if(-1 == xioctl(fd, VIDIOC_QBUF, &buf)){
-        perror("Query Buffer");
+        perror("Error Code 4 : Query Buffer");
         return 1;
     }
 
     if(-1 == xioctl(fd, VIDIOC_STREAMON, &buf.type)){
-        perror("Start Capture");
+        perror("Error Code 4 : Start Capture");
         return 1;
     }
 
@@ -215,12 +215,12 @@ int capture_image(int fd)
     tv.tv_sec = 2;
     int r = select(fd+1, &fds, NULL, NULL, &tv);
     if(-1 == r){
-        perror("Waiting for Frame");
+        perror("Error Code 4 : Waiting for Frame");
         return 1;
     }
 
     if(-1 == xioctl(fd, VIDIOC_DQBUF, &buf)){
-        perror("Retrieving Frame");
+        perror("Error Code 4 : Retrieving Frame");
         return 1;
     }
     return 0;
@@ -239,7 +239,7 @@ float Max3(float a, float b, float c)
 void sdlInit() // Init SDL with frame height and width
 {
     if(SDL_Init(SDL_INIT_VIDEO))
-        perror ("SDL_Init error occured !");
+        perror ("Error Code 1 : SDL_Init error occured !");
 
     IMG_Init(IMG_INIT_JPG);
 
