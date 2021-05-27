@@ -275,7 +275,6 @@ void draw_rectangle(SDL_Surface* frame, SDL_Surface* image, int x, int y,
     return (void)NULL;
 }
 
-
 int analyse(SDL_Surface* image, int* arr, float* ratio_b,
         float* ratio_w, float* ratio_r, int* histo_vert_b, int* histo_hor_b,
         int* histo_vert_r, int* histo_hor_r)
@@ -350,6 +349,51 @@ void print_histo(int* hist, int size)
     }
 }
 
+int find_similarity(int *black, int*red, int size)
+{
+    int b_index = size/4;
+    int r_index = size/4;
+    //int b_value = black[size/4];
+    //int r_value = red[size/4];
+    int b_avg = 0;
+    int r_avg = 0;
+    //find avg for each first
+    for (int i = 0; i < size; i++)
+    {
+        b_avg += black[i];
+        r_avg += red[i];
+    }
+    b_avg /= size;
+    r_avg /= size;
+    int b_cpt = 0;
+    int r_cpt = 0;
+    //now we get the indexes that interest us
+    for (int i = 0; i < size; i++)
+    {
+        if (black[i] <= b_avg && b_cpt <= 20)
+        //maybe more or less 20 not sure yet gotta check
+        //its the "length" of the face
+        {
+            b_index = i;
+            //b_value = black[i];
+            b_cpt++;
+        }
+        if (red[i] >= r_avg && r_cpt <= 20)
+        {
+            r_index = i;
+            //r_value = red[i];
+            r_cpt++;
+        }
+    }
+    
+    if (r_index == b_index)
+    //make it so its like within a small range
+    //like 5 indexes diff possible
+    {
+        return 1;
+    }
+    return 0;
+}
 
 int save_image(SDL_Surface* img, char *path)
 {
