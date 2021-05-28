@@ -235,6 +235,75 @@ void draw_line(SDL_Surface* image, int x1, int y1, int x2, int y2,
     return (void)NULL;
 }
 
+int find_similarity(int *black, int *red, int size)
+{
+    int b_index = 0;
+    int r_index = 0;
+    //int b_value = black[size/4];
+    //int r_value = red[size/4];
+    int b_avg = 0;
+    int r_avg = 0;
+    //find avg for each first
+    for (int i = 0; i < size; i++)
+    {
+        b_avg += black[i];
+        r_avg += red[i];
+    }
+    b_avg /= size;
+    r_avg /= size;
+    if (b_avg > 80)
+    {
+        return -1;
+    }
+    int b_cpt = 0;
+    int r_cpt = 0;
+    int b_reset = 0;
+    int r_reset = 0;
+    //now we get the indexes that interest us
+    for (int i = 1; i < size - 1; i++)
+    {
+        if (black[i] <= b_avg && b_cpt <= 30)
+        //maybe more or less 20 not sure yet gotta check
+        //its the "length" of the face
+        {
+            if (black[i - 1] <= b_avg && black[i + 1] <= b_avg)
+            {
+                b_index = i;
+                //b_value = black[i];
+                b_cpt++;
+                b_reset = b_cpt;
+            }
+        }
+        else
+            b_cpt = 0;
+        
+        if (red[i] >= r_avg && r_cpt <= 10)
+        {
+            if (red[i - 1] >= r_avg && red[i + 1] >= r_avg)
+            {
+                r_index = i;
+                //r_value = red[i];
+                r_cpt++;
+                r_reset = r_cpt;
+            }
+        }
+        else
+            r_cpt = 0;
+    }
+    b_index -= b_reset;
+    r_index -= r_reset;
+    if ((r_index > b_index - 5 || r_index < b_index + 5)
+        && (b_index > r_index - 5 || b_index < r_index + 5))
+    //make it so its like within a small range
+    //like 5 indexes diff possible
+    {
+        return b_avg;
+        //return r_index;
+        //return b_index;
+    }
+    return -1;
+}
+
 void draw_rectangle(SDL_Surface* frame, SDL_Surface* image, int x, int y,
         int size, int col1, int col2, int col3, int analyse_bool)
 {
@@ -264,8 +333,20 @@ void draw_rectangle(SDL_Surface* frame, SDL_Surface* image, int x, int y,
     if(analyse_bool)
         if(analyse(image, arr, &ratio_b, &ratio_w, &ratio_r, histo_vert_b,
             histo_hor_b, histo_vert_r, histo_hor_r))
-            printf("----\nRatio white: %f\nRatio red: %f\nRatio black: %f\n",
-                    ratio_w, ratio_r, ratio_b);
+            {
+                //printf("=======\nblack:\n");
+                //print_histo(histo_hor_b, size*2 + 1);
+                //printf("red:\n");
+                //print_histo(histo_hor_r, size*2 + 1);
+                //printf("index is: %i\n", find_similarity(histo_hor_b, histo_hor_r, size*2+1));
+                if (find_similarity(histo_hor_b, histo_hor_r, size*2+1) != -1)
+                {
+                    printf("==========\nIS A FUCKING FACE\n=======\n");
+                }
+                
+            }
+            //printf("----\nRatio white: %f\nRatio red: %f\nRatio black: %f\n",
+                    //ratio_w, ratio_r, ratio_b);
 
     free(histo_vert_r);
     free(histo_hor_r);
@@ -347,52 +428,6 @@ void print_histo(int* hist, int size)
         }
         printf(" %i\n", count);
     }
-}
-
-int find_similarity(int *black, int*red, int size)
-{
-    int b_index = size/4;
-    int r_index = size/4;
-    //int b_value = black[size/4];
-    //int r_value = red[size/4];
-    int b_avg = 0;
-    int r_avg = 0;
-    //find avg for each first
-    for (int i = 0; i < size; i++)
-    {
-        b_avg += black[i];
-        r_avg += red[i];
-    }
-    b_avg /= size;
-    r_avg /= size;
-    int b_cpt = 0;
-    int r_cpt = 0;
-    //now we get the indexes that interest us
-    for (int i = 0; i < size; i++)
-    {
-        if (black[i] <= b_avg && b_cpt <= 20)
-        //maybe more or less 20 not sure yet gotta check
-        //its the "length" of the face
-        {
-            b_index = i;
-            //b_value = black[i];
-            b_cpt++;
-        }
-        if (red[i] >= r_avg && r_cpt <= 20)
-        {
-            r_index = i;
-            //r_value = red[i];
-            r_cpt++;
-        }
-    }
-    
-    if (r_index == b_index)
-    //make it so its like within a small range
-    //like 5 indexes diff possible
-    {
-        return 1;
-    }
-    return 0;
 }
 
 int save_image(SDL_Surface* img, char *path)
