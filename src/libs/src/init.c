@@ -55,7 +55,7 @@ int verification(int fd, char expected, struct pollfd* fds, int init){
         if(r <= 0)
             perror(COLOR_RED"H-Error code: 3001\n"COLOR_CYAN"Comment: ERROR reading bytes");
 
-        printf(COLOR_WHITE"Confirmation !  received : %c  expected :%c \n", *buffer, expected);
+        //printf(COLOR_WHITE"Confirmation !  received : %c  expected :%c \n", *buffer, expected);
 
         if(*buffer == expected)
             return 1;
@@ -78,7 +78,7 @@ int write_string(int fd_in, int fd_out, char* msg, struct pollfd* fds)
     {
         char buffer[2];
         sprintf(buffer, "%c", *msg); // It doesn't accept char
-        printf(COLOR_WHITE"%s \n", buffer);
+        //printf(COLOR_WHITE"%s \n", buffer);
 re_send:
         write(fd_in, buffer, 1); // Sending the byte
         if(!verification(fd_out, *buffer, fds, !resend)){ // Wait for the response
@@ -220,7 +220,7 @@ int send_angle(int fd_in, int fd_out, int angle1, int angle2)
             return 0;
         }
 
-        printf(COLOR_WHITE"Confirmation !  received : %c  expected : _ \n", *buffer);
+        //printf(COLOR_WHITE"Confirmation !  received : %c  expected : _ \n", *buffer);
 
         // Loop Back
         if(*buffer == '_'){
