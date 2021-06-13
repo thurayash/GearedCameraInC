@@ -23,6 +23,10 @@ SDL_Rect position = {.x = 0, .y = 0};
 
 Uint8 vidtest_thresold_value = 0;
 
+
+#define VIDTEST_FBL     80
+#define VIDTEST_RD      1
+
 int vidtest_nbr_frame = 0;
 
 static int xioctl(int fd, int request, void *arg)
@@ -259,7 +263,7 @@ void sdlInit() // Init SDL with frame height and width
 }
 
 
-void sdlUpdate(int mode) // Update the SDL_Surface with a new frame
+void sdlUpdate(int mode, int fd_in, int fd_out) // Update the SDL_Surface with a new frame
 {
     // Load from the v4l2 webcam buffer
     buffer_stream = SDL_RWFromMem(buffer, buf.bytesused);
@@ -359,6 +363,15 @@ void sdlUpdate(int mode) // Update the SDL_Surface with a new frame
         pthread_t thread;
         pthread_t thread_circle1;
         pthread_t thread_circle2;
+        pthread_t thread_angle;
+
+        ThreadDH* data_angle = malloc(sizeof(ThreadDH));
+
+        data_angle->fd_in  = fd_in ;
+        data_angle->fd_out = fd_out;
+        data_angle->big_gear = 0;
+        data_angle->small_gear = 0;
+
 
         ThreadD* data = malloc(sizeof(ThreadD));
 
@@ -416,7 +429,7 @@ void sdlUpdate(int mode) // Update the SDL_Surface with a new frame
         pthread_join(thread, &pvalue);
 
         binary_operation(red_dilate, data->eroded);
-        //binari(red_dilate, data->eroded);
+        binari(red_dilate, data->eroded);
 
         Candidates** vidtest_candidates_arr_t1 =
             malloc(sizeof(Candidates*)*CANDIDATE_NUMBER);
@@ -459,10 +472,6 @@ void sdlUpdate(int mode) // Update the SDL_Surface with a new frame
 
         draw_rectangle(data->eroded, data->eroded, cirlce_data1->arr[0]->x, cirlce_data1->arr[0]->y, 37, 255, 0 , 0, 0);
 
-        draw_rectangle(frame, data->eroded, cirlce_data1->arr[1]->x, cirlce_data1->arr[1]->y, 37, 0, 255 , 0, 0);
-
-        draw_rectangle(frame, data->eroded, cirlce_data1->arr[2]->x, cirlce_data1->arr[2]->y, 37, 0, 0 , 255, 0);
-
 
         draw_rectangle(frame, data->eroded, cirlce_data2->arr[0]->x, cirlce_data2->arr[0]->y, 75, 255, 255 , 0, 1);
 
@@ -470,10 +479,19 @@ void sdlUpdate(int mode) // Update the SDL_Surface with a new frame
 
         draw_rectangle(frame, data->eroded, cirlce_data2->arr[2]->x, cirlce_data2->arr[2]->y, 75, 56, 154 , 66, 0);
 
-        //draw_rectangle(erode_surface, arr[2], arr[3], 75, 255, 127, 127, 0);
-        //draw_rectangle(erode_surface, arr[4], arr[5], 75, 0, 255 , 0, 0);
-        //draw_rectangle(erode_surface, arr[6], arr[7], 75, 0, 0 , 255, 1);
-        //draw_rectangle(erode_surface, arr[8], arr[9], 75, 0, 255 , 255, 1);
+        double small_g, big_g = 0;
+
+        find_angle(data->eroded->w, data->eroded->h, cirlce_data1->arr[0]->x, cirlce_data1->arr[0]->y, &big_g, &small_g);
+
+        printf("S-Info : Small Gear %f,  Big Gear %f\n", small_g, big_g);
+
+        data_angle->big_gear = big_g;
+        data_angle->small_gear = small_g;
+
+        send_angle(fd_in, fd_out, big_g, small_g);
+        //if (pthread_create(&thread_angle, NULL, thread_send_angle, (void*)data_angle) < 0)
+        //    errx(EXIT_FAILURE, "Vidtest.c ; line 492\
+        //    Thread not created !");
 
 
         SDL_BlitSurface(frame, NULL, screen, &position);

@@ -194,11 +194,6 @@ finish_wr:
     return 0;
 }
 
-
-int send_data1M(int fd_in, int fd_out, struct Motor* m1);
-
-int send_data2M(int fd_in, int fd_out, struct Motor* m1, struct Motor* m2);
-
 int send_angle(int fd_in, int fd_out, int angle1, int angle2)
 {
     struct pollfd* fds = malloc(sizeof(struct pollfd*));
@@ -264,38 +259,9 @@ void launch_soft(int argc, char** argv,char* port){
     printf(COLOR_BLUE"H-Info : Launching Software on port %s\n"COLOR_WHITE, port);
 
     int fd_out = open(port, O_RDONLY);
+
     int fd_in = open(port, O_WRONLY);
 
-    /*while(1){
-        printf(COLOR_WHITE"Turn motor 1 by : ");
-
-        char rsp1[10];
-
-        fflush( stdout );
-        int scanf_state1 = scanf("%s", rsp1);
-        fgetc( stdin );
-
-        printf(COLOR_WHITE"Turn motor 2 by : ");
-
-        char rsp2[10];
-
-        fflush( stdout );
-        int scanf_state2 = scanf("%s", rsp2);
-        fgetc( stdin );
-
-
-        if (scanf_state1 && scanf_state2){
-            int radius1 = atoi(rsp1);
-            int radius2 = atoi(rsp2);
-
-            if(!send_angle(fd_in, fd_out, radius1, radius2))
-                return;
-
-        }
-        else{
-            printf(COLOR_WHITE"Error: not a number. Please give a correct number.\n");
-        }
-    }*/
     software(argc, argv, fd_in, fd_out);
 }
 

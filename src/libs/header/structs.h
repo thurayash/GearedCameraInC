@@ -46,6 +46,12 @@ typedef struct{
     Candidates** arr;
 }ThreadDC;
 
+
+typedef struct{
+    double big_gear, small_gear;
+    int fd_in, fd_out;
+}ThreadDH;
+
 Candidates* new_candidate();
 
 CirMatrix* new_cir_matrix(int width, int height,int zSize);

@@ -23,6 +23,7 @@
 #include "roberts_edge.h"
 #include "thread_func.h"
 #include "binari.h"
+#include "gauss_dist.h"
 
 #include "circle_detection.h"
 
@@ -36,12 +37,12 @@ int capture_image(int fd);
 
 void sdlInit();
 
-void sdlUpdate(int);
+void sdlUpdate(int, int, int);
 
 void sdlStop();
 
 int vidtest_camCheck(char* cameraPath);
 
-
 void binary_operation(SDL_Surface* rob, SDL_Surface* skin);
+
 #endif

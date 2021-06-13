@@ -190,7 +190,7 @@ int software(int argc, char** argv, int fd_in, int fd_out)
     for(int i = 0; i != 10000; i++){
         if(capture_image(fd))
             return 1;
-        sdlUpdate(mode);
+        sdlUpdate(mode,fd_in,fd_out);
         SDL_PollEvent(&event);
         if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_ESCAPE)
         {

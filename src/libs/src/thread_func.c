@@ -24,3 +24,12 @@ void* thread_circle_func(void* arg __attribute__((unused))){
 
     return NULL;
 }
+
+
+void* thread_send_angle(void* arg __attribute__((unused))){
+    ThreadDH* data = (ThreadDH*)arg;
+
+    send_angle(data->fd_in, data->fd_out, data->big_gear, data->small_gear);
+
+    return NULL;
+}
