@@ -5,7 +5,7 @@ struct JSON* new_json()
     struct JSON* json_in = malloc(sizeof(struct JSON));
 
     json_in->name = '0';
-    json_in->direction = 1;
+    json_in->direction = 0;
     json_in->radius = 0;
     json_in->speed = 0;
 
@@ -18,63 +18,74 @@ void free_json(struct JSON* parser)
 }
 
 
-void json_fromstr(struct JSON* parser, char* string)
+
+// [{'N':X, 'D':1, 'S':1, 'R':360};{'N':Y, 'D':0, 'S':3, 'R':270000000}]
+//
+// La liste peut contenir qu'une seule information par exemple :
+//                      [{'N':X, 'D':1, 'S':1, 'R':360}]
+// Speed limit don't have to exceed 9
+// The name needs to be first
+void json_fromstr(struct JSON* parser1, struct JSON* parser2, char* string)
 {
-    char *start = string;
+    char* start = string;
 
-    char *key   = calloc(10, sizeof(char));
-    char *remind_key = key;
-    char *value = calloc(10, sizeof(char));
-    char *remind_value = value;
-    char is_key = 0;
+    struct JSON* changer = parser1;
 
-    for(; *start != '\0'; start++)
+    char key_val;
+    short is_key = 0;
+    short is_val = 0;
+
+    char* rotation;
+    int rotation_val = 0;
+    for(;*start != ']'; start++)
     {
-        if (start == string && *start != '{')
-            send_string("JSON string not valid !");
-
-        if (*start == 58 || *start == 32 || *start == 123)
+        if(*start == '[' || *start== '{' || *start == ' ')
             continue;
 
-        if (*start == 39){ // '
-            is_key = !is_key; // first time => it's a key else it's a value
+        if(*start == '\''){
+            is_key = !is_key;
             continue;
         }
 
         if(is_key){
-            *key = *start;
-            key++;
+            key_val = *start;
+            continue;
         }
-        else{
-            if (*start == ',' || *start == 125)
-            {
-                if (!strcmp(key, "Name")){
-                    parser->name = *(remind_value); // Since it's just a char
-                }
-                else if (!strcmp(key, "Direction")){
-                    parser->direction = (int)(*(remind_value)) - 48; // It's a bit
-                }
-                else if (!strcmp(key, "Speed")){
-                    parser->speed = (int)atoi(remind_value);
-                }
-                else if (!strcmp(key, "Radius")){
-                    parser->radius = (int)atoi(remind_value);
-                }
-                else{
-                    send_string("JSON invalid key");
-                }
-                value = remind_value; // Back to the first add
-                memset(value,0,strlen(value));
-                memset(key,0,strlen(key));
-            }
-            else{
-                *value = *start;
-                value++;
-            }
-            key = remind_key;
-        }
-    }
-    free(value);
-    free(key);
-}
 
+        if(*start == ':'){
+            is_val = !is_val;
+            continue;
+        }
+
+        if(is_val){
+            switch (key_val){
+                case 'N':
+                    // Name
+                    changer =  (parser1->name == *start) ? parser1: parser2;
+                    break;
+                case 'D':
+                    // Direction
+                    changer->direction = *start - '0';
+                    break;
+                case 'S':
+                    // Speed
+                    changer->speed = *start - '0';
+                    break;
+                case 'R':
+                    // Step
+                    rotation = start;
+                    for(; *rotation != ',' && *rotation != '}'; rotation++){
+                        rotation_val = (rotation_val*10)+ (*rotation - '0');
+                    }
+                    start = rotation;
+                    changer->radius = rotation_val;
+                    rotation_val = 0;
+                    break;
+                default:
+                    break;
+            }
+            is_val = !is_val;
+        }
+
+    }
+}

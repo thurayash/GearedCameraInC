@@ -7,5 +7,5 @@
 #include <util/delay.h>
 #include "blink.h"
 #include "transmitter.h"
-
+#include "tone.h"
 #endif

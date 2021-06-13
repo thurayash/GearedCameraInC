@@ -18,14 +18,8 @@
 
 #define BUF_SIZE 256
 #define MAX_MATCHES 10
-#define TIMEOUT 100
+#define TIMEOUT 1000
 
-#define COLOR_WHITE     "\033[0;37m"
-#define COLOR_RED       "\033[0;31m"
-#define COLOR_BLUE      "\033[0;34m"
-#define COLOR_YELLOW    "\033[0;33m"
-#define COLOR_CYAN      "\033[0;36m"
-#define COLOR_GREEN     "\033[0;32m"
 // Check if modemmanager not installed
 
 char** match_groups(char* source, char* regexString, size_t maxMatches, \
@@ -42,7 +36,7 @@ char** match_groups(char* source, char* regexString, size_t maxMatches, \
 
 
     if (regcomp(&regexCompiled, regexString, REG_EXTENDED))
-        errx(EXIT_FAILURE, COLOR_RED"H-Error code: 3002\n"COLOR_CYAN"Comment :Could not compile regular expression.\n");
+        errx(EXIT_FAILURE, "Could not compile regular expression.\n");
 
     char* cursor = source;
     int index = 0;
@@ -69,7 +63,8 @@ char** match_groups(char* source, char* regexString, size_t maxMatches, \
     return result;
 }
 
-int verification(int fd, char expected, struct pollfd* fds, int init){
+
+int verification(int fd, struct pollfd* fds){
     int r;
     char buffer[2];
     while(1){
@@ -78,61 +73,44 @@ int verification(int fd, char expected, struct pollfd* fds, int init){
         }
         r = read(fd, buffer, 1);
         if(r <= 0)
-            perror(COLOR_RED"H-Error code: 3001\n"COLOR_CYAN"Comment: ERROR reading bytes");
-
-        printf(COLOR_WHITE"Confirmation !  received : %c  expected :%c \n", *buffer, expected);
-
-        if(*buffer == expected)
+            perror("Verification : ERROR reading bytes");
+        if(*buffer == '1')
             return 1;
-
-        if(init && *buffer == '_')
-            return 0;
-
     }
     return 0;
 }
 
+
 int write_string(int fd_in, int fd_out, char* msg, struct pollfd* fds)
 {// {'Name':X}
-    int resend = 1;
-    if(!strcmp(msg, "OKEY!+")){
-        resend = 0;
-    }
-    printf("RESEND : %i\n", resend);
     for(; *msg != '\0'; msg++)
     {
         char buffer[2];
         sprintf(buffer, "%c", *msg); // It doesn't accept char
-        printf(COLOR_WHITE"%s \n", buffer);
-re_send:
         write(fd_in, buffer, 1); // Sending the byte
-        if(!verification(fd_out, *buffer, fds, !resend)){ // Wait for the response
-            printf(COLOR_WHITE"Write_string: Hardware didn't respond correctly \n");
-            if(!resend)
-                return 0;
-            write(fd_in, "0", 1);
-            goto re_send;
-        }else{
-            write(fd_in, "1", 1);
+        if(!verification(fd_out, fds)){ // Wait for the response
+            printf("Write_string: Hardware didn't respond\n");
+            return 0;
         }
     }
-    printf(COLOR_WHITE"Data transmitted succesfuly !\n");
+    printf("Data transmitted succesfuly !\n");
     return 1;
 }
 
 int waiting_response(char* port);
 
+
 int currentState(struct JSON_RESPONSE* json, char* port){
     if (!(1 & json->state)){
-        printf(COLOR_YELLOW"H-Warning ! : M1 X axis (phi) is not set\n");
+        printf("M1 X axis (phi) is not set\n");
     }
 
     if(!(2 & json->state)){
-        printf(COLOR_YELLOW"H-Warning ! : M2 Y axis (theta) is not set\n");
+        printf("M2 Y axis (theta) is not set\n");
     }
 
     if(!(4 & json->state)){
-        printf(COLOR_RED"H-Error code : 3003\n"COLOR_CYAN"Comment : GCC hardware need to be restarted\n");
+        printf("GCC hardware need to be restarted\n");
         fflush( stdout );
         char* rsp = NULL;
         int scanf_state = scanf("%c", rsp);
@@ -145,6 +123,7 @@ int currentState(struct JSON_RESPONSE* json, char* port){
     return 1;
 }
 
+
 int waiting_response(char* port)
 {
     struct pollfd* fds = malloc(sizeof(struct pollfd*));
@@ -155,7 +134,7 @@ int waiting_response(char* port)
     int fd_in = open(port, O_WRONLY);
 
     if (fd_in < 0 || fd_out < 0)
-        errx(EXIT_FAILURE, COLOR_RED"H-Error code : 3004\n "COLOR_CYAN"Comment : File descriptor corrupted");
+        errx(EXIT_FAILURE, "File descriptor corrupted");
 
     fds->fd = fd_out;
     fds->events  = 0;
@@ -165,7 +144,7 @@ int waiting_response(char* port)
     GString* result = g_string_new(NULL);
 
     if(!write_string(fd_in, fd_out, "OKEY!+", fds)){
-        printf(COLOR_WHITE"\nHardware isn't connected. Please connect it or press on reset!\n\
+        printf("\nHardware isn't connected. Please connect it or press on reset!\n\
                 Restart (y/n) ?");
 
         char rsp[10];
@@ -186,8 +165,8 @@ int waiting_response(char* port)
     }
 
     while(1){
-        if (!poll(fds, 1, 30000)){
-            printf(COLOR_WHITE"Waiting Response TIMEOUT\n");
+        if (!poll(fds, 1, TIMEOUT)){
+            printf("Waiting Response TIMEOUT\n");
             break;
         }
         r = read(fd_out, buff, 1);
@@ -195,11 +174,9 @@ int waiting_response(char* port)
             break;
         if(*buff == ' ' || *buff == '\n' || *buff < 33)
             continue;
-        printf(COLOR_WHITE"C : %s I : %d\n", buff, *(buff+1));
+        printf("C : %s I : %d\n", buff, *(buff+1));
         g_string_append_c(result, *buff);
-        if(*buff == '}')
-            break;
-     }
+    }
 
     json_response_fromstr(json, result->str);
 
@@ -219,122 +196,40 @@ finish_wr:
     return 0;
 }
 
-
-int send_data1M(int fd_in, int fd_out, struct Motor* m1);
-
-int send_data2M(int fd_in, int fd_out, struct Motor* m1, struct Motor* m2);
-
-int send_angle(int fd_in, int fd_out, int angle1, int angle2)
-{
-    struct pollfd* fds = malloc(sizeof(struct pollfd*));
-
-    fds->fd = fd_out;
-    fds->events  = 0;
-    fds->events |= POLLIN;
-
-    int r = 0;
-    char buffer[2];
-
-    while(1)
-    {
-
-        if (!poll(fds, 1, 1000)){
-            return 0;
-        }
-
-        r = read(fd_out,buffer, 1);
-
-        if(r <= 0){
-            perror(COLOR_RED"H-Error code : 3001\n "COLOR_CYAN"Comment : verification, ERROR reading bytes, Hardware disconnected");
-            free(fds);
-            return 0;
-        }
-
-        printf(COLOR_WHITE"Confirmation !  received : %c  expected : _ \n", *buffer);
-
-        // Loop Back
-        if(*buffer == '_'){
-            write(fd_in, "_", 1);
-            break;
-        }
-    }
-
-
-    struct Motor* m1 = malloc(sizeof(struct Motor));
-    m1->name = 'X';
-    m1->direction = angle1 > 0;
-    m1->radius = abs(angle1);
-    m1->speed = 1;
-
-
-    // Y axis
-    struct Motor* m2 = malloc(sizeof(struct Motor));
-    m2->name = 'Y';
-    m2->direction = angle2 > 0;
-    m2->radius = abs(angle2);
-    m2->speed = 1;
-
-    send_data2M(fd_in, fd_out, m1, m2);
-
-    free(m1);
-    free(m2);
-    free(fds);
-
-    return 1;
-}
-
-
-
-void launch_soft(char* port){
-    printf(COLOR_BLUE"H-Info : Launching Software on port %s\n", port);
+void launch_soft(char* port){ /*LAUNCH SOFTWARE HERE !!! */
+    printf("Launching Software on port %s\n", port);
 
     int fd_out = open(port, O_RDONLY);
     int fd_in = open(port, O_WRONLY);
 
-    while(1){
-        printf(COLOR_WHITE"Turn motor 1 by : ");
-
-        char rsp1[10];
-
-        fflush( stdout );
-        int scanf_state1 = scanf("%s", rsp1);
-        fgetc( stdin );
-
-        printf(COLOR_WHITE"Turn motor 2 by : ");
-
-        char rsp2[10];
-
-        fflush( stdout );
-        int scanf_state2 = scanf("%s", rsp2);
-        fgetc( stdin );
-
-
-        if (scanf_state1 && scanf_state2){
-            int radius1 = atoi(rsp1);
-            int radius2 = atoi(rsp2);
-
-            if(!send_angle(fd_in, fd_out, radius1, radius2))
-                return;
-
-        }
-        else{
-            printf(COLOR_WHITE"Error: not a number. Please give a correct number.\n");
-        }
-    }
+    struct Motor* m1 = malloc(sizeof(struct Motor));
+    m1->name = 'X';
+    m1->direction = 1;
+    m1->radius = 9;
+    m1->speed = 1;
+    printf("ON\n");
+    send_data1M(fd_in, fd_out, m1);
+    sleep(3);
+    m1->direction = 0;
+    printf("OFF\n");
+    send_data1M(fd_in, fd_out, m1);
+    sleep(3);
+    printf("ON\n");
+    m1->direction = 1;
+    send_data1M(fd_in, fd_out, m1);
+    free(m1);
 }
 
 
 int send_data2M(int fd_in, int fd_out, struct Motor* m1, struct Motor* m2)
 {
 
-    char* json_command = calloc(256, sizeof(char));
+    char* json_command = calloc(128, sizeof(char));
 
     sprintf(json_command, \
-            "[{'N':%c,'D':%i,'R':%u};{'N':%c,'D':%i,'R':%i}]+", \
-            m1->name, m1->direction, m1->radius,\
-            m2->name, m2->direction,  m2->radius);
-
-    printf(COLOR_WHITE"JSON COMMAND : %s\n", json_command);
+            "[{'N':%c,'D':%i,'S':%i,'R':%u};{'N':%c,'D':%c,'S':%i,'R':%u}]+", \
+            m1->name, m1->direction, m1->speed, m1->radius,m2->name, \
+            m2->direction, m2->speed, m1->radius);
 
     struct pollfd* fds = malloc(sizeof(struct pollfd*));
 
@@ -373,7 +268,7 @@ int send_data1M(int fd_in, int fd_out, struct Motor* m1)
 
 
 
-int main(void)
+int launch_start()
 {
 
     char* regexCommand = "tty[A-RT-Z][A-Z]*[0-9]+";
@@ -382,7 +277,7 @@ int main(void)
 
     FILE *ls_cmd = popen("ls /dev", "r");
     if (ls_cmd == NULL) {
-        fprintf(stderr, COLOR_RED"H-Error code : 3005\n"COLOR_CYAN"Comment : Command access corrupted !");
+        fprintf(stderr, "popen(3) error");
         exit(EXIT_FAILURE);
     }
 
@@ -395,7 +290,7 @@ int main(void)
     }
 
     if (pclose(ls_cmd) < 0)
-        perror(COLOR_RED"H-Error code : 3006\n "COLOR_CYAN"Comment : Unable to close command !");
+        perror("pclose(3) error");
 
     size_t maxGroups = 1;
 
@@ -406,10 +301,10 @@ int main(void)
 
     g_string_free(ls, TRUE);
     if (done){
-        for(int i = 0; i <done; i++) printf(COLOR_WHITE"Port available: %s\n", result[i]);
+        for(int i = 0; i <done; i++) printf("Port available: %s\n", result[i]);
     }
     else
-        err(1,COLOR_RED"H-Error : 3007\n"COLOR_WHITE" "COLOR_CYAN"Comment: Connection failed !\n"COLOR_BLUE"H-Info: Unplug the device and retry !");
+        err(1,"Connection failed ! Unplug the device and retry !");
 
     for(int i = 0; i < done; i++){
         char* command = malloc(512* sizeof(char));
@@ -421,7 +316,7 @@ int main(void)
         FILE* STTY = popen(command, "r");
 
         if(STTY == NULL){
-            fprintf(stderr, COLOR_RED"H-Error code : 3005\n"COLOR_CYAN"Comment : Command access corrupted !");
+            fprintf(stderr, "popen(3) error");
             exit(EXIT_FAILURE);
         }
 
@@ -429,11 +324,11 @@ int main(void)
 
         while ((n = fread(buff, 1, sizeof(buff)-1, STTY)) > 0) {
             buff[n] = '\0';
-            printf(COLOR_WHITE"%s", buff);
+            printf("%s", buff);
         }
 
         if(!strcmp(buff,"\0")){
-            printf(COLOR_RED"H-Error : 3008\n "COLOR_CYAN"Comment : An error occured while setting /dev/%s\n", result[i]);
+            printf("An error occured while setting /dev/%s\n", result[i]);
             goto freeit;
         }
 
@@ -441,7 +336,7 @@ int main(void)
 
         if(waiting_response(command)) // It's the correct port
         {
-            printf(COLOR_GREEN"H-Success : Hardware found and working ! Connection established !\n");
+            printf("Hardware found and working ! Connection established !\n");
             // Lauch software
             launch_soft(command);
             free(command);
@@ -449,7 +344,7 @@ int main(void)
         }
 freeit:
         if (pclose(STTY) < 0)
-            perror(COLOR_RED"H-Error code : 3006\n "COLOR_CYAN"Comment : Unable to close command !");
+            perror("pclose(3) error");
         free(command);
     }
 

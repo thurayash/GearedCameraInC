@@ -24,12 +24,43 @@ void USART_TransmitPolling(uint8_t DataByte)
 uint8_t USART_ReceivePolling() // Write 1 if received 0 else
 {
     uint8_t DataByte;
+recursive_USART:
     while (( UCSR0A & (1<<RXC0)) == 0) {}; // Do nothing until data have been received
     DataByte = UDR0 ;
-    if (DataByte == 10)
-        return USART_ReceivePolling();
-    send_string("1\n"); // IMPORTANT !! Don't remove it !!
+
+    USART_TransmitPolling(DataByte); // IMPORTANT !! Don't remove it !!
+
+    uint8_t Conf;
+    // Ask for confirmation
+send:
+    while (( UCSR0A & (1<<RXC0)) == 0) {}; // Do nothing until data have been received
+    Conf = UDR0 ;
+
+    if (Conf != '1')
+        goto recursive_USART;
+
     return DataByte;
+}
+
+char USART_LoopBack()
+{
+    // Wait for the '$' char to be catched
+    uint8_t DataByte;
+
+USART_LoopBack_recursive:
+    while (( UCSR0A & (1<<RXC0)) == 0){
+        USART_TransmitPolling('_');
+    }; // Send data until you have been received
+
+    send_string("GOT RESPONSE !");
+
+    DataByte = UDR0;
+
+    if(DataByte != '_')
+        goto USART_LoopBack_recursive;
+
+    send_string("LOOP BACK!");
+    return 1;
 }
 
 void send_string(char* msg)
@@ -50,10 +81,8 @@ void read_string(char* buffer)
     }
     *start = '\0'; // Stop the array
 
-    send_string("DONE ATMEGA328p \n");
+    //send_string("DONE ATMEGA328p \n");
     //send_string(buffer);
     send_string("\n");
-
-    return buffer;
 }
 
