@@ -24,6 +24,9 @@ SDL_Rect position = {.x = 0, .y = 0};
 Uint8 vidtest_thresold_value = 0;
 
 
+int previous_block_x = 0;
+int previous_block_y = 0;
+
 #define VIDTEST_FBL     80
 #define VIDTEST_RD      1
 
@@ -363,7 +366,6 @@ void sdlUpdate(int mode, int fd_in, int fd_out) // Update the SDL_Surface with a
         pthread_t thread;
         pthread_t thread_circle1;
         pthread_t thread_circle2;
-        pthread_t thread_angle;
 
         ThreadDH* data_angle = malloc(sizeof(ThreadDH));
 
@@ -483,14 +485,14 @@ void sdlUpdate(int mode, int fd_in, int fd_out) // Update the SDL_Surface with a
 
         find_angle(data->eroded->w, data->eroded->h, cirlce_data1->arr[0]->x, cirlce_data1->arr[0]->y, &big_g, &small_g);
 
-        printf("S-Info : Small Gear %f,  Big Gear %f\n", small_g, big_g);
-
         data_angle->big_gear = big_g;
         data_angle->small_gear = small_g;
 
-        send_angle(fd_in, fd_out, big_g, small_g);
+        if(!(cirlce_data1->arr[0]->x == 0 && cirlce_data1->arr[0]->y == 0))
+            send_angle(fd_in, fd_out, big_g, small_g);
+
         //if (pthread_create(&thread_angle, NULL, thread_send_angle, (void*)data_angle) < 0)
-        //    errx(EXIT_FAILURE, "Vidtest.c ; line 492\
+        //    errx(EXIT_FAILURE, "Vidtest.c ; line 492
         //    Thread not created !");
 
 

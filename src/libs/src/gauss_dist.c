@@ -106,9 +106,9 @@ void find_angle(int width, int height, int x2, int y2 ,\
     double theta_by_pixel = 143.40f/height;
 
 
-    int h1 = x2 - width/2;
+    int h1 = width/2 - x2;
 
-    int h2 = y2 - height/2;
+    int h2 = height/2 - y2;
 
     *biggear = h1*phi_by_pixel;
     *smallgear = h2*theta_by_pixel;

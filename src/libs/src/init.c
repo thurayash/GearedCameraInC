@@ -53,7 +53,7 @@ int verification(int fd, char expected, struct pollfd* fds, int init){
         }
         r = read(fd, buffer, 1);
         if(r <= 0)
-            perror(COLOR_RED"H-Error code: 3001\n"COLOR_CYAN"Comment: ERROR reading bytes");
+            errx(EXIT_FAILURE, COLOR_RED"H-Error code: 3001\n"COLOR_CYAN"Comment: ERROR reading bytes");
 
         //printf(COLOR_WHITE"Confirmation !  received : %c  expected :%c \n", *buffer, expected);
 
@@ -161,7 +161,7 @@ int waiting_response(char* port)
     }
 
     while(1){
-        if (!poll(fds, 1, 30000)){
+        if (!poll(fds, 1,40000)){
             printf(COLOR_WHITE"Waiting Response TIMEOUT\n");
             break;
         }
@@ -208,15 +208,15 @@ int send_angle(int fd_in, int fd_out, int angle1, int angle2)
     while(1)
     {
 
-        if (!poll(fds, 1, 250)){
+        if (!poll(fds, 1, 180)){
             return -1;
         }
 
         r = read(fd_out,buffer, 1);
 
         if(r <= 0){
-            perror(COLOR_RED"H-Error code : 3001\n "COLOR_CYAN"Comment : verification, ERROR reading bytes, Hardware disconnected");
             free(fds);
+            errx(EXIT_FAILURE,COLOR_RED"H-Error code : 3001\n "COLOR_CYAN"Comment : verification, ERROR reading bytes, Hardware disconnected");
             return 0;
         }
 

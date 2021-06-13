@@ -92,3 +92,19 @@ void circleDectection_dynamicadapt(SDL_Surface *img, Candidates** arr, int R)
     free_cir_matrix(matrix);
 }
 
+//res1 is the new center detected //res2 is the previous frame center
+//return 1 if center should change //return 0 else
+//you change resx1 to resx2, otherwise you will stay stuck
+int center_block(int resx1, int resy1, int* resx2, int* resy2)
+{
+    //the center block dimensions wille be 50 x 50 pixels for now
+
+    printf("S-Info: lastx %i , lasty %i | nextx %i, nexty %i\n", *resx2, *resy2, resx1, resy1);
+
+    if ((resx1 < *resx2 + 25 && resx1 > *resx2 - 25) && (resy1 < *resy2 +25 && resy1 > *resy2 -25))
+        return 1;
+
+    *resx2 = resx1;
+    *resy2 = resy1;
+    return 0;
+}
