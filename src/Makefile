@@ -3,8 +3,8 @@
 CC= gcc #-fsanitize=address
 
 CFLAGS=-Wall -Wextra -g -std=gnu99 -O3 -O0
-LDFLAGS= -lm
-LDLIBS=-lSDL -lSDL_image
+LDFLAGS= `pkg-config --libs glib-2.0` -lm
+LDLIBS=  `pkg-config --cflags glib-2.0` -lSDL -lSDL_image
 
 SRC=$(shell find libs/ -type f -name '*.c' ! -iname "verif_line.c")
 OBJ= ${SRC:.c=.o}

@@ -109,7 +109,7 @@ token_jump:
    return 1;
 }
 
-int main(int argc, char** argv)
+int software(int argc, char** argv)
 {
     if(argc < 2)
         errx(EXIT_FAILURE, "Needs a mode !\n\
