@@ -3,6 +3,7 @@
 //coord of the two centers
 int gauss_dist(int id, int x1, int y1, int x2, int y2)
 {
+    (void)id;
     //here we need to measure how many pixels is in an average head on each
     //distance
     //of every Circle detection radius
@@ -27,6 +28,7 @@ int gauss_dist(int id, int x1, int y1, int x2, int y2)
 //rectangle)
 double* find_angle(int x1, int y1, int x2, int y2, int dist1, int dist2)
 {
+    (void)dist2;
     int Xgdist = gauss_dist(dist1, x1, y1, x2, y2);
     double dist22 = sqrt((double)((Xgdist*Xgdist) + (dist1*dist1)));
     double alpha = cos(((double)dist1)/dist22);
@@ -38,6 +40,7 @@ double* find_angle(int x1, int y1, int x2, int y2, int dist1, int dist2)
     //  |
     //  | x
     int Xgdist2 = gauss_dist(dist1,x2,y2, x1,y2);
+    (void)Xgdist2;
     double beta = Xgdist/ dist22;
     double smallgear = asin(beta);
     double *result = malloc(sizeof(double) * 2);

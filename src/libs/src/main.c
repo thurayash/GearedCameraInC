@@ -109,7 +109,41 @@ token_jump:
    return 1;
 }
 
-int software(int argc, char** argv)
+void manual_command(int fd_in, int fd_out)
+{
+    while(1){
+        printf(COLOR_WHITE"Turn motor 1 by : ");
+
+        char rsp1[10];
+
+        fflush( stdout );
+        int scanf_state1 = scanf("%s", rsp1);
+        fgetc( stdin );
+
+        printf(COLOR_WHITE"Turn motor 2 by : ");
+
+        char rsp2[10];
+
+        fflush( stdout );
+        int scanf_state2 = scanf("%s", rsp2);
+        fgetc( stdin );
+
+
+        if (scanf_state1 && scanf_state2){
+            int radius1 = atoi(rsp1);
+            int radius2 = atoi(rsp2);
+
+            send_angle(fd_in, fd_out, radius1, radius2);
+        }
+        else{
+            printf(COLOR_WHITE"Error: not a number. Please give a correct number.\n");
+        }
+    }
+
+}
+
+
+int software(int argc, char** argv, int fd_in, int fd_out)
 {
     if(argc < 2)
         errx(EXIT_FAILURE, "Needs a mode !\n\
@@ -119,14 +153,21 @@ int software(int argc, char** argv)
                 \n3: Robert edges detection grayscale\
                 \n4: Real roberts edge detection\
                 \n5: Hough Transform CircleDetection\
-                \n6: Analyse square historgrame");
+                \n6: Analyse square historgrame\
+                \n7: Manual mode");
     int fd;
+
 
     char path[24];
 
     initialisation_video(path);
 
     int mode = atoi(argv[1]);
+
+    if(mode == 7){
+        manual_command(fd_in, fd_out);
+        return 0;
+    }
 
     fd = open(path, O_RDWR);
     if (fd == -1){
@@ -153,3 +194,4 @@ int software(int argc, char** argv)
     close(fd);
     return 0;
 }
+

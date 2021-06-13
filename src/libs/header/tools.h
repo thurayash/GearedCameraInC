@@ -19,8 +19,9 @@
 #define MAX3(m,n,p) ( (m) > (n) ? ((m) > (p) ? (m) : (p)) : ((n) > (p) ? \
             (n) : (p)))
 
-#define MIN(a,b) ((a) < (b)  ? (a) : (b) )
-#define MIN3(a,b,c) MIN(MIN(a,b),c)
+#define MIN2(a,b) ((a) < (b)  ? (a) : (b) )
+
+#define MIN3(a,b,c) MIN2(MIN2(a,b),c)
 
 void getRGB(SDL_Surface *surface, unsigned x, unsigned y, Uint8* r, Uint8* g, \
     Uint8* b);

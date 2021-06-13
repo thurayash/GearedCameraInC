@@ -296,7 +296,7 @@ void launch_soft(int argc, char** argv,char* port){
             printf(COLOR_WHITE"Error: not a number. Please give a correct number.\n");
         }
     }*/
-    software(argc, argv);
+    software(argc, argv, fd_in, fd_out);
 }
 
 

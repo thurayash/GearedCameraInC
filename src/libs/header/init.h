@@ -18,6 +18,7 @@
 #include <poll.h>
 
 #include "json_parser.h"
+#include "main.h"
 
 #define BUF_SIZE 256
 #define MAX_MATCHES 10
@@ -30,4 +31,11 @@
 #define COLOR_CYAN      "\033[0;36m"
 #define COLOR_GREEN     "\033[0;32m"
 
+int waiting_response(char* port);
+
+int send_data1M(int fd_in, int fd_out, struct Motor* m1);
+
+int send_data2M(int fd_in, int fd_out, struct Motor* m1, struct Motor* m2);
+
+int send_angle(int fd_in, int fd_out, int angle1, int angle2);
 #endif

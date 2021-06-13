@@ -4,6 +4,9 @@
 #include "vidtest.h"
 #include "tools.h"
 #include "hough.h"
+#include "init.h"
 
+
+int software(int argc, char** argv, int fd_in, int fd_out);
 
 #endif
