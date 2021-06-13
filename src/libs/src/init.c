@@ -261,7 +261,7 @@ int send_angle(int fd_in, int fd_out, int angle1, int angle2)
 
 
 void launch_soft(int argc, char** argv,char* port){
-    printf(COLOR_BLUE"H-Info : Launching Software on port %s\n", port);
+    printf(COLOR_BLUE"H-Info : Launching Software on port %s\n"COLOR_WHITE, port);
 
     int fd_out = open(port, O_RDONLY);
     int fd_in = open(port, O_WRONLY);

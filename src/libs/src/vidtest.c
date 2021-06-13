@@ -69,8 +69,6 @@ vidtest_camCheck_null:
 }
 
 
-
-
 int print_caps(int fd)
 {
     struct v4l2_capability caps = {};
