@@ -235,6 +235,9 @@ void draw_line(SDL_Surface* image, int x1, int y1, int x2, int y2,
     return (void)NULL;
 }
 
+
+void print_histo(int* hist, int size);
+
 int find_similarity(int *black, int *red, int size)
 {
     // Index
@@ -253,10 +256,10 @@ int find_similarity(int *black, int *red, int size)
     b_avg /= size;
     r_avg /= size;
 
-    /*if (b_avg > 115 && r_avg < 18){
+    if (b_avg > 115 && r_avg < 18){
         printf("256: Return b_avg:%i r_avg:%i",b_avg, r_avg );
         return -1;
-    }*/
+    }
 
     // Compteur occurence (ta compris)
     int b_cpt = 0;
@@ -282,9 +285,9 @@ int find_similarity(int *black, int *red, int size)
                 b_cpt = 0;
         }
 
-        if (red[i] >= r_avg && r_cpt <= 10)
+        if (red[i] >= r_avg/1.5 && r_cpt <= 10)
         {
-            if (red[i - 1] >= r_avg && red[i + 1] >= r_avg)
+            if (red[i - 1] >= r_avg/1.5 && red[i + 1] >= r_avg/1.5)
             {
                 r_index = i;
                 r_reset = r_cpt;
@@ -320,12 +323,13 @@ void draw_rectangle(SDL_Surface* frame, SDL_Surface* image, int x, int y,
     xB = x+size >= image->w  ? image->w - 2 :  x + size;
 
     yB = y+size >= image->h ? image->h - 2 : y + size;
-    /*
+
     draw_line(frame, xA, yA, xB, yA, col1, col2, col3);
     draw_line(frame, xB, yA, xB, yB, col1, col2, col3);
     draw_line(frame, xA, yA, xA, yB, col1, col2, col3);
     draw_line(frame, xA, yB, xB, yB, col1, col2, col3);
-    */
+
+    return;
 
     int arr[4] = {xA, xB, yA, yB};
     float ratio_b, ratio_w, ratio_r = 0;
@@ -339,24 +343,23 @@ void draw_rectangle(SDL_Surface* frame, SDL_Surface* image, int x, int y,
         if(analyse(image, arr, &ratio_b, &ratio_w, &ratio_r, histo_vert_b,
             histo_hor_b, histo_vert_r, histo_hor_r))
             {
-                //printf("=======\nblack:\n");
-                //print_histo(histo_hor_b, size*2 + 1);
-                //printf("red:\n");
-                //print_histo(histo_hor_r, size*2 + 1);
                 printf("index is: %i\n", find_similarity(histo_hor_b, histo_hor_r, size*2+1));
-                if (find_similarity(histo_hor_b, histo_hor_r, size*2+1) != -1)
+                if (find_similarity(histo_hor_b, histo_hor_r, size*2+1) == -1)
                 {
+                    //draw_line(frame, xA, yA, xB, yA, col1, col2, col3);
+                    //draw_line(frame, xB, yA, xB, yB, col1, col2, col3);
+                    //draw_line(frame, xA, yA, xA, yB, col1, col2, col3);
+                    //draw_line(frame, xA, yB, xB, yB, col1, col2, col3);
+                    printf("==========\nIS A FUCKING HAND {%f}\n=======\n", ratio_b);
+                }
+                else{
                     draw_line(frame, xA, yA, xB, yA, col1, col2, col3);
                     draw_line(frame, xB, yA, xB, yB, col1, col2, col3);
                     draw_line(frame, xA, yA, xA, yB, col1, col2, col3);
                     draw_line(frame, xA, yB, xB, yB, col1, col2, col3);
-                    printf("==========\nIS A FUCKING FACE {%f}\n=======\n", ratio_b);
                 }
 
             }
-            //printf("----\nRatio white: %f\nRatio red: %f\nRatio black: %f\n",
-                    //ratio_w, ratio_r, ratio_b);
-
     free(histo_vert_r);
     free(histo_hor_r);
     free(histo_vert_b);
@@ -406,8 +409,8 @@ int analyse(SDL_Surface* image, int* arr, float* ratio_b,
     *ratio_r = 100*(float)(r_p)/(float)total;
     *ratio_w = 100*(float)(w_p)/(float)total;
 
-    if (b_p > (total*80)/100) // If a square is essentially black then useless
-        return 0;
+    //if (b_p > (total*80)/100) // If a square is essentially black then useless
+    //    return 0;
     return 1;
 }
 
