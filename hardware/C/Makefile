@@ -1,16 +1,15 @@
-CC=gcc
-LDFLAGS= -g -std=gnu99 -Werror -Wall -pthread -O0
-LDLIBS=
-EXECV= comp
-SRC=$(wildcard *.c)
-all: main
+CC = gcc -g -O0 -fsanitize=address
+CFLAGS = `pkg-config --cflags glib-2.0` -Wall -Wextra --coverage
+LDLIBS = `pkg-config --libs glib-2.0`
 
-main :
-	$(CC) $(LDFLAGS) -o $(EXECV) $(SRC)
+EXE = test
+SRC=test.c json_parser.c
+
+all:
+	$(CC) $(CFLAGS) $(SRC) $(LDLIBS) -o $(EXE)
+
+.PHONY: clean
 
 clean:
-	rm -rf *.o $(EXECV)
-
-
-
+	${RM} $(EXE)
 

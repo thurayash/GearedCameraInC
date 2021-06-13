@@ -36,6 +36,8 @@ void USART_TransmitPolling(uint8_t DataByte);
 
 uint8_t USART_ReceivePolling();
 
+char USART_LoopBack();
+
 void send_string(char* msg);
 
 void read_string(char*);
