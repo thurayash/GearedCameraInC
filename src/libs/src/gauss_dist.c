@@ -11,7 +11,7 @@ double r1_dist(double realdist, double pfl, double foundpfl)
 }
 
 //pfl = Pixel Face Length for real distance (for 1 meter, we need to measure it ourselves on average)
-//found pfl = the length of the face in pixels that we measure ourselves 
+//found pfl = the length of the face in pixels that we measure ourselves
 //(here it is for the second frame face (the one after movement that is))
 double r7_dist(double realdist2, double pfl2, double foundpfl2)
 {
@@ -113,7 +113,7 @@ double gauss_dist(double fpl, int x1, int y1, int x2, int y2)
         pixdist = xres;
     //25 cm is average face (check value!!!)
     //converted to real life
-    return (pixdist * 25.0) / fpl; 
+    return (pixdist * 25.0) / fpl;
 }
 
 /*
@@ -125,7 +125,7 @@ Y*/
 //x2 y 2 center coord of second frame
 //dist = real life dist : deduced from pixel length in a set array
 //fpl : you already know.....
-//fuck arrays, feed it two var, biggear and small gear
+
 void find_angle(int x1, int y1, int x2, int y2, double fpl, double dist\
 ,double* biggear, double *smallgear)
 {
@@ -133,11 +133,34 @@ void find_angle(int x1, int y1, int x2, int y2, double fpl, double dist\
     double betadist = gauss_dist(fpl, x1, y1, x2, y1);
     double betaangle = tan(betadist/ dist);
     *biggear = atan(betaangle);
+    double val = 180.0 / PI;
+    *biggear= *biggear * val;
 
     //alphadist = dist between orthog projec of second frame and center sidwares
     double alphadist = gauss_dist(fpl, x1, y1, x1, y2);
     double alphaangle = tan(alphadist);
     *smallgear= atan(alphaangle);
 
+    *smallgear= *smallgear * val;
 
 }
+
+
+void find_angle2(int width, int height, int x2, int y2 ,\
+        double* biggear, double *smallgear)
+{
+    double phi_by_pixel = 63.72f/width;
+
+    double theta_by_pixel = 143.40f/height;
+
+
+    int h1 = abs(x2 - width/2);
+
+    int h2 = abs(y2 - height/2);
+
+    *biggear = h1*phi_by_pixel;
+    *smallgear = h2*theta_by_pixel;
+
+
+}
+

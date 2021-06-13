@@ -20,6 +20,7 @@
 #include "roberts_edge.h"
 #include "thread_func.h"
 #include "binari.h"
+#include "gauss_dist.h"
 
 #define MAX3(m,n,p) ( (m) > (n) ? ((m) > (p) ? (m) : (p)) : ((n) > (p) ? \
             (n) : (p)))

@@ -13,6 +13,10 @@ double r2_dist(double r8, double r4);
 double r3_dist(double r7, double r4);
 double biggear_angle(double realdist, double pfl, double foundpfl, double foundpfl2, int x1, int y1, int x2, int y2);
 double smallgear_angle(double r2, int y1, int y2, double pfl_2);
+void find_angle(int x1, int y1, int x2, int y2, double fpl, double dist\
+,double* biggear, double *smallgear);
 
 
+void find_angle2(int width, int height, int x2, int y2 ,\
+        double* biggear, double *smallgear);
 #endif
