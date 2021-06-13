@@ -269,11 +269,11 @@ int find_similarity(int *black, int *red, int size)
     //now we get the indexes that interest us
     for (int i = 1; i < size - 1; i++)
     {
-        if (black[i] <= b_avg && b_cpt <= 30)
+        if (black[i] <= b_avg && b_cpt <= 50)
         //maybe more or less 20 not sure yet gotta check
         //its the "length" of the face
         {
-            if (black[i - 1] <= b_avg && black[i + 1] <= b_avg){
+            if (black[i - 1] <= b_avg || black[i + 1] <= b_avg){
                 b_index = i;
                 b_reset = b_cpt;
                 b_cpt++;
@@ -282,9 +282,9 @@ int find_similarity(int *black, int *red, int size)
                 b_cpt = 0;
         }
 
-        if (red[i] >= r_avg && r_cpt <= 10)
+        if (red[i] >= r_avg/1.8 && r_cpt <= 30)
         {
-            if (red[i - 1] >= r_avg && red[i + 1] >= r_avg)
+            if (red[i - 1] >= r_avg || red[i + 1] >= r_avg)
             {
                 r_index = i;
                 r_reset = r_cpt;
