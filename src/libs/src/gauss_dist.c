@@ -133,11 +133,14 @@ void find_angle(int x1, int y1, int x2, int y2, double fpl, double dist\
     double betadist = gauss_dist(fpl, x1, y1, x2, y1);
     double betaangle = tan(betadist/ dist);
     *biggear = atan(betaangle);
+    double val = 180.0 / PI;
+    *biggear= *biggear * val;
 
     //alphadist = dist between orthog projec of second frame and center sidwares
     double alphadist = gauss_dist(fpl, x1, y1, x1, y2);
     double alphaangle = tan(alphadist);
     *smallgear= atan(alphaangle);
-
+    double val = 180.0 / PI;
+    *smallgear= *smallgear * val;
 
 }
