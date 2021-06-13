@@ -21,6 +21,10 @@ SDL_Surface* frame;
 
 SDL_Rect position = {.x = 0, .y = 0};
 
+Uint8 vidtest_thresold_value = 0;
+
+int vidtest_nbr_frame = 0;
+
 static int xioctl(int fd, int request, void *arg)
 {
     int r;
@@ -30,7 +34,6 @@ static int xioctl(int fd, int request, void *arg)
 
     return r;
 }
-
 
 
 int vidtest_camCheck(char* cameraPath)
@@ -74,7 +77,7 @@ int print_caps(int fd)
     struct v4l2_capability caps = {};
     if (-1 == xioctl(fd, VIDIOC_QUERYCAP, &caps))
     {
-        perror("Querying Capabilities");
+        perror("Error Code 4 : Querying Capabilities");
         return 1;
     }
 
@@ -96,7 +99,7 @@ int print_caps(int fd)
     cropcap.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
     if (-1 == xioctl (fd, VIDIOC_CROPCAP, &cropcap))
     {
-        perror("Querying Cropping Capabilities");
+        perror("Error Code 4 : Querying Cropping Capabilities");
         return 1;
     }
 
@@ -130,7 +133,7 @@ int print_caps(int fd)
 
     if (!support_grbg10)
     {
-        printf("Doesn't support GRBG10.\n");
+        printf("Error Code 4 : Doesn't support GRBG10.\n");
         return 1;
     }
 
@@ -143,7 +146,7 @@ int print_caps(int fd)
 
     if (-1 == xioctl(fd, VIDIOC_S_FMT, &fmt))
     {
-        perror("Setting Pixel Format");
+        perror("Error Code 4 : Setting Pixel Format");
         return 1;
     }
 
@@ -160,6 +163,7 @@ int print_caps(int fd)
     return 0;
 }
 
+
 int init_mmap(int fd)
 {
     struct v4l2_requestbuffers req = {0};
@@ -168,7 +172,7 @@ int init_mmap(int fd)
     req.memory = V4L2_MEMORY_MMAP;
 
     if (-1 == xioctl(fd, VIDIOC_REQBUFS, &req)){
-        perror("Requesting Buffer");
+        perror("Error Code 4 : Requesting Buffer");
         return 1;
     }
 
@@ -177,7 +181,7 @@ int init_mmap(int fd)
     buf.memory = V4L2_MEMORY_MMAP;
     buf.index = 0;
     if(-1 == xioctl(fd, VIDIOC_QUERYBUF, &buf)){
-        perror("Querying Buffer");
+        perror("Error Code 4 : Querying Buffer");
         return 1;
     }
 
@@ -195,12 +199,12 @@ int capture_image(int fd)
     buf.memory = V4L2_MEMORY_MMAP;
     buf.index = 0;
     if(-1 == xioctl(fd, VIDIOC_QBUF, &buf)){
-        perror("Query Buffer");
+        perror("Error Code 4 : Query Buffer");
         return 1;
     }
 
     if(-1 == xioctl(fd, VIDIOC_STREAMON, &buf.type)){
-        perror("Start Capture");
+        perror("Error Code 4 : Start Capture");
         return 1;
     }
 
@@ -211,12 +215,12 @@ int capture_image(int fd)
     tv.tv_sec = 2;
     int r = select(fd+1, &fds, NULL, NULL, &tv);
     if(-1 == r){
-        perror("Waiting for Frame");
+        perror("Error Code 4 : Waiting for Frame");
         return 1;
     }
 
     if(-1 == xioctl(fd, VIDIOC_DQBUF, &buf)){
-        perror("Retrieving Frame");
+        perror("Error Code 4 : Retrieving Frame");
         return 1;
     }
     return 0;
@@ -232,12 +236,10 @@ float Max3(float a, float b, float c)
 }
 
 
-
-
 void sdlInit() // Init SDL with frame height and width
 {
     if(SDL_Init(SDL_INIT_VIDEO))
-        perror ("SDL_Init error occured !");
+        perror ("Error Code 1 : SDL_Init error occured !");
 
     IMG_Init(IMG_INIT_JPG);
 
@@ -256,9 +258,6 @@ void sdlInit() // Init SDL with frame height and width
             32, SDL_HWSURFACE );
 }
 
-
-
-void binary_operation(SDL_Surface* rob, SDL_Surface* skin);
 
 void sdlUpdate(int mode) // Update the SDL_Surface with a new frame
 {
@@ -285,7 +284,7 @@ void sdlUpdate(int mode) // Update the SDL_Surface with a new frame
         SDL_FreeSurface(frame);
     }
     else if(mode == 4){ // Robert edge red
-        to_rob(frame);
+        to_rob(frame, 90);
         SDL_BlitSurface(frame, NULL, screen, &position); // Show result1
         SDL_Flip(screen);
 
@@ -324,7 +323,7 @@ void sdlUpdate(int mode) // Update the SDL_Surface with a new frame
                 fmt.fmt.pix.height);
         image_conversion(frame, skin_detect);
 
-        to_rob(frame);
+        to_rob(frame, 30);
 
         SDL_Surface* dilatation_surface = new_rgb_surface(fmt.fmt.pix.width,
                 fmt.fmt.pix.height);
@@ -332,43 +331,19 @@ void sdlUpdate(int mode) // Update the SDL_Surface with a new frame
         SDL_Surface* erode_surface = new_rgb_surface(fmt.fmt.pix.width,
                 fmt.fmt.pix.height);
 
-        dilate_square(skin_detect,dilatation_surface);
 
-        erode_square(dilatation_surface, erode_surface);
+
+        dilate_square(skin_detect ,dilatation_surface);
 
         //int resx, resy = 0;
+        erode_square(dilatation_surface, erode_surface);
 
         SDL_Surface* red_dilate =  new_rgb_surface(fmt.fmt.pix.width,
                 fmt.fmt.pix.height);
 
         dilate_square_red(frame, red_dilate);
 
-        binary_operation(red_dilate, erode_surface);
-
-        //circleDectection_staticadapt(erode_surface, &resx, &resy);
-
-        //int resx1;
-        //int resy1;
-        int arr[10];
-
-        circleDectection_dynamicadapt(erode_surface,arr, 5);
-
-
-        //draw_rectangle(erode_surface, resx, resy, 50, 0);
-
-
-        //int arr[6];
-
-        //circleDectection3_staticadapt(erode_surface, arr);
-
-        draw_rectangle(erode_surface, arr[0], arr[1], 75, 255, 0 , 0, 0);
-        draw_rectangle(erode_surface, arr[2], arr[3], 75, 255, 127, 127, 0);
-        draw_rectangle(erode_surface, arr[4], arr[5], 75, 0, 255 , 0, 0);
-        draw_rectangle(erode_surface, arr[6], arr[7], 75, 0, 0 , 255, 0);
-        draw_rectangle(erode_surface, arr[8], arr[9], 75, 0, 255 , 255, 0);
-
-
-        SDL_BlitSurface(erode_surface, NULL, screen, &position);
+        SDL_BlitSurface(frame, NULL, screen, &position);
         SDL_Flip(screen);
 
         SDL_FreeSurface(dilatation_surface);
@@ -381,66 +356,157 @@ void sdlUpdate(int mode) // Update the SDL_Surface with a new frame
     }
     else if(mode == 6)
     {
-        SDL_Surface* skin_detect =  new_rgb_surface(fmt.fmt.pix.width,
-                fmt.fmt.pix.height);
-        image_conversion(frame, skin_detect);
+        pthread_t thread;
+        pthread_t thread_circle1;
+        pthread_t thread_circle2;
 
-        to_rob(frame);
+        ThreadD* data = malloc(sizeof(ThreadD));
 
-        SDL_Surface* dilatation_surface = new_rgb_surface(fmt.fmt.pix.width,
-                fmt.fmt.pix.height);
+        data->frame= frame;
+        data->conv = new_rgb_surface(fmt.fmt.pix.width, fmt.fmt.pix.height);
 
-        SDL_Surface* erode_surface = new_rgb_surface(fmt.fmt.pix.width,
-                fmt.fmt.pix.height);
+        data->dilate = new_rgb_surface(fmt.fmt.pix.width, fmt.fmt.pix.height);
+        data->eroded = new_rgb_surface(fmt.fmt.pix.width, fmt.fmt.pix.height);
 
-        dilate_square(skin_detect,dilatation_surface);
+        void* pvalue;
 
-        erode_square(dilatation_surface, erode_surface);
+        if (pthread_create(&thread, NULL, thread_skin_func, (void*)data) < 0)
+            errx(EXIT_FAILURE, "Vidtest.c ; line 374\
+            Thread not created !");
 
-        //int resx, resy = 0;
+        SDL_Surface* vidtest_surface_edges =
+            new_rgb_surface(fmt.fmt.pix.width, fmt.fmt.pix.height);
+
+        unsigned long* histo = calloc(256, sizeof(unsigned long));
+
+        // Grayscale
+        for (int i = 0; i < frame->w; i++) // Gray Scale
+        {
+            for (int j = 0; j < frame->h; j++)
+            {
+                Uint8 r,g,b;
+
+                Uint32 pixel = get_pixel(frame, i, j);
+                SDL_GetRGB(pixel, frame->format, &r, &g, &b);
+                Uint8 gray = (r+g+b)/3;
+
+                histo[gray]++;
+
+                pixel = SDL_MapRGB(frame->format, gray, gray, gray);
+
+                put_pixel(vidtest_surface_edges, i, j, pixel);
+            }
+        }
+
+        if (vidtest_nbr_frame == 20 ||  vidtest_nbr_frame == 0){
+            vidtest_thresold_value = Threshold_value(frame->w, frame->h, histo);
+            vidtest_nbr_frame = 0;
+        }
+        vidtest_nbr_frame++;
+
+        free(histo);
+
+        to_rob(vidtest_surface_edges, vidtest_thresold_value);
 
         SDL_Surface* red_dilate =  new_rgb_surface(fmt.fmt.pix.width,
                 fmt.fmt.pix.height);
 
-        dilate_square_red(frame, red_dilate);
+        dilate_square_red(vidtest_surface_edges, red_dilate);
 
-        binary_operation(red_dilate, erode_surface);
+        pthread_join(thread, &pvalue);
 
-        //circleDectection_staticadapt(erode_surface, &resx, &resy);
+        binary_operation(red_dilate, data->eroded);
+        //binari(red_dilate, data->eroded);
 
-        //int resx1;
-        //int resy1;
-        int arr[10];
+        Candidates** vidtest_candidates_arr_t1 =
+            malloc(sizeof(Candidates*)*CANDIDATE_NUMBER);
 
-        circleDectection_dynamicadapt(erode_surface,arr, 5);
+        Candidates** vidtest_candidates_arr_t2 =
+            malloc(sizeof(Candidates*)*CANDIDATE_NUMBER);
+
+        for(short i = 0; i < CANDIDATE_NUMBER; i++){
+            vidtest_candidates_arr_t1[i] = new_candidate();
+            vidtest_candidates_arr_t2[i] = new_candidate();
+        }
+
+        ThreadDC* cirlce_data1 = malloc(sizeof(ThreadDC));
+
+        cirlce_data1->fusion_bin = data->eroded;
+        cirlce_data1->R = 40;
+        cirlce_data1->arr = vidtest_candidates_arr_t1;
+
+        ThreadDC* cirlce_data2= malloc(sizeof(ThreadDC));
+
+        cirlce_data2->fusion_bin = data->eroded;
+        cirlce_data2->R = 20;
+        cirlce_data2->arr = vidtest_candidates_arr_t2;
+
+        pthread_create(&thread_circle1, NULL, thread_circle_func, (void*)cirlce_data1);
+        pthread_create(&thread_circle2, NULL, thread_circle_func, (void*)cirlce_data2);
+
+        pthread_join(thread_circle1, NULL);
+        pthread_join(thread_circle2, NULL);
+
+        //circleDectection_dynamicadapt(data->eroded,vidtest_candidates_arr, 40);
 
 
-        //draw_rectangle(erode_surface, resx, resy, 50, 0);
+        //draw_line(data->eroded,data->eroded->w/2, 0, data->eroded->w/2,
+        //        data->eroded->h-1, 0 ,255, 0);
+
+        //Uint32 pixel = SDL_MapRGB(data->frame->format,  255, 255, 0);
+
+        //put_pixel(data->frame, arr[0], arr[1], pixel);
+
+        draw_rectangle(data->eroded, data->eroded, cirlce_data1->arr[0]->x, cirlce_data1->arr[0]->y, 37, 255, 0 , 0, 0);
+
+        draw_rectangle(frame, data->eroded, cirlce_data1->arr[1]->x, cirlce_data1->arr[1]->y, 37, 0, 255 , 0, 0);
+
+        draw_rectangle(frame, data->eroded, cirlce_data1->arr[2]->x, cirlce_data1->arr[2]->y, 37, 0, 0 , 255, 0);
 
 
-        //int arr[6];
+        draw_rectangle(frame, data->eroded, cirlce_data2->arr[0]->x, cirlce_data2->arr[0]->y, 75, 255, 255 , 0, 1);
 
-        //circleDectection3_staticadapt(erode_surface, arr);
+        draw_rectangle(frame, data->eroded, cirlce_data2->arr[1]->x, cirlce_data2->arr[1]->y, 75, 255, 127 , 0, 0);
 
-        draw_rectangle(erode_surface, arr[0], arr[1], 75, 255, 0 , 0, 1);
-        draw_rectangle(erode_surface, arr[2], arr[3], 75, 255, 127, 127, 1);
-        draw_rectangle(erode_surface, arr[4], arr[5], 75, 0, 255 , 0, 1);
-        draw_rectangle(erode_surface, arr[6], arr[7], 75, 0, 0 , 255, 1);
-        draw_rectangle(erode_surface, arr[8], arr[9], 75, 0, 255 , 255, 1);
+        draw_rectangle(frame, data->eroded, cirlce_data2->arr[2]->x, cirlce_data2->arr[2]->y, 75, 56, 154 , 66, 0);
+
+        //draw_rectangle(erode_surface, arr[2], arr[3], 75, 255, 127, 127, 0);
+        //draw_rectangle(erode_surface, arr[4], arr[5], 75, 0, 255 , 0, 0);
+        //draw_rectangle(erode_surface, arr[6], arr[7], 75, 0, 0 , 255, 1);
+        //draw_rectangle(erode_surface, arr[8], arr[9], 75, 0, 255 , 255, 1);
 
 
-        SDL_BlitSurface(erode_surface, NULL, screen, &position);
+        SDL_BlitSurface(frame, NULL, screen, &position);
         SDL_Flip(screen);
 
-        SDL_FreeSurface(dilatation_surface);
-        SDL_FreeSurface(erode_surface);
-        SDL_FreeSurface(skin_detect);
-        SDL_FreeSurface(frame);
+        for(short i = 0; i < CANDIDATE_NUMBER; i++){
+            free(vidtest_candidates_arr_t1[i]);
+            free(vidtest_candidates_arr_t2[i]);
+        }
+
+        free(vidtest_candidates_arr_t1);
+        free(vidtest_candidates_arr_t2);
+
+        free(cirlce_data1);
+        free(cirlce_data2);
+
+        SDL_FreeSurface(data->conv);
+        SDL_FreeSurface(data->frame);
+        SDL_FreeSurface(data->dilate);
+        SDL_FreeSurface(data->eroded);
+        SDL_FreeSurface(vidtest_surface_edges);
+        free(data);
         SDL_FreeSurface(red_dilate);
 
         return;
 
     }
+}
+
+
+void TEST(SDL_Surface* test){
+    SDL_BlitSurface(test, NULL, screen, &position);
+    SDL_Flip(screen);
 }
 
 
@@ -460,14 +526,6 @@ void binary_operation(SDL_Surface* rob, SDL_Surface* skin)
     }
 }
 
-
-void debugging(SDL_Surface* frames)
-{
-    SDL_BlitSurface(frames, NULL, screen, &position);
-    SDL_Flip(screen);
-}
-
-
 void sdlStop() // Stop SDL and free the surface !
 {
     //SDL_FreeSurface(frame);
@@ -475,6 +533,4 @@ void sdlStop() // Stop SDL and free the surface !
     IMG_Quit();
     SDL_Quit();
 }
-
-
 

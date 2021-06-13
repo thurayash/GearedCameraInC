@@ -58,7 +58,12 @@ int save_image(SDL_Surface* img, char *path);
 void draw_line(SDL_Surface* image, int x1, int y1, int x2, int y2,
         int col1, int col2, int col3);
 
+void draw_rectangle(SDL_Surface* frame, SDL_Surface* image, int x, int y,
+        int size,int col1, int col2, int col3,int);
 
-void draw_rectangle(SDL_Surface* image, int x, int y, int size,
-        int col1, int col2, int col3,int);
+int analyse(SDL_Surface* image, int* arr, float* ratio_b,
+        float* ratio_w, float* ratio_r, int* histo_vert_b, int* histo_hor_b,
+        int* histo_vert_r, int* histo_hor_r);
+
+void print_histo(int* hist, int size);
 #endif

@@ -1,0 +1,18 @@
+# Analyse branch
+
+Tout ce que tu as besoin d'implementer se trouve dans le fichier study.ipynb
+
+Tu dois :
+    <ol>
+        <li> Installer VsCode</li>
+        <li> Installer l'extension Jupyter </li>
+        <li> Lancer le script et lire tous les Markdown </li>
+    </ol>
+
+## Implementation
+
+Commence par implementer les algos sur du python sur les meme histogrammes
+utilisé dans le PythonNoteBook histoire de pouvoir comparer tes resultats.
+
+Apres que tu sois sur de l'implementation en python essaie de le faire en C.
+

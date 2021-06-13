@@ -186,3 +186,4 @@ void circleDectection_dynamic(SDL_Surface *img, int *resx, int *resy)
 
     }
 }
+

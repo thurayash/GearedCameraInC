@@ -9,7 +9,7 @@ int initialisation_video(char* path)
     FILE *ls_cmd = popen("ls /dev/video*", "r");
 
     if (ls_cmd == NULL || length_ls == NULL) {
-        fprintf(stderr, "popen(3) error");
+        fprintf(stderr, "Error Code 1 : popen(3) error (main.c line 12)");
         exit(EXIT_FAILURE);
     }
 
@@ -30,7 +30,8 @@ int initialisation_video(char* path)
 
     if(!size){
         printf("\n\n");
-        errx(EXIT_FAILURE, "No camera found please insert a camera !\n");
+        errx(EXIT_FAILURE, "Error Code 5 :\
+        No camera found please insert a camera !\n");
     }
 
     char* buffer = malloc(sizeof(char)*size+2);
@@ -70,7 +71,8 @@ int initialisation_video(char* path)
     printf(" ---------------------------------------------\n");
     printf("\n");
     if (number_of_token == 0)
-        errx(EXIT_FAILURE, "No camera was found please connect a camera !");
+        errx(EXIT_FAILURE, "Error Code 5 :\
+        No camera was found please connect a camera !");
 
     if (number_of_token == 1){
         printf("Only compatible camera is %s, setting up...\n",\
@@ -81,7 +83,7 @@ int initialisation_video(char* path)
     }
 
 
-    printf("Select a camera (0-%i):", number_of_token);
+    printf("Select a camera (0-%i):", number_of_token-1);
 
     char rsp[10];
 token_number:
@@ -106,7 +108,7 @@ token_jump:
 
     free(token_list);
 
-   return 1;
+    return 1;
 }
 
 void manual_command(int fd_in, int fd_out)
@@ -171,7 +173,7 @@ int software(int argc, char** argv, int fd_in, int fd_out)
 
     fd = open(path, O_RDWR);
     if (fd == -1){
-        perror("Opening video device");
+        perror("Error Code 1 : File not found : Opening video device");
         return 1;
     }
 
@@ -183,13 +185,23 @@ int software(int argc, char** argv, int fd_in, int fd_out)
     if(init_mmap(fd))
         return 1;
 
+    SDL_Event event;
+
     for(int i = 0; i != 10000; i++){
         if(capture_image(fd))
             return 1;
         sdlUpdate(mode);
+        SDL_PollEvent(&event);
+        if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_ESCAPE)
+        {
+            printf("Closing process...\n");
+            goto main_stop_jump;
+        }
         usleep(3000);
     }
 
+
+main_stop_jump:
     sdlStop();
     close(fd);
     return 0;

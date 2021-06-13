@@ -13,6 +13,7 @@
 #include <math.h>
 #include <SDL/SDL.h>
 #include <SDL/SDL_image.h>
+#include <pthread.h>
 
 #include "tools.h"
 #include "image_conversion.h"
@@ -20,9 +21,12 @@
 #include "dilation_erosion.h"
 
 #include "roberts_edge.h"
+#include "thread_func.h"
+#include "binari.h"
 
 #include "circle_detection.h"
 
+#define CANDIDATE_NUMBER 3
 
 int print_caps(int fd);
 
@@ -38,4 +42,6 @@ void sdlStop();
 
 int vidtest_camCheck(char* cameraPath);
 
+
+void binary_operation(SDL_Surface* rob, SDL_Surface* skin);
 #endif
