@@ -237,28 +237,35 @@ void draw_line(SDL_Surface* image, int x1, int y1, int x2, int y2,
 
 int find_similarity(int *black, int *red, int size)
 {
+    // Index
     int b_index = 0;
     int r_index = 0;
-    //int b_value = black[size/4];
-    //int r_value = red[size/4];
+
+    // Average
     int b_avg = 0;
     int r_avg = 0;
-    //find avg for each first
-    for (int i = 0; i < size; i++)
-    {
+
+    // Find avg for each first
+    for (int i = 0; i < size; i++){
         b_avg += black[i];
         r_avg += red[i];
     }
     b_avg /= size;
     r_avg /= size;
-    if (b_avg > 80)
-    {
+
+    /*if (b_avg > 115 && r_avg < 18){
+        printf("256: Return b_avg:%i r_avg:%i",b_avg, r_avg );
         return -1;
-    }
+    }*/
+
+    // Compteur occurence (ta compris)
     int b_cpt = 0;
     int r_cpt = 0;
+
+    // ?
     int b_reset = 0;
     int r_reset = 0;
+
     //now we get the indexes that interest us
     for (int i = 1; i < size - 1; i++)
     {
@@ -266,34 +273,32 @@ int find_similarity(int *black, int *red, int size)
         //maybe more or less 20 not sure yet gotta check
         //its the "length" of the face
         {
-            if (black[i - 1] <= b_avg && black[i + 1] <= b_avg)
-            {
+            if (black[i - 1] <= b_avg && black[i + 1] <= b_avg){
                 b_index = i;
-                //b_value = black[i];
-                b_cpt++;
                 b_reset = b_cpt;
+                b_cpt++;
             }
+            else
+                b_cpt = 0;
         }
-        else
-            b_cpt = 0;
-        
+
         if (red[i] >= r_avg && r_cpt <= 10)
         {
             if (red[i - 1] >= r_avg && red[i + 1] >= r_avg)
             {
                 r_index = i;
-                //r_value = red[i];
-                r_cpt++;
                 r_reset = r_cpt;
+                r_cpt++;
             }
+            else
+                r_cpt = 0;
         }
-        else
-            r_cpt = 0;
     }
     b_index -= b_reset;
     r_index -= r_reset;
-    if ((r_index > b_index - 5 || r_index < b_index + 5)
-        && (b_index > r_index - 5 || b_index < r_index + 5))
+    // Checker le jeu des deux index
+    if ((r_index > b_index - 5 && r_index < b_index + 5)
+        && (b_index > r_index - 5 && b_index < r_index + 5))
     //make it so its like within a small range
     //like 5 indexes diff possible
     {
@@ -315,12 +320,12 @@ void draw_rectangle(SDL_Surface* frame, SDL_Surface* image, int x, int y,
     xB = x+size >= image->w  ? image->w - 2 :  x + size;
 
     yB = y+size >= image->h ? image->h - 2 : y + size;
-
+    /*
     draw_line(frame, xA, yA, xB, yA, col1, col2, col3);
     draw_line(frame, xB, yA, xB, yB, col1, col2, col3);
     draw_line(frame, xA, yA, xA, yB, col1, col2, col3);
     draw_line(frame, xA, yB, xB, yB, col1, col2, col3);
-
+    */
 
     int arr[4] = {xA, xB, yA, yB};
     float ratio_b, ratio_w, ratio_r = 0;
@@ -338,12 +343,16 @@ void draw_rectangle(SDL_Surface* frame, SDL_Surface* image, int x, int y,
                 //print_histo(histo_hor_b, size*2 + 1);
                 //printf("red:\n");
                 //print_histo(histo_hor_r, size*2 + 1);
-                //printf("index is: %i\n", find_similarity(histo_hor_b, histo_hor_r, size*2+1));
+                printf("index is: %i\n", find_similarity(histo_hor_b, histo_hor_r, size*2+1));
                 if (find_similarity(histo_hor_b, histo_hor_r, size*2+1) != -1)
                 {
-                    printf("==========\nIS A FUCKING FACE\n=======\n");
+                    draw_line(frame, xA, yA, xB, yA, col1, col2, col3);
+                    draw_line(frame, xB, yA, xB, yB, col1, col2, col3);
+                    draw_line(frame, xA, yA, xA, yB, col1, col2, col3);
+                    draw_line(frame, xA, yB, xB, yB, col1, col2, col3);
+                    printf("==========\nIS A FUCKING FACE {%f}\n=======\n", ratio_b);
                 }
-                
+
             }
             //printf("----\nRatio white: %f\nRatio red: %f\nRatio black: %f\n",
                     //ratio_w, ratio_r, ratio_b);

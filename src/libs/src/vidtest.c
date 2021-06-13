@@ -450,21 +450,21 @@ void sdlUpdate(int mode) // Update the SDL_Surface with a new frame
         //circleDectection_dynamicadapt(data->eroded,vidtest_candidates_arr, 40);
 
 
-        draw_line(data->eroded,data->eroded->w/2, 0, data->eroded->w/2,
-                data->eroded->h-1, 0 ,255, 0);
+        //draw_line(data->eroded,data->eroded->w/2, 0, data->eroded->w/2,
+        //        data->eroded->h-1, 0 ,255, 0);
 
         //Uint32 pixel = SDL_MapRGB(data->frame->format,  255, 255, 0);
 
         //put_pixel(data->frame, arr[0], arr[1], pixel);
 
-        draw_rectangle(data->eroded, data->eroded, cirlce_data1->arr[0]->x, cirlce_data1->arr[0]->y, 37, 255, 0 , 0, 1);
+        draw_rectangle(data->eroded, data->eroded, cirlce_data1->arr[0]->x, cirlce_data1->arr[0]->y, 37, 255, 0 , 0, 0);
 
         draw_rectangle(frame, data->eroded, cirlce_data1->arr[1]->x, cirlce_data1->arr[1]->y, 37, 0, 255 , 0, 0);
 
         draw_rectangle(frame, data->eroded, cirlce_data1->arr[2]->x, cirlce_data1->arr[2]->y, 37, 0, 0 , 255, 0);
 
 
-        draw_rectangle(data->eroded, data->eroded, cirlce_data2->arr[0]->x, cirlce_data2->arr[0]->y, 75, 255, 255 , 0, 0);
+        draw_rectangle(data->eroded, data->eroded, cirlce_data2->arr[0]->x, cirlce_data2->arr[0]->y, 75, 255, 255 , 0, 1);
 
         draw_rectangle(frame, data->eroded, cirlce_data2->arr[1]->x, cirlce_data2->arr[1]->y, 75, 255, 127 , 0, 0);
 
