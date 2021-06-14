@@ -157,6 +157,11 @@ gcc@epita:~$ cd GearedCameraInC/src &amp;&amp; make</code></pre>
                                     <td>Follow me</td>
                                     <td>The camera will follow you. The final desired product.</td>
                                 </tr>
+                                <tr>
+                                    <th style="color:rgb(0, 0, 255);">7</th>
+                                    <td>Manual mode</td>
+                                    <td>It allows a manual control off the camera.</td>
+                                </tr>
                             </tbody>
                         </table>
                         <p>Mode 6 is the mode that allows the camera to follow you. The other modes are just so that you can marvel at our product! For Maximum results, please try and stand in the middle of the frame, and allow for calibration. Afterwards, proceed with your movements.</p>
@@ -211,6 +216,7 @@ gcc@epita:~$ cd GearedCameraInC/src &amp;&amp; make</code></pre>
                         <h3 class="title is-3 has-text-white">Hardware</h3>
                         <p>Hardware issues [..]</p>
                         <table class=" table is-stripped is-fullwidth" style="background-color:#333333;color:white;">
+
                             <thead style="color:white;">
                                 <tr>
                                     <th style="color:white;">Error code</th>
@@ -220,19 +226,38 @@ gcc@epita:~$ cd GearedCameraInC/src &amp;&amp; make</code></pre>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>1</td>
-                                    <td>File Not Opening / Found</td>
-                                    <td>Re-download our files, and check the path (the location of the files). Additionally, try to compare to see if you have any missing files directly from the Github.</td>
+                                    <td>3001</td>
+                                    <td>ERROR reading bytes.</td>
+                                    <td>Unplug then plug the device. Make sure to launch th software after the first beeps.</td>
                                 </tr>
                                 <tr>
-                                    <td>4</td>
-                                    <td>Video Manipulation Error</td>
-                                    <td>Check if all persmissionshave been given to GCC. Additionally, check that the camera is correctly configured and plugged, and that your memory storage devices are working. Disable Firewalls as a final solution.</td>
+                                    <td>3002</td>
+                                    <td>Could not compile regular expression.</td>
+                                    <td>Check for the permission given to the software, push on the reset button and retry !</td>
+                                </tr>
+                                    <td>3003</td>
+                                    <td>GCC hardware need to be restarted</td>
+                                    <td>Unplug the device, wait for 10 seconds. Plug it to the computer and keep pressing on the reset button for 5 seconds</td>
                                 </tr>
                                 <tr>
-                                    <td>5</td>
-                                    <td>Camera Not Found</td>
-                                    <td>Unplug and replug the camera. Additonally, switch ports after cleaning both the male and female USB ports.</td>
+                                    <td>3004</td>
+                                    <td>File descriptor corrupted</td>
+                                    <td>Unplug the device and retry, if it still persist check for the permission, restart the computer and retry later.</td>
+                                </tr>
+                                <tr>
+                                    <td>3005/3006</td>
+                                    <td>Command access corrupted !</td>
+                                    <td>Make sure that all the dependencies are correctly installed by launching the config file.</td>
+                                </tr>
+                                <tr>
+                                    <td>3007</td>
+                                    <td>Connection failed ! </td>
+                                    <td>The hardware has been disconnected from the computer, please reconnect it and retry later. If it's still disconnected please contact us.</td>
+                                </tr>
+                                <tr>
+                                    <td>3008</td>
+                                    <td>An error occured while setting /dev/</td>
+                                    <td>Make sure that the permission are given using chmod +xu ./main. If it's still not working, check if the compuer is compatible.</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -248,6 +273,7 @@ gcc@epita:~$ cd GearedCameraInC/src &amp;&amp; make</code></pre>
                     <section class="js-section">
                         <h3 class="title is-1 has-text-white">Opensource files</h3>
                         <p>Some opensource files</p>
+                        <a href="https://github.com/thuraya-shanbari/GearedCameraInC">Our github repo ! </a>
                     </section>
                 </article>
             </div>
